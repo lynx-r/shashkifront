@@ -20,7 +20,6 @@
 
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../../config';
-import { ArticleComponent } from './article/article.component';
 import { BoardComponent } from './board/board.component';
 import { ClassicMovesDetailsComponent } from './classic-moves-details/classic-moves-details.component';
 import { ClassicMovesComponent } from './classic-moves/classic-moves.component';
@@ -33,11 +32,11 @@ import { ViewNotationComponent } from './view-notation/view-notation.component';
 
 @NgModule({
   declarations: [
-    EditArticleComponent, ArticleComponent, BoardComponent, NotationFenComponent,
+    EditArticleComponent, BoardComponent, NotationFenComponent,
     ClassicNotationComponent, ClassicStrokeDetailsComponent, ClassicMovesComponent,
     ClassicMovesDetailsComponent, ViewNotationComponent, ViewBoardComponent
   ],
-  exports: [ArticleComponent, EditArticleComponent, BoardComponent, ClassicNotationComponent,
+  exports: [EditArticleComponent, BoardComponent, ClassicNotationComponent,
     ViewNotationComponent, ViewBoardComponent],
   imports: [
     SharedModule,
