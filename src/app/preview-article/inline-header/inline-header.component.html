@@ -1,0 +1,11 @@
+<div [ngSwitch]="data.header">
+  <h1 *ngSwitchCase="'h1'" class="wrapped-text-word half-line-height">
+    {{data.text}}
+  </h1>
+  <h2 *ngSwitchCase="'h2'" class="wrapped-text-word half-line-height">
+    {{data.text}}
+  </h2>
+  <h3 *ngSwitchCase="'h3'" class="wrapped-text-word half-line-height">
+    {{data.text}}
+  </h3>
+</div>

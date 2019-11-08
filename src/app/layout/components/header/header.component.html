@@ -1,0 +1,70 @@
+<div [hidden]="loading">
+  <mat-toolbar class="toolbar" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutGap.gt-xs="10px" fxLayoutGap.lt-sm="4px">
+      <button [fxHide.lt-sm]="loggedIn"
+              mat-button
+              routerLink="/article/list"
+              routerLinkActive="active"
+              title="Все разборы"
+      >
+        Разборы
+      </button>
+      <button *ngIf="loggedIn"
+              mat-button
+              routerLink="/article/list-author"
+              routerLinkActive="active"
+              title="Мои разборы">
+        Мои разборы
+      </button>
+      <button fxHide.lt-sm
+              mat-button
+              routerLink="/mission"
+              routerLinkActive="active"
+              title="Миссия"
+      >
+        Миссия
+      </button>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap.gt-xs="10px" fxLayoutGap.lt-sm="4px">
+      <button (click)="document.location.reload()" *ngIf="isStandalone" mat-icon-button>
+        <mat-icon>
+          refresh
+        </mat-icon>
+      </button>
+      <mat-slide-toggle (change)="onThemeChange($event.checked)"
+                        [checked]="user?.theme === 'unicorn-dark-theme'"
+                        fxHide.lt-sm
+      >
+        {{user?.theme === 'default' ? 'Светлая тема' : 'Тёмная тема'}}
+      </mat-slide-toggle>
+
+      <button (click)="openCreateArticleDialog()" *ngIf="loggedIn" mat-button title="Создать разбор">
+        <mat-icon>
+          add
+        </mat-icon>
+        <span fxHide.lt-sm>
+          Создать разбор
+        </span>
+      </button>
+      <button *ngIf="!loggedIn" fxHide.lt-sm mat-button routerLink="/contribute/Register" routerLinkActive="active"
+              title="Миссия">
+        Регистрация
+      </button>
+      <button *ngIf="!loggedIn" mat-button routerLink="/contribute/SignIn" routerLinkActive="active"
+              title="Миссия">
+        Войти
+      </button>
+      <button *ngIf="loggedIn" [matMenuTriggerFor]="menu" mat-button>
+        <mat-icon>account_circle</mat-icon>
+        <span fxHide.lt-sm>
+          {{user.firstName + ' ' + user.lastName}}
+        </span>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="onLogout()" mat-menu-item title="Выйти">
+          Выйти
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+</div>

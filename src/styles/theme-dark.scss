@@ -1,0 +1,59 @@
+@import '../../node_modules/@angular/material/theming';
+
+@include mat-core();
+
+// Define an alternate dark theme.
+$dark-primary: mat-palette($mat-blue-grey);
+$dark-accent: mat-palette($mat-amber, A200, A400, A700);
+$dark-warn: mat-palette($mat-deep-orange);
+$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+// Include the alternative theme styles inside of a block with a CSS class. You can make this
+// CSS class whatever you want. In this example, any component inside of an element with
+// `.unicorn-dark-theme` will be affected by this alternate dark theme instead of the default theme.
+.unicorn-dark-theme {
+  @include angular-material-theme($dark-theme);
+
+  & {
+    background-color: #303030;
+    color: mat-color($mat-gray, 100);
+  }
+
+  hr {
+    border: 1px solid;
+    color: mat-color($dark-accent);
+  }
+
+  a {
+    color: mat-color($dark-accent);
+  }
+
+  small {
+    color: mat-color($dark-accent, 900);
+  }
+
+  .active {
+    background-color: mat-color($dark-primary);
+  }
+
+  .tile-white {
+    background-color: mat-color($dark-primary, 200);
+  }
+
+  .tile-black {
+    background-color: mat-color($dark-primary, 400);
+  }
+
+  .selected-move {
+    color: mat-color($dark-accent);
+  }
+
+  .highlight-cell {
+    background-color: mat-color($dark-primary, 700);
+  }
+
+  .task-notation {
+    color: mat-color($dark-warn);
+  }
+
+}

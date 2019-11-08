@@ -1,0 +1,6 @@
+<div [ngSwitch]="data.type">
+  <a *ngSwitchCase="'link'" [href]="data.link" target="_blank">
+    {{data.text}}
+  </a>
+  <img *ngSwitchCase="'img'" [alt]="data.text" [src]="data?.link" style="max-width: 50vw;">
+</div>

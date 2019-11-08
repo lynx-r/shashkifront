@@ -1,0 +1,17 @@
+<div [ngSwitch]="data.tag">
+  <div *ngSwitchCase="'ul'">
+    <ul>
+      <li *ngFor="let component of data?.components">
+        <app-inline-host [data]="component.data" [ngxComponentOutlet]="component.component"></app-inline-host>
+      </li>
+    </ul>
+  </div>
+  <div *ngSwitchCase="'ol'">
+    <ol>
+      <li *ngFor="let component of data?.components">
+        <app-inline-host [data]="component.data" [ngxComponentOutlet]="component.component"></app-inline-host>
+      </li>
+    </ol>
+  </div>
+</div>
+

@@ -1,0 +1,49 @@
+<div *ngIf="editStroke" fxLayout="column">
+  <mat-form-field fxFlex>
+    <textarea [(ngModel)]="editStroke.comment"
+              [disabled]="!editable"
+              [placeholder]="'Комментарий к ' + (editStroke.notationNumber === 0 ? 'начальной позиции' : 'ходу')"
+              matInput
+              rows="5"
+    ></textarea>
+  </mat-form-field>
+  <div [hidden]="editStroke.notationNumber === 0" fxFlex="nogrow">
+    <div>
+      Кликните <span [innerHtml]="muscleSymbol"></span>, чтобы добавить оценку ходов (!?):
+    </div>
+    <div fxLayout="row" fxLayoutGap="6px">
+      <div class="strength-num">
+        {{editStroke.notationNumber}}.
+      </div>
+      <app-classic-moves-details (playerMoveClicked)="playerMoveClicked.emit($event)"
+                                 [cellCount]="cellCount"
+                                 [moves]="editStroke.whiteMoves"
+                                 [stroke]="editStroke"
+                                 strengthFieldName="whiteMovesStrength"
+      ></app-classic-moves-details>
+      <app-classic-moves-details (playerMoveClicked)="playerMoveClicked.emit($event)"
+                                 *ngIf="editStroke.blackMoves.length"
+                                 [cellCount]="cellCount"
+                                 [moves]="editStroke.blackMoves"
+                                 [stroke]="editStroke"
+                                 strengthFieldName="blackMovesStrength"
+      ></app-classic-moves-details>
+    </div>
+    <div [hidden]="!markTask" class="task-notation task-text">
+      Ход будет не виден для пользователей, пока задача не будет решена.
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="12px">
+    <button (click)="saveStroke.emit(editStroke)"
+            [disabled]="!editable" mat-button mat-raised-button>Сохранить
+    </button>
+    <button (click)="onTask()"
+            [disabled]="!editable"
+            [matTooltip]="editStroke.task ? 'Убрать отметку, что дальше этого хода будет задача' : 'Поментить как ход с которого начинается скратая часть задачи'"
+            mat-button
+            mat-raised-button
+    >
+      {{editStroke.task ? 'Сбросить' : 'Задача'}}
+    </button>
+  </div>
+</div>

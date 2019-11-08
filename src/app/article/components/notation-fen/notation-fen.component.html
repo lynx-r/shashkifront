@@ -1,0 +1,4 @@
+[FEN "{{turn}}:W<span *ngFor="let sq of whiteDraughts; let lastSq = last"
+                      class="wrapped-text">{{sq.kingPiece ? 'K' : ''}}{{getNotationNumber(sq)}}{{lastSq ? '' : ','}}</span
+>:B<span *ngFor="let sq of blackDraughts; let lastSq = last"
+         class=wrapped-text>{{sq.kingPiece ? 'K' : ''}}{{getNotationNumber(sq)}}{{lastSq ? '' : ','}}</span>"]

@@ -1,0 +1,28 @@
+<div class="mat-elevation-z1" fxLayout="row">
+  <div fxFlex="10%" fxLayout="column">
+    <div *ngFor="let row of rangeCellCount" fxFlex fxLayoutAlign="center center">
+      <span>{{getVerticalNum(row)}}</span>
+    </div>
+    <div fxFlex fxLayoutAlign="center center">
+      <span [innerHTML]="cellNotation" class="full-height justify-text"></span>
+    </div>
+  </div>
+  <div fxFlex fxLayout="column">
+    <mat-grid-list [cols]="cellCount">
+      <mat-grid-tile (click)="onCellClick(cell)"
+                     (mouseenter)="onHoverCell(cell)"
+                     *ngFor="let cell of flatCells"
+                     [ngClass]="getTileClasses(cell)">
+        <div *ngIf="isNotCellEmpty(cell)" class="draught-container fit">
+          <div [ngClass]="getDraughtClasses(cell)"></div>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list [cols]="cellCount">
+      <mat-grid-tile *ngFor="let col of rangeCellCount">
+        {{getHorizontalAlpha(col)}}
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</div>
+

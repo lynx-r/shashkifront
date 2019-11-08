@@ -1,0 +1,96 @@
+.field-wrapper {
+  overflow: hidden;
+}
+
+::ng-deep .hidden {
+  display: none;
+  //stroke: yellowgreen;
+}
+
+::ng-deep .black {
+  background-color: black;
+}
+
+::ng-deep .white {
+  background-color: white;
+}
+
+.draught-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.black-draught {
+  cursor: pointer;
+  width: 80%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  background-image: url('/assets/images/board/black-draught.png');
+  background-size: cover;
+}
+
+.white-draught {
+  cursor: pointer;
+  width: 80%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  background-image: url('/assets/images/board/white-draught.png');
+  background-size: cover;
+}
+
+.queen-white-draught {
+  cursor: pointer;
+  width: 80%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  background-size: cover;
+  background-image: url('/assets/images/board/queen-white-draught.png');
+}
+
+.queen-black-draught {
+  cursor: pointer;
+  width: 80%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  background-size: cover;
+  background-image: url('/assets/images/board/queen-black-draught.png');
+}
+
+.draught-mobile {
+  border-width: 1px !important;
+}
+
+.draught-mobile:before {
+  border-width: 1px !important;
+}
+
+.captured {
+  background-color: brown !important;
+}
+
+.vertical-notation {
+  padding: 0;
+}

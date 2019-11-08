@@ -1,0 +1,11 @@
+<div class="layout" fxLayout="column">
+  <app-header fxFlex="nogrow"></app-header>
+  <main class="main-wrapper" fxFlex>
+    <div class="content-wrapper" fxLayout="row">
+      <article fxFlex.gt-md="80" fxFlex.lt-lg="96" fxFlexOffset.gt-md="10" fxFlexOffset.lt-lg="2">
+        <ng-content></ng-content>
+      </article>
+    </div>
+  </main>
+  <app-footer fxFlex="nogrow"></app-footer>
+</div>

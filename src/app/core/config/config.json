@@ -1,0 +1,12 @@
+{
+  "dev": {
+    "api": "http://localhost:8080/api"
+  },
+  "local": {
+    "api_article_url": "https://localhost:4567/api/v1",
+    "api_board_url": "https://localhost:8002/v1"
+  },
+  "prod": {
+    "api": "https://shashki.online:8443/api"
+  }
+}

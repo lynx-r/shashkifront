@@ -1,0 +1,17 @@
+image: node
+
+production:
+  stage: deploy
+  tags:
+    - shashkifront
+  script:
+    #  - which yarn
+    #  - npm up -g yarn
+    - mkdir -p /var/www/wiki
+    - yarn
+    - yarn prod
+    - rm -rf /var/www/wiki/*
+    - yarn deploy
+
+variables:
+  GIT_SSL_NO_VERIFY: "true"

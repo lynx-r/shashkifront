@@ -1,0 +1,90 @@
+<div class="container mat-elevation-z8 articles">
+  <!--  <div *ngIf="isLoadingResults"-->
+  <!--       class="loading-shade">-->
+  <!--    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>-->
+  <!--  </div>-->
+  <mat-form-field class="articles-search-input">
+    <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Поиск по заголовку или вступлению">
+  </mat-form-field>
+
+  <div class="table-container">
+
+    <table [dataSource]="data" class="table" mat-table
+           matSort matSortActive="updatedAt" matSortDirection="desc" matSortDisableClear
+    >
+      <!--      multiTemplateDataRows-->
+
+      <ng-container matColumnDef="title">
+        <th *matHeaderCellDef disableClear fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70" mat-header-cell
+            mat-sort-header>
+          Заголовок
+        </th>
+        <td *matCellDef="let row" fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70" mat-cell>
+          <a [routerLink]="['..', 'edit', row.humanReadableUrl]">
+            {{row.title}}
+          </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="intro">
+        <th *matHeaderCellDef fxFlex.gt-md="41" fxHide.lt-lg mat-header-cell>Вступление</th>
+        <td *matCellDef="let row" fxFlex.gt-md="41" fxHide.lt-lg mat-cell>
+          {{row.intro}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="task">
+        <th *matHeaderCellDef class="th-center" fxFlex.gt-md="6" fxFlex.lt-lg="9" fxFlex.lt-sm="20" fxHide.lt-sm
+            mat-header-cell mat-sort-header>
+          Задача
+        </th>
+        <td *matCellDef="let row" fxFlex.gt-md="6" fxFlex.lt-lg="9" fxFlex.lt-sm="20" fxHide.lt-sm mat-cell>
+          {{row.task ? 'Задача' : ''}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th *matHeaderCellDef class="th-center" disableClear fxFlex.gt-md="9" fxFlex.lt-lg="15" fxHide.lt-sm
+            mat-header-cell mat-sort-header>
+          Статус
+        </th>
+        <td *matCellDef="let row" class="td-center" fxFlex.gt-md="9" fxFlex.lt-lg="15" fxHide.lt-sm mat-cell>
+          {{status[row.status]}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="updatedAt">
+        <th *matHeaderCellDef class="th-center" disableClear fxFlex.gt-md="11" fxFlex.lt-lg="15" fxFlex.lt-sm="30"
+            mat-header-cell mat-sort-header>
+          Обновлено
+        </th>
+        <td *matCellDef="let row" class="td-center" fxFlex.gt-md="11" fxFlex.lt-lg="15" fxFlex.lt-sm="30" mat-cell>
+          {{row.updatedAt | date:(mobile ? 'd.M.yy' : 'short')}}
+        </td>
+      </ng-container>
+
+      <!--      <ng-container matColumnDef="expandedDetail">-->
+      <!--        <td *matCellDef="let element" [attr.colspan]="displayedColumns.length" mat-cell>-->
+      <!--          <div [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"-->
+      <!--               class="example-element-detail">-->
+      <!--            {{element.content}}-->
+      <!--            <br>-->
+      <!--            sdfsdfsdfsdf-->
+      <!--          </div>-->
+      <!--        </td>-->
+      <!--      </ng-container>-->
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+      <!--      [class.example-expanded-row]="expandedElement === row"-->
+      <!--      (click)="expandedElement = expandedElement === row ? null : row"-->
+      <!--      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>-->
+    </table>
+  </div>
+
+  <mat-paginator [length]="resultsLength"
+                 [pageSizeOptions]="pageSizeOptions"
+                 [pageSize]="10"
+                 showFirstLastButtons
+  ></mat-paginator>
+</div>

@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>Импорт pdn</h1>
+<mat-dialog-content>
+  <mat-form-field class="full-width">
+        <textarea #pdn="ngModel" [(ngModel)]="data.pdn"
+                  [minlength]="10"
+                  matInput
+                  placeholder="Ваша нотация в формате pdn"
+                  required
+                  rows="20" tabindex="1">
+        </textarea>
+    <mat-error *ngIf="pdn.invalid && (pdn.dirty || pdn.touched)">
+      <div *ngIf="pdn?.errors.minlength">
+        Минимум 10 символов
+      </div>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field fxFlexFill="">
+    <mat-select [(ngModel)]="data.rules" placeholder="Правила" title="Правила">
+      <mat-option [value]="'RUSSIAN'">Русские шашки</mat-option>
+      <mat-option [value]="'RUSSIAN_GIVEAWAY'">Русские шашки (поддавки)</mat-option>
+      <mat-option [value]="'INTERNATIONAL'">Интернациональные шашки</mat-option>
+      <mat-option [value]="'INTERNATIONAL_GIVEAWAY'">Интернациональные шашки (поддавки)</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <span class="fill-remaining-space"></span>
+  <button (click)="dialogRef.close()" mat-button>Отмена</button>
+  <button (click)="dialogRef.close(data)" mat-button>Импортировать</button>
+</mat-dialog-actions>

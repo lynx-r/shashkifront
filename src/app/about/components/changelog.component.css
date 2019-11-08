@@ -1,0 +1,55 @@
+.title {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.content-item {
+  width: 100%;
+  margin-bottom: 16px;
+  height: 100% !important;
+}
+
+img.content-image {
+  width: 460px;
+  box-shadow: 0 0 20px black;
+}
+
+::ng-deep .mat-list .mat-list-item .mat-list-item-content, .mat-nav-list .mat-list-item .mat-list-item-content {
+  width: 100vw;
+}
+
+.text-feature {
+  height: 100%;
+}
+
+mat-card {
+  margin-bottom: 30px;
+  /*height: 100%;*/
+}
+
+mat-card:hover {
+  box-shadow: 3px 3px 16px -2px rgba(0, 0, 0, .5);
+}
+
+mat-card-title-group {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+mat-card-content {
+  margin: 15px 0 0;
+  height: 100%;
+}
+
+span {
+  display: inline-block;
+  font-size: 13px;
+}
+
+mat-card-footer {
+  padding: 0 25px 25px;
+}

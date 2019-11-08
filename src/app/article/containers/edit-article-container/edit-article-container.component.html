@@ -1,0 +1,13 @@
+<div *ngIf="article$ | async as article"
+     fxLayout="column"
+     fxLayoutGap="8px"
+>
+  <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+    <app-board (articleUpdated)="onUpdateArticle($event)" [article]="article" fxFlex="50"></app-board>
+    <app-classic-notation [article]="article" fxFlex="50"></app-classic-notation>
+  </div>
+  <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+    <app-edit-article [article]="article" fxFlex="50"></app-edit-article>
+    <app-preview-article [article]="article" fxFlex="50"></app-preview-article>
+  </div>
+</div>

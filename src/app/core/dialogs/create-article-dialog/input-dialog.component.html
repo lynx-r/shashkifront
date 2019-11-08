@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<mat-dialog-content>
+  <mat-form-field *ngFor="let obj of data.inputs" class="full-width">
+    <input #input="ngModel"
+           [(ngModel)]="obj.input"
+           [minlength]="4"
+           [placeholder]="obj.placeholder"
+           [title]="obj.placeholder"
+           matInput
+           required
+    >
+    <div *ngIf="obj.input?.invalid && (obj.input?.dirty || obj.input?.touched)"
+         class="alert-danger">
+      <div *ngIf="obj.input?.errors.minlength">
+        Минимум 4 символа
+      </div>
+    </div>
+    t
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <span class="fill-remaining-space"></span>
+  <button (click)="dialogRef.close()" mat-button>Отмена</button>
+  <button (click)="dialogRef.close(data)" mat-button>{{data.buttonOk}}</button>
+</mat-dialog-actions>

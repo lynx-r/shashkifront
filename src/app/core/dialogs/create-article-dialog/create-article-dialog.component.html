@@ -1,0 +1,48 @@
+<h1 mat-dialog-title>Заголовок разбора</h1>
+<mat-dialog-content class="dialog-content">
+  <br>
+  <mat-form-field class="fit">
+    <input #title="ngModel"
+           (keyup)="data.humanReadableUrl = data.title"
+           [(ngModel)]="data.title"
+           [minlength]="minTitleLength"
+           matInput
+           placeholder="Заголовок разбора"
+           required
+           tabindex="1">
+    <mat-error *ngIf="title.invalid && (title.dirty || title.touched)">
+      <div *ngIf="title?.errors.minlength">
+        Минимум {{minTitleLength - title?.value.length}} символов
+      </div>
+      <div *ngIf="title?.errors.required">
+        Обязательное поле
+      </div>
+    </mat-error>
+  </mat-form-field>
+  <!--  <mat-form-field fxFlexFill="">-->
+  <!--    <mat-select [(ngModel)]="data.boardBoxRequest.black" title="Цвет" placeholder="Цвет">-->
+  <!--      <mat-option [value]="false">Белые</mat-option>-->
+  <!--      <mat-option [value]="true">Чёрные</mat-option>-->
+  <!--    </mat-select>-->
+  <!--  </mat-form-field>-->
+  <!--  <mat-form-field fxFlexFill="">-->
+  <!--    <mat-select [(ngModel)]="data.boardBoxRequest.rules" title="Правила" placeholder="Правила">-->
+  <!--      <mat-option [value]="'RUSSIAN'">Русские шашки</mat-option>-->
+  <!--&lt;!&ndash;      <mat-option [value]="'RUSSIAN_GIVEAWAY'">Русские шашки (поддавки)</mat-option>&ndash;&gt;-->
+  <!--&lt;!&ndash;      <mat-option [value]="'INTERNATIONAL'">Интернациональные шашки</mat-option>&ndash;&gt;-->
+  <!--&lt;!&ndash;      <mat-option [value]="'INTERNATIONAL_GIVEAWAY'">Интернациональные шашки (поддавки)</mat-option>&ndash;&gt;-->
+  <!--    </mat-select>-->
+  <!--  </mat-form-field>-->
+  <!--  <mat-checkbox [(ngModel)]="data.boardBoxRequest.fillBoard">Расставить шашки</mat-checkbox>-->
+</mat-dialog-content>
+<mat-dialog-actions>
+  <span class="fill-remaining-space"></span>
+  <button (click)="dialogRef.close()" fxHide.lt-sm mat-button>Отмена</button>
+  <button (click)="dialogRef.close()" fxHide.gt-xs mat-button>
+    <mat-icon>cancel</mat-icon>
+  </button>
+  <button (click)="dialogRef.close(data)" [disabled]="title.invalid" fxHide.lt-sm mat-button>Создать разбор</button>
+  <button (click)="dialogRef.close(data)" [disabled]="title.invalid" fxHide.gt-xs mat-button>
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-dialog-actions>

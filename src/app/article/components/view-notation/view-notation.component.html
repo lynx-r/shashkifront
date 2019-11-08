@@ -1,0 +1,30 @@
+<mat-card *ngIf="notation" class="fit">
+  <mat-card-content class="fit">
+    <div class="fit" fxLayout="row">
+      <div class="notation" fxLayout="column">
+        <div (click)="onStrokeClicked(null, notation.strokes[0])"
+             [class.selected-move]="notation.strokes[0].selected">
+          Начало
+        </div>
+        <div fxLayout="row" fxLayoutGap="12px">
+          <div fxLayout="column">
+            <app-classic-moves (playerMoveClicked)="onStrokeClicked($event, s)"
+                               *ngFor="let s of notation.strokes"
+                               [cellCount]="notation.notationFen.rule.cellCount"
+                               [moves]="s.whiteMoves"
+                               [notationNumber]="s.notationNumber"
+            ></app-classic-moves>
+          </div>
+          <div fxLayout="column">
+            <app-classic-moves (playerMoveClicked)="onStrokeClicked($event, s)"
+                               *ngFor="let s of notation.strokes"
+                               [cellCount]="notation.notationFen.rule.cellCount"
+                               [moves]="s.blackMoves"
+            ></app-classic-moves>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+

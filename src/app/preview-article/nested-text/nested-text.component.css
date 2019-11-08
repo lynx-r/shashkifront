@@ -1,0 +1,9 @@
+p {
+  word-wrap: normal;
+  word-break: break-word;
+  white-space: normal;
+}
+
+:host {
+  display: inline;
+}

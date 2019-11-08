@@ -1,0 +1,14 @@
+<div *ngIf="!stroke?.task" class="cursor stroke" fxLayout="row" fxLayoutGap="8px">
+  <app-stroke-moves (playerMoveClicked)="onMoveClicked($event)"
+                    [cellCount]="cellCount"
+                    [moves]="stroke.whiteMoves"
+                    [notationNumber]="stroke.notationNumber"
+  ></app-stroke-moves>
+  <small *ngIf="stroke.whiteMovesStrength">{{stroke.whiteMovesStrength}}</small>
+  <app-stroke-moves (playerMoveClicked)="onMoveClicked($event)"
+                    [cellCount]="cellCount"
+                    [moves]="stroke.blackMoves"
+  ></app-stroke-moves>
+  <small *ngIf="stroke.blackMovesStrength">{{stroke.blackMovesStrength}}</small>
+  <small *ngIf="stroke.comment">{{'{ ' + stroke.comment + '}'}}</small>
+</div>
