@@ -38,13 +38,18 @@
       <!--        {{user?.theme === 'default' ? 'Светлая тема' : 'Тёмная тема'}}-->
       <!--      </mat-slide-toggle>-->
 
-      <button (click)="openCreateArticleDialog()" *ngIf="loggedIn" mat-button title="Создать разбор">
+      <button (click)="openCreateArticleDialog()" *ngIf="loggedIn" fxHide.lt-sm mat-button title="Создать разбор">
         <mat-icon>
           add_circle
         </mat-icon>
-        <span fxHide.lt-sm>
+        <span>
           Создать разбор
         </span>
+      </button>
+      <button (click)="openCreateArticleDialog()" *ngIf="loggedIn" fxHide.gt-xs mat-icon-button title="Создать разбор">
+        <mat-icon>
+          add_circle
+        </mat-icon>
       </button>
       <button *ngIf="!loggedIn" fxHide.lt-sm mat-button routerLink="/contribute/Register" routerLinkActive="active"
               title="Миссия">
@@ -54,11 +59,14 @@
               title="Миссия">
         Войти
       </button>
-      <button *ngIf="loggedIn" [matMenuTriggerFor]="menu" mat-button>
+      <button *ngIf="loggedIn" [matMenuTriggerFor]="menu" fxHide.lt-sm mat-button>
         <mat-icon>account_circle</mat-icon>
         <span fxHide.lt-sm>
           {{user.firstName + ' ' + user.lastName}}
         </span>
+      </button>
+      <button *ngIf="loggedIn" [matMenuTriggerFor]="menu" fxHide.gt-xs mat-icon-button>
+        <mat-icon>account_circle</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
         <button (click)="onThemeChange(false)" [class.active]="user?.theme === 'default'" mat-menu-item>
