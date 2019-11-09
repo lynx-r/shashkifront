@@ -1,8 +1,7 @@
 <div class="container mat-elevation-z8 articles">
-  <!--  <div *ngIf="isLoadingResults"-->
-  <!--       class="loading-shade">-->
-  <!--    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>-->
-  <!--  </div>-->
+  <div *ngIf="isLoadingResults" class="loading-shade">
+    <mat-spinner></mat-spinner>
+  </div>
   <mat-form-field class="articles-search-input">
     <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Поиск по заголовку или вступлению">
   </mat-form-field>

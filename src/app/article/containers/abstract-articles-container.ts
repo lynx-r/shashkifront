@@ -23,7 +23,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, merge, Observable, of, throwError } from 'rxjs';
-import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { ArticleService } from '../../core/services/article.service';
 import { Article } from '../../domain';
 import { ArticlesResponse } from '../../domain/articles-response';
@@ -71,6 +71,7 @@ export class AbstractArticlesContainer {
   protected fetchArticles(): (s) => Observable<Article[]> {
     return (source) => source
       .pipe(
+        debounceTime(1000),
         tap(() => this.isLoadingResults = true),
         switchMap(() => this.articleService
           .listArticles(

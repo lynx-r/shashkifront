@@ -1,8 +1,7 @@
 <div class="container mat-elevation-z8 articles">
-  <!--  <div *ngIf="isLoadingResults"-->
-  <!--       class="loading-shade">-->
-  <!--    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>-->
-  <!--  </div>-->
+  <div *ngIf="isLoadingResults" class="loading-shade">
+    <mat-spinner></mat-spinner>
+  </div>
   <mat-form-field class="articles-search-input">
     <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Поиск по заголовку или вступлению">
   </mat-form-field>
@@ -39,7 +38,7 @@
           Задача
         </mat-header-cell>
         <mat-cell *matCellDef="let row" [matTooltip]="row.task ? 'В этом разборе есть задача' : ''" class="justify-text"
-            fxFlex.gt-md="5" fxFlex.lt-lg="8" fxFlex.lt-sm="20" fxHide.lt-sm
+                  fxFlex.gt-md="5" fxFlex.lt-lg="8" fxFlex.lt-sm="20" fxHide.lt-sm
         >
           {{row.task ? 'З' : '-'}}
         </mat-cell>
