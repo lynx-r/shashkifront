@@ -21,7 +21,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Article, Player, Rule } from '../../domain';
+import { ArticleBlock, ArticleCreateRequest, Player, Rule } from '../../domain';
+import { Article } from '../../domain/article';
 import { ArticlesFilter } from '../../domain/articles-filter';
 import { ArticlesResponse } from '../../domain/articles-response';
 import { ApiBase } from './api-base';
@@ -35,8 +36,8 @@ export class ArticleService {
   ) {
   }
 
-  createArticle(article: Article): Observable<Article> {
-    return this.api.postPrivate('/article', article)
+  createArticle(articleCreateRequest: ArticleCreateRequest): Observable<Article> {
+    return this.api.postPrivate('/article', articleCreateRequest)
       .pipe(this.fillArticleFunction());
   }
 
@@ -53,25 +54,21 @@ export class ArticleService {
     if (privateUser) {
       return this.api.getPrivate('/article/list', filter)
         .pipe(
-          map((res: ArticlesResponse) => ({...res, articles: [...res.articles.map(a => this.fillArticle(a))]}))
+          map((res: ArticlesResponse) => ({...res, articles: [...res.articles.map(a => this.fillArticleBlock(a))]}))
         );
     }
     return this.api.get('/article/list', filter)
       .pipe(
-        map((res: ArticlesResponse) => ({...res, articles: [...res.articles.map(a => this.fillArticle(a))]}))
+        map((res: ArticlesResponse) => ({...res, articles: [...res.articles.map(a => this.fillArticleBlock(a))]}))
       );
   }
 
-  listFirstArticlesPage(privateUser?: boolean) {
-    return this.listArticles({
-      sort: 'updatedAt',
-      sortDirection: 'desc',
-      page: 0,
-      pageSize: 10,
-    }, privateUser);
+  saveArticle(article: Article): Observable<Article> {
+    return this.api.putPrivate('/article', article)
+      .pipe(this.fillArticleFunction());
   }
 
-  saveArticle(article: Article): Observable<Article> {
+  saveArticleBlock(article: ArticleBlock): Observable<ArticleBlock> {
     const a = {
       ...article,
       notation: {
@@ -83,8 +80,8 @@ export class ArticleService {
         }
       }
     };
-    return this.api.putPrivate('/article', a)
-      .pipe(this.fillArticleFunction());
+    return this.api.putPrivate('/article/block', a);
+    // .pipe(this.fillArticleFunction());
   }
 
   private fillArticleFunction() {
@@ -92,7 +89,7 @@ export class ArticleService {
       new Observable<Article>(subscriber =>
         source
           .pipe(
-            map(article => this.fillArticle(article))
+            map(article => ({...article, selectedArticleBlock: this.fillArticleBlock(article.selectedArticleBlock)}))
           )
           .subscribe(
             value => subscriber.next(value),
@@ -102,15 +99,18 @@ export class ArticleService {
       );
   }
 
-  private fillArticle(article) {
+  private fillArticleBlock(ab) {
+    if (!ab) {
+      return null;
+    }
     return {
-      ...article,
+      ...ab,
       notation: {
-        ...article.notation,
+        ...ab.notation,
         notationFen: {
-          ...article.notation.notationFen,
-          rule: Rule.fromName(article.notation.notationFen.rule as string),
-          player: Player.fromName(article.notation.notationFen.player as string)
+          ...ab.notation.notationFen,
+          rule: Rule.fromName(ab.notation.notationFen.rule as string),
+          player: Player.fromName(ab.notation.notationFen.player as string)
         }
       }
     };

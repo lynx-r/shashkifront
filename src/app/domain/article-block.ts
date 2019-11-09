@@ -1,7 +1,7 @@
 /*
  * © Copyright
  *
- * inline-notation.component.ts is part of shashkifront.nosync.
+ * article-block.ts is part of shashkifront.nosync.
  *
  * shashkifront.nosync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,24 +18,15 @@
  *
  */
 
-import { Component, Input } from '@angular/core';
-import { ArticleBlock } from '../../domain';
-import { ContentComponent } from '../preview-article/content-component';
+import { GameNotation } from './game-notation';
 
-export interface InlineBoardData {
-  disableAnimation: boolean;
-  expanded: boolean;
-  article: ArticleBlock;
-  internal: boolean;
-}
-
-@Component({
-  selector: 'app-inline-board',
-  templateUrl: './inline-notation.component.html',
-  styleUrls: ['./inline-notation.component.css'],
-})
-export class InlineNotationComponent implements ContentComponent {
-
-  @Input() data: InlineBoardData;
-
+export interface ArticleBlock {
+  id: string;
+  title: string;
+  content: string;
+  notation: GameNotation;
+  status: string;
+  task: boolean;
+  createdAt: string;
+  updatedAt: string;
 }

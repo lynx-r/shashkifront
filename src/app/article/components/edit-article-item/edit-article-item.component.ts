@@ -22,7 +22,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppConstants } from '../../../core/config/app-constants';
-import { Article } from '../../../domain';
+import { ArticleBlock } from '../../../domain';
 import * as fromArticle from '../../reducers/article.reducer';
 
 @Component({
@@ -35,7 +35,7 @@ export class EditArticleItemComponent implements OnInit, OnChanges {
   @Input() articleFormGroup: FormGroup;
 
   @Output() deleteArticle = new EventEmitter();
-  @Output() loadPdnEvent = new EventEmitter<Article>();
+  @Output() loadPdnEvent = new EventEmitter<ArticleBlock>();
 
   PUBLISHED = AppConstants.PUBLISHED_STATUS;
   DRAFT = AppConstants.DRAFT_STATUS;

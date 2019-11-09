@@ -23,9 +23,8 @@ import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppConstants } from '../../../core/config/app-constants';
 import { NotifyService } from '../../../core/services/notify.service';
-import { Article, BoardCell, Move, Rule, Stroke } from '../../../domain';
+import { ArticleBlock, BoardCell, Move, Rule, Stroke } from '../../../domain';
 import { BLACK_PIECE, EMPTY_CELL } from '../../../domain/board-cell';
-import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { BoardService } from '../../services/board.service';
 
@@ -36,9 +35,9 @@ import { BoardService } from '../../services/board.service';
 })
 export class ViewBoardComponent implements OnInit, OnChanges {
 
-  @Input() article: Article;
+  @Input() article: ArticleBlock;
 
-  @Output() articleUpdated = new EventEmitter<Article>();
+  @Output() articleUpdated = new EventEmitter<ArticleBlock>();
 
   flatCells: BoardCell[];
   cellNotation: string;
@@ -148,7 +147,7 @@ export class ViewBoardComponent implements OnInit, OnChanges {
     this.disableBackward = false;
     const {move, stroke} = this.findMoveByNumFromStrokes();
     const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);
-    this.store.dispatch(new UpsertArticle({article: article}));
+    // this.store.dispatch(new UpsertArticle({article: article}));
     if (this.moveNum === this.moves.length - 1) {
       this.disableForward = true;
     }
@@ -164,11 +163,11 @@ export class ViewBoardComponent implements OnInit, OnChanges {
       this.disableBackward = true;
       const stroke = this.article.notation.strokes[0];
       const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, null);
-      this.store.dispatch(new UpsertArticle({article: article}));
+      // this.store.dispatch(new UpsertArticle({article: article}));
     } else {
       const {move, stroke} = this.findMoveByNumFromStrokes();
       const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);
-      this.store.dispatch(new UpsertArticle({article: article}));
+      // this.store.dispatch(new UpsertArticle({article: article}));
     }
   }
 

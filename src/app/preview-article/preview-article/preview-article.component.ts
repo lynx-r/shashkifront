@@ -22,7 +22,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angu
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Article } from '../../domain';
+import { ArticleBlock } from '../../domain';
 import { InlineContentDirective } from '../inline-content/inline-content.directive';
 import { NotationParserService } from '../notation-parser.service';
 import { ContentItem } from './content-item';
@@ -34,7 +34,7 @@ import { ContentItem } from './content-item';
 })
 export class PreviewArticleComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() article: Article;
+  @Input() article: ArticleBlock;
   /**
    * undefined when in not edit mode. it sends here an content of edited article
    */

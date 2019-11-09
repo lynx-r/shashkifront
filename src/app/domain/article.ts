@@ -18,16 +18,18 @@
  *
  */
 
-import { GameNotation } from './game-notation';
+import { ArticleBlock } from './article-block';
 
 export interface Article {
   id: string;
   humanReadableUrl: string;
   authorId: string;
   title: string;
-  content: string;
   intro: string;
-  notation: GameNotation;
+  articleBlockIds: string[];
+  articleBlocks: ArticleBlock[];
+  selectedArticleBlockId: string;
+  selectedArticleBlock: ArticleBlock;
   status: string;
   task: boolean;
   createdAt: string;

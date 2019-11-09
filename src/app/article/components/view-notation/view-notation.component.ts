@@ -20,8 +20,7 @@
 
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Article, GameNotation, Move, Stroke } from '../../../domain';
-import { UpsertArticle } from '../../actions/article.actions';
+import { ArticleBlock, GameNotation, Move, Stroke } from '../../../domain';
 import * as fromArticle from '../../reducers/article.reducer';
 import { BoardService } from '../../services/board.service';
 
@@ -33,7 +32,7 @@ import { BoardService } from '../../services/board.service';
 })
 export class ViewNotationComponent implements OnInit, OnChanges {
 
-  @Input() article: Article;
+  @Input() article: ArticleBlock;
 
   notation: GameNotation;
 
@@ -58,6 +57,6 @@ export class ViewNotationComponent implements OnInit, OnChanges {
 
   onStrokeClicked(move: Move, stroke: Stroke) {
     const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);
-    this.store.dispatch(new UpsertArticle({article: article}));
+    // this.store.dispatch(new UpsertArticle({article: article}));
   }
 }

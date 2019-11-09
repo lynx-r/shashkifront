@@ -22,8 +22,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } 
 import { NgModel } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppConstants } from '../../../core/config/app-constants';
-import { Article } from '../../../domain';
-import { SaveArticle } from '../../actions/article.actions';
+import { ArticleBlock } from '../../../domain';
 import * as fromArticle from '../../reducers/article.reducer';
 
 @Component({
@@ -33,9 +32,9 @@ import * as fromArticle from '../../reducers/article.reducer';
 })
 export class EditArticleComponent implements OnInit, OnChanges {
 
-  @Input() article: Article;
+  @Input() article: ArticleBlock;
 
-  @Output() loadPdnEvent = new EventEmitter<Article>();
+  @Output() loadPdnEvent = new EventEmitter<ArticleBlock>();
 
   @ViewChild('content', {static: true}) content: NgModel;
   @ViewChild('title', {static: true}) title: NgModel;
@@ -43,7 +42,7 @@ export class EditArticleComponent implements OnInit, OnChanges {
   PUBLISHED = AppConstants.PUBLISHED_STATUS;
   DRAFT = AppConstants.DRAFT_STATUS;
 
-  editArticle: Article;
+  editArticle: ArticleBlock;
 
   minIntroLength = AppConstants.ARTICLE_INTRO_MIN_SYMBOLS;
   maxIntroLength = AppConstants.ARTICLE_INTRO_MAX_SYMBOLS;
@@ -68,7 +67,7 @@ export class EditArticleComponent implements OnInit, OnChanges {
   }
 
   saveArticle() {
-    this.store.dispatch(new SaveArticle({article: this.editArticle}));
+    // this.store.dispatch(new SaveArticle({article: this.editArticle}));
   }
 
   onStatusClicked(status: string) {
@@ -76,6 +75,6 @@ export class EditArticleComponent implements OnInit, OnChanges {
       ...this.editArticle,
       status: status
     };
-    this.store.dispatch(new SaveArticle({article: a}));
+    // this.store.dispatch(new SaveArticle({article: a}));
   }
 }

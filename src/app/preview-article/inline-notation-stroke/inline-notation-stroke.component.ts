@@ -20,9 +20,8 @@
 
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { UpsertArticle } from '../../article/actions/article.actions';
 import { RootState } from '../../core/reducers/reducer.reducer';
-import { Article, Move, Rule, Stroke } from '../../domain';
+import { ArticleBlock, Move, Rule, Stroke } from '../../domain';
 import { ContentComponent } from '../preview-article/content-component';
 
 @Component({
@@ -33,7 +32,7 @@ import { ContentComponent } from '../preview-article/content-component';
 })
 export class InlineNotationStrokeComponent implements OnInit, ContentComponent {
 
-  @Input() data: { article: Article, notationNum: number };
+  @Input() data: { article: ArticleBlock, notationNum: number };
 
   stroke: Stroke;
 
@@ -80,7 +79,7 @@ export class InlineNotationStrokeComponent implements OnInit, ContentComponent {
         strokes: strokes
       }
     };
-    this.store.dispatch(new UpsertArticle({article: a}));
+    // this.store.dispatch(new UpsertArticle({article: a}));
   }
 
   private updateMoveSelection(moves: Move[], move: Move) {

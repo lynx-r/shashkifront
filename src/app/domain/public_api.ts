@@ -19,6 +19,8 @@
  */
 
 export { Article } from './article';
+export { ArticleBlock } from './article-block';
+export { ArticleCreateRequest } from './article-create-request';
 export { Board } from './board';
 export { BoardCell } from './board-cell';
 export { GameNotation } from './game-notation';

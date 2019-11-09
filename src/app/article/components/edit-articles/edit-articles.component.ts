@@ -21,7 +21,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { AppConstants } from '../../../core/config/app-constants';
-import { Article } from '../../../domain';
+import { ArticleBlock } from '../../../domain';
 
 @Component({
   selector: 'app-edit-articles',
@@ -30,7 +30,7 @@ import { Article } from '../../../domain';
 })
 export class EditArticlesComponent implements OnInit {
 
-  @Input() articles: Article[];
+  @Input() articles: ArticleBlock[];
 
   articlesFormGroup: FormGroup;
   private titleValidators: ValidatorFn[];

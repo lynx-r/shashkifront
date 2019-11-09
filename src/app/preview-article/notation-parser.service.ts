@@ -21,7 +21,7 @@
 import { Injectable } from '@angular/core';
 import { TextTokenizer } from 'text-tokenizer';
 import { NotifyService } from '../core/services/notify.service';
-import { Article } from '../domain';
+import { ArticleBlock } from '../domain';
 import { InlineNotationStrokeComponent } from './inline-notation-stroke/inline-notation-stroke.component';
 import { InlineTextComponent } from './inline-text/inline-text.component';
 import { ContentItem } from './preview-article/content-item';
@@ -39,7 +39,7 @@ export class NotationParserService {
     this.config();
   }
 
-  recreateComponents(content: string, article: Article) {
+  recreateComponents(content: string, article: ArticleBlock) {
     if (!content) {
       return [];
     }

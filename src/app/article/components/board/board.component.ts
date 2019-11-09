@@ -22,7 +22,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnI
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppConstants } from '../../../core/config/app-constants';
-import { Article, BoardCell, Rule } from '../../../domain';
+import { ArticleBlock, BoardCell, Rule } from '../../../domain';
 import { BLACK_PIECE, EMPTY_CELL } from '../../../domain/board-cell';
 import * as fromArticle from '../../reducers/article.reducer';
 import { BoardService } from '../../services/board.service';
@@ -35,9 +35,9 @@ import { BoardService } from '../../services/board.service';
 })
 export class BoardComponent implements OnInit, OnChanges {
 
-  @Input() article: Article;
+  @Input() article: ArticleBlock;
 
-  @Output() articleUpdated = new EventEmitter<Article>();
+  @Output() articleUpdated = new EventEmitter<ArticleBlock>();
 
   flatCells: BoardCell[];
   cellNotation: string;

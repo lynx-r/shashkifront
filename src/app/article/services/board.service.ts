@@ -24,7 +24,7 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { AppConstants } from '../../core/config/app-constants';
 import { ApiBase } from '../../core/services/api-base';
-import { Article, BoardCell, GameNotation, Move, Stroke } from '../../domain';
+import { ArticleBlock, BoardCell, GameNotation, Move, Stroke } from '../../domain';
 import { EMPTY_CELL } from '../../domain/board-cell';
 
 @Injectable({
@@ -129,7 +129,7 @@ export class BoardService {
   highlightBoardCell(notation: GameNotation, c: BoardCell) {
   }
 
-  highlightClickedMoveInArticle(article: Article, stroke: Stroke, move: Move) {
+  highlightClickedMoveInArticle(article: ArticleBlock, stroke: Stroke, move: Move) {
     const strokes = article.notation.strokes
       .map(s => {
         const selected = s.notationNumber === stroke.notationNumber;

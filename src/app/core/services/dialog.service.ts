@@ -21,7 +21,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { tap } from 'rxjs/operators';
-import { Article } from '../../domain';
+import { ArticleCreateRequest } from '../../domain';
 import { AppConstants } from '../config/app-constants';
 import { CreateArticleDialogComponent } from '../dialogs/create-article-dialog/create-article-dialog.component';
 import { InputDialogComponent } from '../dialogs/create-article-dialog/input-dialog.component';
@@ -104,15 +104,16 @@ export class DialogService {
     return dialogRef.afterClosed();
   }
 
-  private getCreateArticleRequest(): Article {
+  private getCreateArticleRequest(): ArticleCreateRequest {
     let articleInit: any = this.storage.getPref('',
       AppConstants.ARTICLE_CREATE_COOKIE
     );
     if (!articleInit) {
       const title = AppConstants.CREATE_ARTICLE_NEW_ARTICLE_TITLE;
       articleInit = {
-        title: title,
-        humanReadableUrl: title,
+        article: {
+          title: title,
+        },
         notation: {
           rule: 'RUSSIAN',
           player: 'WHITE'
