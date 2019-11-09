@@ -25,12 +25,14 @@ import { ComponentsModule } from '../components/components.module';
 import { ArticlesContainerComponent } from './articles-container/articles-container.component';
 import { AuthorArticlesContainerComponent } from './author-articles-container/author-articles-container.component';
 import { EditArticleContainerComponent } from './edit-article-container/edit-article-container.component';
+import { EditArticlesContainerComponent } from './edit-articles-container/edit-articles-container.component';
 import { ViewArticleContainerComponent } from './view-article-container/view-article-container.component';
 
 @NgModule({
   declarations: [EditArticleContainerComponent, ArticlesContainerComponent, AuthorArticlesContainerComponent,
-    ViewArticleContainerComponent],
-  exports: [EditArticleContainerComponent, ArticlesContainerComponent],
+    ViewArticleContainerComponent,
+    EditArticlesContainerComponent],
+  exports: [EditArticlesContainerComponent, ArticlesContainerComponent],
   imports: [
     SharedModule,
     ComponentsModule,

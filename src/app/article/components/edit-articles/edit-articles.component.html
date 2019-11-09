@@ -1,0 +1,16 @@
+<form (ngSubmit)="onArticlesSubmit()" [formGroup]="articlesFormGroup">
+  <div fxLayout="row">
+    <button (click)="onAddArticleClicked()" mat-button="" type="button">Добавить разбор</button>
+    <button [disabled]="!articlesFormGroup.valid" mat-button>Сохранить статью</button>
+  </div>
+  <div fxLayout="column">
+    <app-edit-article-item (deleteArticle)="onDeleteArticle(i)"
+                           *ngFor="let a of articlesControls; index as i"
+                           [articleFormGroup]="a"
+    ></app-edit-article-item>
+  </div>
+  <div fxLayout="row">
+    <button (click)="onAddArticleClicked()" mat-button="" type="button">Добавить разбор</button>
+    <button [disabled]="!articlesFormGroup.valid" mat-button>Сохранить статью</button>
+  </div>
+</form>

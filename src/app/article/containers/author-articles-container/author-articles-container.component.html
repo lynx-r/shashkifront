@@ -15,7 +15,7 @@
           Заголовок
         </mat-header-cell>
         <mat-cell *matCellDef="let row" fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70">
-          <a [routerLink]="['..', 'edit', row.humanReadableUrl]" class="nsEllipsis" snEllipsis>
+          <a [routerLink]="['..', 'edit', row.humanReadableUrl]" class="snEllipsis" snEllipsis>
             {{row.title}}
           </a>
         </mat-cell>
@@ -23,7 +23,7 @@
 
       <ng-container matColumnDef="intro">
         <mat-header-cell *matHeaderCellDef fxFlex.gt-md="41" fxHide.lt-lg>Вступление</mat-header-cell>
-        <mat-cell *matCellDef="let row" class="nsEllipsis" fxFlex.gt-md="41" fxHide.lt-lg snEllipsis>
+        <mat-cell *matCellDef="let row" class="snEllipsis" fxFlex.gt-md="41" fxHide.lt-lg snEllipsis>
           {{row.intro}}
         </mat-cell>
       </ng-container>

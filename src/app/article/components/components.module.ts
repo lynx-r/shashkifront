@@ -19,27 +19,33 @@
  */
 
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DirectivesModule } from '../../core/directves/directives/directives.module';
 import { SharedModule } from '../../shared';
 import { BoardComponent } from './board/board.component';
 import { ClassicMovesDetailsComponent } from './classic-moves-details/classic-moves-details.component';
 import { ClassicMovesComponent } from './classic-moves/classic-moves.component';
 import { ClassicNotationComponent } from './classic-notation/classic-notation.component';
 import { ClassicStrokeDetailsComponent } from './classic-stroke-details/classic-stroke-details.component';
+import { EditArticleItemComponent } from './edit-article-item/edit-article-item.component';
 import { EditArticleComponent } from './edit-article/edit-article.component';
+import { EditArticlesComponent } from './edit-articles/edit-articles.component';
 import { NotationFenComponent } from './notation-fen/notation-fen.component';
 import { ViewBoardComponent } from './view-board/view-board.component';
 import { ViewNotationComponent } from './view-notation/view-notation.component';
 
 @NgModule({
   declarations: [
-    EditArticleComponent, BoardComponent, NotationFenComponent,
+    EditArticleComponent, EditArticleItemComponent, BoardComponent, NotationFenComponent,
     ClassicNotationComponent, ClassicStrokeDetailsComponent, ClassicMovesComponent,
-    ClassicMovesDetailsComponent, ViewNotationComponent, ViewBoardComponent
+    ClassicMovesDetailsComponent, ViewNotationComponent, ViewBoardComponent, EditArticlesComponent
   ],
-  exports: [EditArticleComponent, BoardComponent, ClassicNotationComponent,
+  exports: [EditArticlesComponent, EditArticleComponent, BoardComponent, ClassicNotationComponent,
     ViewNotationComponent, ViewBoardComponent],
   imports: [
     SharedModule,
+    ReactiveFormsModule,
+    DirectivesModule
   ]
 })
 export class ComponentsModule {

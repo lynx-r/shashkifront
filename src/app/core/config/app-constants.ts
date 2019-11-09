@@ -149,15 +149,15 @@ export class AppConstants {
   static API_SECURITY = 'api-security';
   static HTTP_RETRY = 0;
   static LAYOUT_SCROLL_TOP = 'scrollTop';
-  static ARTICLE_CONTENT_MAX_SYMBOLS = 400;
   static ARTICLE_TITLE_ELLIPSE_SYMBOLS = 25;
   static ARTICLE_INTRO_MIN_SYMBOLS = '20';
   static ARTICLE_INTRO_ELLIPSE_SYMBOLS = 250;
   static ARTICLE_INTRO_ELLIPSE_SYMBOLS_AUTHOR = 146;
   static ARTICLE_INTRO_MAX_SYMBOLS = '250';
-  static ARTICLE_CONTENT_MIN_SYMBOLS = '50';
-  static ARTICLE_TITLE_MIN_SYMBOLS = '4';
-  static ARTICLE_TITLE_MAX_SYMBOLS = '200';
+  static ARTICLE_CONTENT_MIN_SYMBOLS = 50;
+  static ARTICLE_CONTENT_MAX_SYMBOLS = 400;
+  static ARTICLE_TITLE_MIN_SYMBOLS = 4;
+  static ARTICLE_TITLE_MAX_SYMBOLS = 200;
   static PATH_ROOT = 'articles';
   static USER_SESSION_HEADER = 'userId-session';
   static EMAIL_HEADER = 'email';
@@ -198,6 +198,7 @@ export class AppConstants {
   static AFTER_LOGIN_REDIRECT = '/article/list-author';
   static AFTER_LOGOUT_REDIRECT = '/contribute/SignIn';
   static PUBLISHED_STATUS = 'PUBLISHED';
+  static NEW_STATUS = 'NEW';
   static DRAFT_STATUS = 'DRAFT';
   static STRENGTH_SYMBOL = '&#x1F9D0;';
 }

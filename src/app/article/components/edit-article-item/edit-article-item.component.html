@@ -1,0 +1,54 @@
+<mat-card>
+  <mat-card-actions>
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <div class="button-height" fxFlex>
+        <p class="snEllipsis" snEllipsis>{{title.value}}</p>
+      </div>
+      <button (click)="onVisibilityToggle()" mat-icon-button type="button">
+        <mat-icon *ngIf="!visible">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="visible">keyboard_arrow_up</mat-icon>
+      </button>
+      <button (click)="onDeleteClicked()" mat-icon-button type="button">
+        <mat-icon color="warn">delete</mat-icon>
+      </button>
+    </div>
+  </mat-card-actions>
+  <mat-card-content *ngIf="visible">
+    <div fxLayout="column" fxLayoutGap="12px">
+      <mat-form-field class="full-width">
+        <input [formControl]="title"
+               matInput
+               name="title"
+               placeholder="Заголовок разбора"
+               title="Заголовок разбора"
+        >
+        <mat-error *ngIf="title.invalid && (title.dirty || title.touched)">
+          <div *ngIf="title?.errors.minlength">
+            Минимум {{minTitleLength - title?.value.length}} символов
+          </div>
+          <div *ngIf="title?.errors.required">
+            Обязательное поле
+          </div>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="fit">
+        <textarea [formControl]="content"
+                  [rows]="10"
+                  class="fit"
+                  matInput
+                  name="content"
+                  placeholder="Скопируйте или сделайте здесь вашу разбор"
+                  title="Текст разбора"
+        ></textarea>
+        <mat-error *ngIf="content.invalid && (content.dirty || content.touched)">
+          <div *ngIf="content?.errors.minlength">
+            Минимум {{minContentLength - content?.value.length}} символов
+          </div>
+          <div *ngIf="content?.errors.required">
+            Обязательное поле
+          </div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>
