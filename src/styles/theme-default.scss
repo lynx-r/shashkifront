@@ -26,6 +26,10 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 
   .active {
     background-color: mat-color($candy-app-accent);
+
+    &:hover {
+      background-color: mat-color($candy-app-accent, 500) !important;
+    }
   }
 
   .tile-white {

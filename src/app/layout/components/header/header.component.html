@@ -31,12 +31,12 @@
           refresh
         </mat-icon>
       </button>
-      <mat-slide-toggle (change)="onThemeChange($event.checked)"
-                        [checked]="user?.theme === 'unicorn-dark-theme'"
-                        fxHide.lt-sm
-      >
-        {{user?.theme === 'default' ? 'Светлая тема' : 'Тёмная тема'}}
-      </mat-slide-toggle>
+      <!--      <mat-slide-toggle (change)="onThemeChange($event.checked)"-->
+      <!--                        [checked]="user?.theme === 'unicorn-dark-theme'"-->
+      <!--                        fxHide.lt-sm-->
+      <!--      >-->
+      <!--        {{user?.theme === 'default' ? 'Светлая тема' : 'Тёмная тема'}}-->
+      <!--      </mat-slide-toggle>-->
 
       <button (click)="openCreateArticleDialog()" *ngIf="loggedIn" mat-button title="Создать разбор">
         <mat-icon>
@@ -61,8 +61,32 @@
         </span>
       </button>
       <mat-menu #menu="matMenu">
+        <button (click)="onThemeChange(false)" [class.active]="user?.theme === 'default'" mat-menu-item>
+          <mat-icon>wb_sunny</mat-icon>
+          <span>Светлая тема</span>
+        </button>
+        <button (click)="onThemeChange(true)" [class.active]="user?.theme !== 'default'" mat-menu-item>
+          <mat-icon>wb_incandescent</mat-icon>
+          <span>Тёмная тема</span>
+        </button>
+        <mat-divider></mat-divider>
         <button (click)="onLogout()" mat-menu-item title="Выйти">
-          Выйти
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Выйти</span>
+        </button>
+      </mat-menu>
+      <button *ngIf="!loggedIn" [matMenuTriggerFor]="themeMenu" aria-label="Example icon-button with a menu"
+              mat-icon-button>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #themeMenu="matMenu">
+        <button (click)="onThemeChange(false)" [class.active]="user?.theme === 'default'" mat-menu-item>
+          <mat-icon>wb_sunny</mat-icon>
+          <span>Светлая тема</span>
+        </button>
+        <button (click)="onThemeChange(true)" [class.active]="user?.theme !== 'default'" mat-menu-item>
+          <mat-icon>wb_incandescent</mat-icon>
+          <span>Тёмная тема</span>
         </button>
       </mat-menu>
     </div>

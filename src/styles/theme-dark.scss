@@ -33,7 +33,11 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
   }
 
   .active {
-    background-color: mat-color($dark-primary);
+    background-color: mat-color($dark-accent, 700);
+
+    &:hover {
+      background-color: mat-color($dark-accent, 800) !important;
+    }
   }
 
   .tile-white {
