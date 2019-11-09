@@ -8,74 +8,76 @@
   </mat-form-field>
 
   <div class="table-container">
-    <table [dataSource]="data" class="table" mat-table
-           matSort matSortActive="updatedAt" matSortDirection="desc" matSortDisableClear
+    <mat-table [dataSource]="data" class="table" matSort matSortActive="updatedAt" matSortDirection="desc"
+               matSortDisableClear
     >
       <!--      multiTemplateDataRows-->
 
       <ng-container matColumnDef="title">
-        <th *matHeaderCellDef disableClear fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70" mat-header-cell
-            mat-sort-header>
+        <mat-header-cell *matHeaderCellDef disableClear fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70"
+                         mat-sort-header>
           Заголовок
-        </th>
-        <td *matCellDef="let row" fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70" mat-cell>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70">
           <a [routerLink]="['..', 'view', row.humanReadableUrl]" class="nsEllipsis" snEllipsis>
             {{row.title}}
           </a>
-        </td>
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="intro">
-        <th *matHeaderCellDef fxFlex.gt-md="48" fxHide.lt-lg mat-header-cell>Вступление</th>
-        <td *matCellDef="let row" class="nsEllipsis" fxFlex.gt-md="48" fxHide.lt-lg mat-cell snEllipsis>
+        <mat-header-cell *matHeaderCellDef fxFlex.gt-md="48" fxHide.lt-lg>Вступление</mat-header-cell>
+        <mat-cell *matCellDef="let row" class="nsEllipsis" fxFlex.gt-md="48" fxHide.lt-lg snEllipsis>
           {{row.intro}}
-        </td>
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="task">
-        <th *matHeaderCellDef class="th-center" fxFlex.gt-md="5" fxFlex.lt-lg="8" fxFlex.lt-sm="20" fxHide.lt-sm
-            mat-header-cell mat-sort-header>
+        <mat-header-cell *matHeaderCellDef class="mat-header-cell-center" fxFlex.gt-md="5" fxFlex.lt-lg="8"
+                         fxFlex.lt-sm="20" fxHide.lt-sm
+                         mat-sort-header>
           Задача
-        </th>
-        <td *matCellDef="let row" [matTooltip]="row.task ? 'В этом разборе есть задача' : ''" class="justify-text"
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" [matTooltip]="row.task ? 'В этом разборе есть задача' : ''" class="justify-text"
             fxFlex.gt-md="5" fxFlex.lt-lg="8" fxFlex.lt-sm="20" fxHide.lt-sm
-            mat-cell>
-          {{row.task ? 'З' : ''}}
-        </td>
+        >
+          {{row.task ? 'З' : '-'}}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="updatedAt">
-        <th *matHeaderCellDef class="th-center" disableClear fxFlex.gt-md="14" fxFlex.lt-lg="16" fxFlex.lt-sm="30"
-            mat-header-cell mat-sort-header>
+        <mat-header-cell *matHeaderCellDef class="mat-header-cell-center" disableClear fxFlex.gt-md="14"
+                         fxFlex.lt-lg="16" fxFlex.lt-sm="30"
+                         mat-sort-header>
           Обновлено
-        </th>
-        <td *matCellDef="let row" class="justify-text" fxFlex.gt-md="14" fxFlex.lt-lg="16" fxFlex.lt-sm="30" mat-cell>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" class="justify-text" fxFlex.gt-md="14" fxFlex.lt-lg="16" fxFlex.lt-sm="30">
           <span [matTooltip]="row.updatedAt | date:'medium'" fxHide.lt-lg>
             {{row.updatedAt | date:'short'}}
           </span>
           <span [matTooltip]="row.updatedAt | date:'medium'" fxHide.gt-md>
             {{row.updatedAt | date:'d.M.yy'}}
           </span>
-        </td>
+        </mat-cell>
       </ng-container>
 
       <!--      <ng-container matColumnDef="expandedDetail">-->
-      <!--        <td *matCellDef="let element" [attr.colspan]="displayedColumns.length" mat-cell>-->
+      <!--        <mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.lengmat-header-cell" >-->
       <!--          <div [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"-->
       <!--               class="example-element-detail">-->
       <!--            {{element.content}}-->
       <!--            <br>-->
       <!--            sdfsdfsdfsdf-->
       <!--          </div>-->
-      <!--        </td>-->
+      <!--        </mat-cell>-->
       <!--      </ng-container>-->
 
-      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-      <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
       <!--      [class.example-expanded-row]="expandedElement === row"-->
       <!--      (click)="expandedElement = expandedElement === row ? null : row"-->
       <!--      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>-->
-    </table>
+    </mat-table>
 
     <mat-paginator [length]="resultsLength"
                    [pageSizeOptions]="pageSizeOptions"
