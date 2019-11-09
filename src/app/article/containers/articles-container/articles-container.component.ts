@@ -18,7 +18,7 @@
  *
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ArticleService } from '../../../core/services/article.service';
 import * as fromArticle from '../../reducers/article.reducer';
@@ -36,7 +36,6 @@ export class ArticlesContainerComponent extends AbstractArticlesContainer implem
   constructor(
     protected store: Store<fromArticle.State>,
     protected articleService: ArticleService,
-    protected cdr: ChangeDetectorRef
   ) {
     super(store, articleService);
   }
@@ -45,8 +44,7 @@ export class ArticlesContainerComponent extends AbstractArticlesContainer implem
   }
 
   ngAfterViewInit(): void {
-    this.fetchData()
-      .subscribe(() => this.cdr.detectChanges());
+    this.fetchData().subscribe();
   }
 
 }

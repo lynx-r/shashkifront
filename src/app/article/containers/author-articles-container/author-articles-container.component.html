@@ -39,7 +39,7 @@
         <td *matCellDef="let row" [matTooltip]="row.task ? 'В этом разборе есть задача' : ''" class="justify-text"
             fxFlex.gt-md="6" fxFlex.lt-lg="9" fxFlex.lt-sm="20" fxHide.lt-sm
             mat-cell>
-          {{row.task ? 'З' : ''}}
+          {{row.task ? 'З' : '-'}}
         </td>
       </ng-container>
 
@@ -59,7 +59,7 @@
       <ng-container matColumnDef="updatedAt">
         <th *matHeaderCellDef class="th-center" disableClear fxFlex.gt-md="14" fxFlex.lt-lg="15" fxFlex.lt-sm="30"
             mat-header-cell mat-sort-header>
-          Обновлено
+          Изменино
         </th>
         <td *matCellDef="let row" class="justify-text" fxFlex.gt-md="14" fxFlex.lt-lg="15" fxFlex.lt-sm="30" mat-cell>
           <span [matTooltip]="row.updatedAt | date:'medium'" fxHide.lt-lg>

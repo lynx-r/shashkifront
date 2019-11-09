@@ -89,7 +89,7 @@ export class AbstractArticlesContainer {
 
           return data.articles;
         }),
-        tap(articles => this.data = articles),
+        tap((articles: Article[]) => this.data = articles),
         tap((articles: Article[]) => this.store.dispatch(new UpsertArticles({articles: articles}))),
         catchError((err) => {
           console.log(err);
