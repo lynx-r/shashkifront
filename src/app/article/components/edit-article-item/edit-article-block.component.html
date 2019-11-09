@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-actions>
     <div fxLayout="row" fxLayoutAlign="end center">
-      <div class="button-height" fxFlex>
+      <div (click)="onVisibilityToggle()" class="button-height cursor" fxFlex>
         <p class="snEllipsis" snEllipsis>{{title.value}}</p>
       </div>
       <button (click)="onVisibilityToggle()" mat-icon-button type="button">

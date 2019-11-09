@@ -52,15 +52,15 @@ export class ArticleService {
 
   listArticles(filter: ArticlesFilter, privateUser?: boolean): Observable<ArticlesResponse> {
     if (privateUser) {
-      return this.api.getPrivate('/article/list', filter)
-        .pipe(
-          map((res: ArticlesResponse) => ({...res, articles: [...res.articles.map(a => this.fillArticleBlock(a))]}))
-        );
+      return this.api.getPrivate('/article/list', filter);
+      // .pipe(
+      //   map((res: ArticlesResponse) => ({...res, articles: [...res.articles.map(a => this.fillArticleBlock(a))]}))
+      // );
     }
-    return this.api.get('/article/list', filter)
-      .pipe(
-        map((res: ArticlesResponse) => ({...res, articles: [...res.articles.map(a => this.fillArticleBlock(a))]}))
-      );
+    return this.api.get('/article/list', filter);
+    // .pipe(
+    //   map((res: ArticlesResponse) => ({...res, articles: [...res.articles.map(a => this.fillArticleBlock(a))]}))
+    // );
   }
 
   saveArticle(article: Article): Observable<Article> {

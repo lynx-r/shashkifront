@@ -29,9 +29,8 @@
       </ng-container>
 
       <ng-container matColumnDef="task">
-        <mat-header-cell *matHeaderCellDef class="th-center" fxFlex.gt-md="6" fxFlex.lt-lg="9" fxFlex.lt-sm="20"
-                         fxHide.lt-sm
-                         mat-sort-header>
+        <mat-header-cell *matHeaderCellDef fxFlex.gt-md="6" fxFlex.lt-lg="9" fxFlex.lt-sm="20"
+                         fxHide.lt-sm fxLayoutAlign="center center" mat-sort-header>
           Задача
         </mat-header-cell>
         <mat-cell *matCellDef="let row" [matTooltip]="row.task ? 'В этом разборе есть задача' : ''" class="justify-text"
@@ -41,9 +40,8 @@
       </ng-container>
 
       <ng-container matColumnDef="status">
-        <mat-header-cell *matHeaderCellDef class="th-center" disableClear fxFlex.gt-md="6" fxFlex.lt-lg="15"
-                         fxHide.lt-sm
-                         mat-sort-header>
+        <mat-header-cell *matHeaderCellDef disableClear fxFlex.gt-md="6" fxFlex.lt-lg="15"
+                         fxHide.lt-sm fxLayoutAlign="center center" mat-sort-header>
           Статус
         </mat-header-cell>
         <mat-cell *matCellDef="let row" [matTooltip]="status[row.status].tooltip" class="justify-text" fxFlex.gt-md="6"
@@ -54,9 +52,8 @@
       </ng-container>
 
       <ng-container matColumnDef="updatedAt">
-        <mat-header-cell *matHeaderCellDef class="th-center" disableClear fxFlex.gt-md="14" fxFlex.lt-lg="15"
-                         fxFlex.lt-sm="30"
-                         mat-sort-header>
+        <mat-header-cell *matHeaderCellDef disableClear fxFlex.gt-md="14" fxFlex.lt-lg="15"
+                         fxFlex.lt-sm="30" fxLayoutAlign="center center" mat-sort-header>
           Изменино
         </mat-header-cell>
         <mat-cell *matCellDef="let row" class="justify-text" fxFlex.gt-md="14" fxFlex.lt-lg="15" fxFlex.lt-sm="30">

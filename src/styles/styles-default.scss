@@ -38,18 +38,15 @@ body {
 
 .table-container {
 
-  td, th {
+  mat-cell, mat-header-cell {
     line-height: 48px;
-  }
-
-  td {
   }
 
   .td-center {
     text-align: center;
   }
 
-  th.th-center div {
+  mat-header-cell.th-center div {
     justify-content: center !important;
     text-align: center;
   }

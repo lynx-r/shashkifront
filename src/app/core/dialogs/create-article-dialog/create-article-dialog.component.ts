@@ -20,7 +20,7 @@
 
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ArticleBlock } from '../../../domain';
+import { ArticleCreateRequest } from '../../../domain';
 import { AppConstants } from '../../config/app-constants';
 
 @Component({
@@ -33,7 +33,7 @@ export class CreateArticleDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<CreateArticleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ArticleBlock
+    @Inject(MAT_DIALOG_DATA) public data: ArticleCreateRequest
   ) {
   }
 }

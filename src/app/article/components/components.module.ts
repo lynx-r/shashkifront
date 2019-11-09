@@ -27,7 +27,7 @@ import { ClassicMovesDetailsComponent } from './classic-moves-details/classic-mo
 import { ClassicMovesComponent } from './classic-moves/classic-moves.component';
 import { ClassicNotationComponent } from './classic-notation/classic-notation.component';
 import { ClassicStrokeDetailsComponent } from './classic-stroke-details/classic-stroke-details.component';
-import { EditArticleItemComponent } from './edit-article-item/edit-article-item.component';
+import { EditArticleBlockComponent } from './edit-article-item/edit-article-block.component';
 import { EditArticleComponent } from './edit-article/edit-article.component';
 import { EditArticlesComponent } from './edit-articles/edit-articles.component';
 import { NotationFenComponent } from './notation-fen/notation-fen.component';
@@ -36,7 +36,7 @@ import { ViewNotationComponent } from './view-notation/view-notation.component';
 
 @NgModule({
   declarations: [
-    EditArticleComponent, EditArticleItemComponent, BoardComponent, NotationFenComponent,
+    EditArticleComponent, EditArticleBlockComponent, BoardComponent, NotationFenComponent,
     ClassicNotationComponent, ClassicStrokeDetailsComponent, ClassicMovesComponent,
     ClassicMovesDetailsComponent, ViewNotationComponent, ViewBoardComponent, EditArticlesComponent
   ],

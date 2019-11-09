@@ -20,8 +20,13 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
+import { ArticleService } from '../../../core/services/article.service';
 import { ArticleBlock } from '../../../domain';
+import * as fromArticle from '../../reducers/article.reducer';
 
 @Component({
   selector: 'app-edit-articles',
@@ -36,7 +41,10 @@ export class EditArticlesComponent implements OnInit {
   private titleValidators: ValidatorFn[];
   private contentValidators: ValidatorFn[];
 
-  constructor() {
+  constructor(
+    private store: Store<fromArticle.State>,
+    private articleService: ArticleService
+  ) {
     this.titleValidators = [
       Validators.minLength(AppConstants.ARTICLE_TITLE_MIN_SYMBOLS),
       Validators.maxLength(AppConstants.ARTICLE_TITLE_MAX_SYMBOLS)
@@ -57,6 +65,7 @@ export class EditArticlesComponent implements OnInit {
 
   ngOnInit() {
     const articlesControls = this.articles.map(a => new FormGroup({
+      id: new FormControl(a.id),
       title: new FormControl(a.title, [...this.titleValidators]),
       content: new FormControl(a.content, [...this.contentValidators]),
       status: new FormControl(a.status)
@@ -75,7 +84,11 @@ export class EditArticlesComponent implements OnInit {
   }
 
   onArticlesSubmit() {
-    console.log(this.articlesFormGroup.value);
+    const touchedArticles = this.articlesFormArray.controls.filter(c => c.touched).map(c => c.value);
+    const saveObservables = touchedArticles.map(a => this.articleService.saveArticleBlock(a));
+    forkJoin(saveObservables)
+      .pipe(tap(([a]) => console.log(a)))
+      .subscribe();
   }
 
   onDeleteArticle(index: number) {

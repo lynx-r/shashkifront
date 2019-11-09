@@ -3,8 +3,7 @@
   <br>
   <mat-form-field class="fit">
     <input #title="ngModel"
-           (keyup)="data.humanReadableUrl = data.title"
-           [(ngModel)]="data.title"
+           [(ngModel)]="data.article.title"
            [minlength]="minTitleLength"
            matInput
            placeholder="Заголовок разбора"

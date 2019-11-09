@@ -1,7 +1,7 @@
 /*
  * © Copyright
  *
- * edit-article-item.component.ts is part of shashkifront.nosync.
+ * edit-article-block.component.ts is part of shashkifront.nosync.
  *
  * shashkifront.nosync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,11 +26,11 @@ import { ArticleBlock } from '../../../domain';
 import * as fromArticle from '../../reducers/article.reducer';
 
 @Component({
-  selector: 'app-edit-article-item',
-  templateUrl: './edit-article-item.component.html',
-  styleUrls: ['./edit-article-item.component.css']
+  selector: 'app-edit-article-block',
+  templateUrl: './edit-article-block.component.html',
+  styleUrls: ['./edit-article-block.component.css']
 })
-export class EditArticleItemComponent implements OnInit, OnChanges {
+export class EditArticleBlockComponent implements OnInit, OnChanges {
 
   @Input() articleFormGroup: FormGroup;
 
