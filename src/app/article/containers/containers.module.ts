@@ -19,8 +19,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../../config';
 import { PreviewArticleModule } from '../../preview-article/preview-article.module';
+import { SharedModule } from '../../shared';
 import { ComponentsModule } from '../components/components.module';
 import { ArticlesContainerComponent } from './articles-container/articles-container.component';
 import { AuthorArticlesContainerComponent } from './author-articles-container/author-articles-container.component';

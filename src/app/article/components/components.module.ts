@@ -19,7 +19,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../../config';
+import { SharedModule } from '../../shared';
 import { BoardComponent } from './board/board.component';
 import { ClassicMovesDetailsComponent } from './classic-moves-details/classic-moves-details.component';
 import { ClassicMovesComponent } from './classic-moves/classic-moves.component';

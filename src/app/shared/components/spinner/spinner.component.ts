@@ -1,7 +1,7 @@
 /*
  * © Copyright
  *
- * components.module.ts is part of shashkifront.nosync.
+ * spinner.component.ts is part of shashkifront.nosync.
  *
  * shashkifront.nosync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,21 +18,32 @@
  *
  */
 
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { SharedModule } from '../../shared';
-import { DefaultLayoutComponent } from './default-layout/default-layout.component';
-import { FooterComponent } from './footer/footer.component';
-import { HeaderComponent } from './header/header.component';
+import { Component, Input } from '@angular/core';
 
-@NgModule({
-  declarations: [FooterComponent, DefaultLayoutComponent, HeaderComponent],
-  exports: [DefaultLayoutComponent],
-  imports: [
-    SharedModule,
-
-    RouterModule
-  ]
+@Component({
+  selector: 'app-spinner',
+  template: `
+      <div *ngIf="isLoading" class="loading-shade">
+          <mat-spinner></mat-spinner>
+      </div>
+  `,
+  styles: [`
+      .loading-shade {
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 56px;
+          right: 0;
+          background: rgba(0, 0, 0, 0.15);
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+  `]
 })
-export class ComponentsModule {
+export class SpinnerComponent {
+
+  @Input() isLoading: boolean;
+
 }
