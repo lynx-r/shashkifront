@@ -54,10 +54,10 @@ export class AbstractArticlesContainer {
     this.paginator.firstPage();
   }
 
-  afterViewInit() {
+  fetchData() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
-    merge(this.sort.sortChange, this.searchSubject, this.paginator.page)
+    return merge(this.sort.sortChange, this.searchSubject, this.paginator.page)
       .pipe(
         startWith({}),
         this.fetchArticles(),
@@ -65,8 +65,7 @@ export class AbstractArticlesContainer {
           console.log(err);
           return throwError(err);
         })
-      )
-      .subscribe(data => this.data = data);
+      );
   }
 
   protected fetchArticles(): (s) => Observable<Article[]> {
@@ -90,6 +89,7 @@ export class AbstractArticlesContainer {
 
           return data.articles;
         }),
+        tap(articles => this.data = articles),
         tap((articles: Article[]) => this.store.dispatch(new UpsertArticles({articles: articles}))),
         catchError((err) => {
           console.log(err);

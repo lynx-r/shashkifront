@@ -78,7 +78,7 @@ import { UserCredentials } from '../../domain/user-credentials';
                   <div class="loginButtons">
                       <div fxLayout="row">
                           <button type="button" routerLink="/contribute/Register" mat-flat-button fxHide.gt-xs>Регистрация</button>
-                          <button type="submit" mat-flat-button>Войти</button>
+                          <button type="submit" mat-flat-button color="primary">Войти</button>
                       </div>
                   </div>
               </form>

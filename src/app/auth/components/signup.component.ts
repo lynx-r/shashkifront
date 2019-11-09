@@ -120,7 +120,7 @@ import { RegisteredUser } from '../../domain/registered-user';
                       </div>
                   </mat-error>
                   <div class="loginButtons">
-                      <button type="submit" mat-flat-button>Регистрация</button>
+                      <button type="submit" mat-flat-button color="primary">Регистрация</button>
                   </div>
               </form>
           </mat-card-content>
