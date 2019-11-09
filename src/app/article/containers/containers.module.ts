@@ -28,7 +28,8 @@ import { EditArticleContainerComponent } from './edit-article-container/edit-art
 import { ViewArticleContainerComponent } from './view-article-container/view-article-container.component';
 
 @NgModule({
-  declarations: [EditArticleContainerComponent, ArticlesContainerComponent, AuthorArticlesContainerComponent, ViewArticleContainerComponent],
+  declarations: [EditArticleContainerComponent, ArticlesContainerComponent, AuthorArticlesContainerComponent,
+    ViewArticleContainerComponent],
   exports: [EditArticleContainerComponent, ArticlesContainerComponent],
   imports: [
     SharedModule,

@@ -20,7 +20,7 @@
           Заголовок
         </th>
         <td *matCellDef="let row" fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70" mat-cell>
-          <a [routerLink]="['..', 'edit', row.humanReadableUrl]">
+          <a [routerLink]="['..', 'edit', row.humanReadableUrl]" class="nsEllipsis" snEllipsis>
             {{row.title}}
           </a>
         </td>
@@ -28,7 +28,7 @@
 
       <ng-container matColumnDef="intro">
         <th *matHeaderCellDef fxFlex.gt-md="41" fxHide.lt-lg mat-header-cell>Вступление</th>
-        <td *matCellDef="let row" fxFlex.gt-md="41" fxHide.lt-lg mat-cell>
+        <td *matCellDef="let row" class="nsEllipsis" fxFlex.gt-md="41" fxHide.lt-lg mat-cell snEllipsis>
           {{row.intro}}
         </td>
       </ng-container>

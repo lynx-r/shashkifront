@@ -25,6 +25,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxSvgModule } from 'ngx-svg';
 import { DialogsModule } from '../core/dialogs/dialogs.module';
+import { DirectivesModule } from '../core/directves/directives/directives.module';
 import { MaterialModule } from './material.module';
 
 const SHARED_MODULES = [
@@ -35,6 +36,7 @@ const SHARED_MODULES = [
   FlexLayoutModule,
   NgxSvgModule,
   DialogsModule,
+  DirectivesModule
 ];
 
 @NgModule({
