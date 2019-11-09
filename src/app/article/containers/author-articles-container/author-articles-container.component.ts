@@ -21,7 +21,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ArticleService } from '../../../core/services/article.service';
-import { MediaService } from '../../../core/services/media.service';
 import * as fromArticle from '../../reducers/article.reducer';
 import { AbstractArticlesContainer } from '../abstract-articles-container';
 
@@ -35,23 +34,19 @@ export class AuthorArticlesContainerComponent extends AbstractArticlesContainer 
   displayedColumns: string[] = ['title', 'intro', 'task', 'status', 'updatedAt'];
 
   status = {
-    'DRAFT': 'Черновик',
-    'PUBLISHED': 'Опубликовано'
+    'DRAFT': {name: 'Ч', tooltip: 'Черновик'},
+    'PUBLISHED': {name: 'П', tooltip: 'Публикация'}
   };
-
-  mobile: boolean;
 
   constructor(
     protected store: Store<fromArticle.State>,
     protected articleService: ArticleService,
-    private mediaService: MediaService
   ) {
     super(store, articleService);
   }
 
   ngOnInit(): void {
     this.privateUser = true;
-    this.mediaService.mobile$.subscribe(mobile => this.mobile = mobile);
   }
 
   ngAfterViewInit(): void {

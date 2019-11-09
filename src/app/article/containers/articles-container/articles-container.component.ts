@@ -21,7 +21,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ArticleService } from '../../../core/services/article.service';
-import { MediaService } from '../../../core/services/media.service';
 import * as fromArticle from '../../reducers/article.reducer';
 import { AbstractArticlesContainer } from '../abstract-articles-container';
 
@@ -34,18 +33,14 @@ export class ArticlesContainerComponent extends AbstractArticlesContainer implem
 
   displayedColumns: string[] = ['title', 'intro', 'task', 'updatedAt'];
 
-  mobile: boolean;
-
   constructor(
     protected store: Store<fromArticle.State>,
     protected articleService: ArticleService,
-    private mediaService: MediaService
   ) {
     super(store, articleService);
   }
 
   ngOnInit(): void {
-    this.mediaService.mobile$.subscribe(mobile => this.mobile = mobile);
   }
 
   ngAfterViewInit(): void {
