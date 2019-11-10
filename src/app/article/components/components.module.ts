@@ -28,7 +28,9 @@ import { ClassicMovesComponent } from './classic-moves/classic-moves.component';
 import { ClassicNotationComponent } from './classic-notation/classic-notation.component';
 import { ClassicStrokeDetailsComponent } from './classic-stroke-details/classic-stroke-details.component';
 import { EditArticleBlockComponent } from './edit-article-block/edit-article-block.component';
-import { EditArticleBlocksComponent } from './edit-articles/edit-article-blocks.component';
+import { EditArticleBlocksComponent } from './edit-article-blocks/edit-article-blocks.component';
+import { EditArticleInfoComponent } from './edit-article-info/edit-article-info.component';
+import { EditArticleComponent } from './edit-article/edit-article.component';
 import { NotationFenComponent } from './notation-fen/notation-fen.component';
 import { ViewBoardComponent } from './view-board/view-board.component';
 import { ViewNotationComponent } from './view-notation/view-notation.component';
@@ -37,9 +39,10 @@ import { ViewNotationComponent } from './view-notation/view-notation.component';
   declarations: [
     EditArticleBlockComponent, BoardComponent, NotationFenComponent,
     ClassicNotationComponent, ClassicStrokeDetailsComponent, ClassicMovesComponent,
-    ClassicMovesDetailsComponent, ViewNotationComponent, ViewBoardComponent, EditArticleBlocksComponent
+    ClassicMovesDetailsComponent, ViewNotationComponent, ViewBoardComponent, EditArticleBlocksComponent, EditArticleComponent,
+    EditArticleInfoComponent
   ],
-  exports: [EditArticleBlocksComponent, BoardComponent, ClassicNotationComponent,
+  exports: [EditArticleComponent, BoardComponent, ClassicNotationComponent,
     ViewNotationComponent, ViewBoardComponent],
   imports: [
     SharedModule,

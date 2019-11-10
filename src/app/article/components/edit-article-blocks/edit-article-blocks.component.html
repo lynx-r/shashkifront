@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Конструктор разбора
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-actions>
+    <div fxLayout="row">
+      <button (click)="addArticle.emit()" [disabled]="published" mat-button type="button">
+        <mat-icon>add</mat-icon>
+        Добавить блок
+      </button>
+    </div>
+  </mat-card-actions>
+  <mat-card-content>
+    <div fxLayout="column" fxLayoutGap="12px">
+      <app-edit-article-block (moveDown)="moveDownArticleBlock.emit({formGroup: a, index: i})"
+                              (moveUp)="moveUpArticleBlock.emit({formGroup: a, index: i})"
+                              (remove)="deleteArticleBlock.emit({formGroup: a, index: i})"
+                              (save)="saveArticleBlock.emit($event)"
+                              (select)="selectArticleBlock.emit(a)"
+                              *ngFor="let a of articlesControls; index as i"
+                              [articleFormGroup]="a"
+                              [selectedArticleBlockId]="selectedArticleBlockId"
+                              [published]="published"
+      ></app-edit-article-block>
+    </div>
+  </mat-card-content>
+</mat-card>

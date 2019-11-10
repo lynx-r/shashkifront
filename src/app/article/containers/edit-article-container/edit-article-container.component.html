@@ -3,7 +3,7 @@
      fxLayout.lt-md="column"
      fxLayoutGap="8px"
 >
-  <app-edit-article-blocks [article]="article" fxFlex="50"></app-edit-article-blocks>
+  <app-edit-article [article]="article" fxFlex="50"></app-edit-article>
   <div fxFlex="50">
     <mat-tab-group (selectedIndexChange)="onPreviewTabIndexChanged($event)" [(selectedIndex)]="previewTabIndex">
       <mat-tab label="Доска">

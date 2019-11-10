@@ -1,7 +1,7 @@
 /*
  * © Copyright
  *
- * edit-article-blocks.component.ts is part of shashkifront.nosync.
+ * edit-article.component.ts is part of shashkifront.nosync.
  *
  * shashkifront.nosync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  *
  */
 
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
@@ -29,30 +29,21 @@ import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 
 @Component({
-  selector: 'app-edit-article-blocks',
-  templateUrl: './edit-article-blocks.component.html',
+  selector: 'app-edit-article',
+  templateUrl: './edit-article.component.html',
   styles: []
 })
-export class EditArticleBlocksComponent implements OnInit, OnChanges {
+export class EditArticleComponent implements OnInit {
 
   @Input() article: Article;
 
-  articleBlockFormArray: FormArray;
   articleFormGroup: FormGroup;
-
-  DRAFT = AppConstants.ARTICLE_DRAFT_STATUS;
-  PUBLISHED = AppConstants.ARTICLE_PUBLISHED_STATUS;
-  minIntroLength = AppConstants.ARTICLE_INTRO_MIN_SYMBOLS;
-  minTitleLength = AppConstants.ARTICLE_TITLE_MIN_SYMBOLS;
+  articleBlockFormArray: FormArray;
 
   private readonly titleValidators: ValidatorFn[];
   private readonly titleRequireValidators: ValidatorFn[];
   private readonly introValidators: ValidatorFn[];
   private readonly contentValidators: ValidatorFn[];
-
-  get articleBlocks() {
-    return this.article.articleBlocks;
-  }
 
   constructor(
     private store: Store<fromArticle.State>,
@@ -78,34 +69,19 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges {
     ];
   }
 
+  get articleBlocks() {
+    return this.article.articleBlocks;
+  }
+
   get published() {
     return this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
   }
 
-  get articleTitle() {
-    return (this.articleFormGroup.get('title') as FormControl);
-  }
-
-  get articleIntro() {
-    return (this.articleFormGroup.get('intro') as FormControl);
-  }
-
-  get articleStatus() {
-    return (this.articleFormGroup.get('status') as FormControl);
-  }
-
-  get articlesControls(): FormGroup[] {
-    return this.articleBlockFormArray.controls as FormGroup[];
-  }
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.createArticleFormGroups(this.article);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-  }
-
-  onAddArticleClicked() {
+  onAddArticleClicked(event: { formControl: FormControl, index: number }) {
     this.articleService.addArticleBlockToArticle(this.article.id)
       .pipe(
         tap(articleBlock => {

@@ -2,7 +2,7 @@
   <mat-card-header>
     <mat-card-title>
       Основная информация по разбору
-      <small [hidden]="!article.task" matTooltip="Этот разбор содержит задачу">задача</small>
+      <small [hidden]="!task" matTooltip="Этот разбор содержит задачу">задача</small>
     </mat-card-title>
   </mat-card-header>
   <br>
@@ -44,37 +44,9 @@
     </form>
   </mat-card-content>
   <mat-card-actions>
-    <button (click)="onSaveArticle()" [disabled]="!articleFormGroup.valid" color="primary" mat-button>Сохранить
+    <button (click)="saveArticle.emit()" [color]="articleFormGroup.dirty ? 'accent' : 'primary'"
+            [disabled]="!articleFormGroup.valid"
+            mat-button>Сохранить
     </button>
   </mat-card-actions>
-</mat-card>
-<br>
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>
-      Конструктор разбора
-    </mat-card-title>
-  </mat-card-header>
-  <mat-card-actions>
-    <div fxLayout="row">
-      <button (click)="onAddArticleClicked()" [disabled]="published" mat-button type="button">
-        <mat-icon>add</mat-icon>
-        Добавить блок
-      </button>
-    </div>
-  </mat-card-actions>
-  <mat-card-content>
-    <div fxLayout="column" fxLayoutGap="12px">
-      <app-edit-article-block (moveDown)="onMoveDownArticleBlock(a, i)"
-                              (moveUp)="onMoveUpArticleBlock(a, i)"
-                              (remove)="onDeleteArticleBlock(a, i)"
-                              (save)="onSaveArticleBlock($event)"
-                              (select)="onSelectArticleBlock(a)"
-                              *ngFor="let a of articlesControls; index as i"
-                              [articleFormGroup]="a"
-                              [selectedArticleBlockId]="article.selectedArticleBlockId"
-                              [published]="published"
-      ></app-edit-article-block>
-    </div>
-  </mat-card-content>
 </mat-card>

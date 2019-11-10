@@ -1,0 +1,16 @@
+<div fxLayout="column">
+  <app-edit-article-info (saveArticle)="onSaveArticle()"
+                         [articleFormGroup]="articleFormGroup"
+                         [task]="article.task"
+  ></app-edit-article-info>
+  <app-edit-article-blocks (addArticle)="onAddArticleClicked($event)"
+                           (deleteArticleBlock)="onDeleteArticleBlock($event.formGroup, $event.index)"
+                           (moveDownArticleBlock)="onMoveDownArticleBlock($event.formGroup, $event.index)"
+                           (moveUpArticleBlock)="onMoveUpArticleBlock($event.formGroup, $event.index)"
+                           (saveArticleBlock)="onSaveArticleBlock($event)"
+                           (selectArticleBlock)="onSelectArticleBlock($event)"
+                           [articleBlockFormArray]="articleBlockFormArray"
+                           [published]="published"
+                           [selectedArticleBlockId]="article.selectedArticleBlockId"
+  ></app-edit-article-blocks>
+</div>
