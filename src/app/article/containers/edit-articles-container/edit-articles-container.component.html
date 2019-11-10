@@ -4,20 +4,17 @@
 >
   <app-edit-article-blocks [article]="article" fxFlex="50"></app-edit-article-blocks>
   <div fxFlex="50">
-    <mat-button-toggle-group [(ngModel)]="toggleRight" vertical="false">
-      <mat-button-toggle value="preview">
-        Предпросмотр разбора
-      </mat-button-toggle>
-      <mat-button-toggle value="board">
-        Доска
-      </mat-button-toggle>
-    </mat-button-toggle-group>
-    <div [hidden]="toggleRight !== 'board'">
-      <div fxLayout="column" fxLayoutGap="8px">
-        <app-board (articleUpdated)="onUpdateArticle($event)" [article]="article" fxFlex="50"></app-board>
-        <app-classic-notation [article]="article" fxFlex="50"></app-classic-notation>
-      </div>
-    </div>
-    <app-preview-article [article]="article" [hidden]="toggleRight !== 'preview'"></app-preview-article>
+    <mat-tab-group (selectedIndexChange)="onPreviewTabIndexChanged($event)" [(selectedIndex)]="previewTabIndex">
+      <mat-tab label="Доска">
+        <br>
+        <div fxLayout="column" fxLayoutGap="8px">
+          <app-board (articleUpdated)="onUpdateArticle($event)" [article]="article" fxFlex="50"></app-board>
+          <app-classic-notation [article]="article" fxFlex="50"></app-classic-notation>
+        </div>
+      </mat-tab>
+      <mat-tab label="Разбор">
+        <app-preview-article [article]="article"></app-preview-article>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>

@@ -202,4 +202,5 @@ export class AppConstants {
   static ARTICLE_BLOCK_OPENED = 'OPENED';
   static ARTICLE_BLOCK_CLOSED = 'CLOSED';
   static STRENGTH_SYMBOL = '&#x1F9D0;';
+  static PREVIEW_TAB_INDEX_COOKIE = 'PREVIEW_TAB_INDEX';
 }

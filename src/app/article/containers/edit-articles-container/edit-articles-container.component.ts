@@ -24,7 +24,9 @@ import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
+import { StorageService } from '../../../core/services/storage.service';
 import { Article, ArticleBlock } from '../../../domain';
 import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
@@ -39,15 +41,18 @@ export class EditArticlesContainerComponent implements OnInit, OnDestroy {
 
   article$: Observable<Article>;
   toggleRight: string;
+  previewTabIndex: number;
 
   constructor(
     private store: Store<fromArticle.State>,
     private route: ActivatedRoute,
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private storageService: StorageService
   ) {
   }
 
   ngOnInit() {
+    this.previewTabIndex = this.storageService.get(AppConstants.PREVIEW_TAB_INDEX_COOKIE);
     this.toggleRight = 'board';
     this.article$ = this.route.params
       .pipe(
@@ -74,5 +79,9 @@ export class EditArticlesContainerComponent implements OnInit, OnDestroy {
 
   onUpdateArticle(article: ArticleBlock) {
     // this.store.dispatch(new UpsertArticle({article: article}));
+  }
+
+  onPreviewTabIndexChanged($event: number) {
+    this.storageService.put(AppConstants.PREVIEW_TAB_INDEX_COOKIE, $event);
   }
 }
