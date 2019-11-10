@@ -36,7 +36,7 @@ export class BoardService {
   }
 
   touchCell(articleId: string, cell: BoardCell): Observable<Operation[]> {
-    return this.apiBase.putPrivate(`/article/${articleId}/board`, cell);
+    return this.apiBase.authPut(`/article/${articleId}/board`, cell);
   }
 
   flattenCells(cells: BoardCell[][]) {

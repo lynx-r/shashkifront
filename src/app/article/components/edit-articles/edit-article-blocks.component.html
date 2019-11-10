@@ -1,18 +1,19 @@
-<form (ngSubmit)="onArticlesSubmit()" [formGroup]="articlesFormGroup">
+<form (ngSubmit)="onArticlesSubmit()" [formGroup]="articleBlocksFormGroup">
   <div fxLayout="row">
     <button (click)="onAddArticleClicked()" mat-button="" type="button">Добавить разбор</button>
-    <button [disabled]="!articlesFormGroup.valid" mat-button>Сохранить статью</button>
+    <button [disabled]="!articleBlocksFormGroup.valid" mat-button>Сохранить статью</button>
   </div>
   <div fxLayout="column">
-    <app-edit-article-block (deleteArticle)="onDeleteArticleBlock(i)"
+    <app-edit-article-block (deleteArticle)="onDeleteArticleBlock(a, i)"
                             [articleFormGroup]="a"
+                            (moveDown)="onMoveDownArticleBlock(a, i)"
                             (moveUp)="onMoveUpArticleBlock(a, i)"
-                            (saveArticle)="onSaveArticleBlock($event)"
                             *ngFor="let a of articlesControls; index as i"
+                            (saveArticle)="onSaveArticleBlock($event)"
     ></app-edit-article-block>
   </div>
   <div fxLayout="row">
     <button (click)="onAddArticleClicked()" mat-button="" type="button">Добавить разбор</button>
-    <button [disabled]="!articlesFormGroup.valid" mat-button>Сохранить статью</button>
+    <button [disabled]="!articleBlocksFormGroup.valid" mat-button>Сохранить статью</button>
   </div>
 </form>

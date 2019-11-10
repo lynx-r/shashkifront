@@ -39,22 +39,26 @@ export class ApiBase {
     return configuration[profile];
   }
 
-  postPrivate(resource: string, data: any, headers?: any): Observable<any> {
-    return this.http.post(this.getPrivateApiPath() + resource, data, {
+  authPost(resource: string, data: any, headers?: any): Observable<any> {
+    return this.http.post(this.getAuthApiPath() + resource, data, {
       headers: headers
     });
   }
 
-  putPrivate(resource: string, data: any): Observable<any> {
-    return this.http.put(this.getPrivateApiPath() + resource, data);
+  authPut(resource: string, data: any): Observable<any> {
+    return this.http.put(this.getAuthApiPath() + resource, data);
   }
 
-  patchPrivate(resource: string, data: any) {
-    return this.http.patch(this.getPrivateApiPath() + resource, data);
+  authPatch(resource: string, data: any) {
+    return this.http.patch(this.getAuthApiPath() + resource, data);
   }
 
-  getPrivate(resource: string, params?: any): Observable<any> {
-    return this.http.get(this.getPrivateApiPath() + resource, {
+  authDelete(resource: string) {
+    return this.http.delete(this.getAuthApiPath() + resource);
+  }
+
+  authGet(resource: string, params?: any): Observable<any> {
+    return this.http.get(this.getAuthApiPath() + resource, {
       params: params
     });
   }
@@ -72,7 +76,7 @@ export class ApiBase {
     });
   }
 
-  private getPrivateApiPath() {
+  private getAuthApiPath() {
     return ApiBase.getConfig().api + '/user/' + this.storage.getUserId();
   }
 

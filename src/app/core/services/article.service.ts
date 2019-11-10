@@ -37,7 +37,7 @@ export class ArticleService {
   }
 
   createArticle(articleCreateRequest: ArticleCreateRequest): Observable<Article> {
-    return this.api.postPrivate('/article', articleCreateRequest)
+    return this.api.authPost('/article', articleCreateRequest)
       .pipe(this.fillArticleFunction());
   }
 
@@ -48,15 +48,15 @@ export class ArticleService {
         player: 'WHITE'
       }
     };
-    return this.api.putPrivate(`/article/${articleId}/add`, a)
+    return this.api.authPut(`/article/${articleId}/add`, a)
       .pipe(
-        map(ab => this.fillArticleBlock(ab))
+        this.fillArticleBlockFunction()
       );
   }
 
   findArticleByHru(hru: string, privateUser?: boolean) {
     if (privateUser) {
-      return this.api.getPrivate(`/article/${hru}`)
+      return this.api.authGet(`/article/${hru}`)
         .pipe(this.fillArticleFunction());
     }
     return this.api.get(`/article/${hru}`)
@@ -65,7 +65,7 @@ export class ArticleService {
 
   findArticleBlocksByArticle(article: Article, authUser?: boolean): Observable<ArticleBlock[]> {
     if (authUser) {
-      return this.api.postPrivate(`/article/${article.id}/blocks`, article.articleBlockIds)
+      return this.api.authPost(`/article/${article.id}/blocks`, article.articleBlockIds)
         .pipe(
           map((articleBlocks: ArticleBlock[]) => articleBlocks.map(ab => this.fillArticleBlock(ab)))
         );
@@ -78,7 +78,7 @@ export class ArticleService {
 
   fetchArticle(article: Article, authUser?: boolean): Observable<Article> {
     if (authUser) {
-      return this.api.postPrivate(`/article/${article.id}/fetch`, article)
+      return this.api.authPost(`/article/${article.id}/fetch`, article)
         .pipe(this.fillArticleFunction());
     }
     return this.api.post(`/article/${article.id}/fetch`, article.articleBlockIds)
@@ -87,7 +87,7 @@ export class ArticleService {
 
   listArticles(filter: ArticlesFilter, privateUser?: boolean): Observable<ArticlesResponse> {
     if (privateUser) {
-      return this.api.getPrivate('/article/list', filter);
+      return this.api.authGet('/article/list', filter);
       // .pipe(
       //   map((res: ArticlesResponse) => ({...res, articles: [...res.articles.map(a => this.fillArticleBlock(a))]}))
       // );
@@ -99,23 +99,14 @@ export class ArticleService {
   }
 
   saveArticle(article: Article): Observable<Article> {
-    return this.api.putPrivate('/article', article)
+    const a = this.prepareToSaveArticle(article);
+    return this.api.authPut('/article', a)
       .pipe(this.fillArticleFunction());
   }
 
   saveArticleBlock(article: ArticleBlock): Observable<ArticleBlock> {
-    const a = {
-      ...article,
-      notation: {
-        ...article.notation,
-        notationFen: {
-          ...article.notation.notationFen,
-          player: article.notation.notationFen.player.toString(),
-          rule: article.notation.notationFen.rule.toString()
-        }
-      }
-    };
-    return this.api.putPrivate('/article/block', a)
+    const a = this.prepareToSaveArticleBlock(article);
+    return this.api.authPut('/article/block', a)
       .pipe(this.fillArticleBlockFunction());
   }
 
@@ -143,6 +134,10 @@ export class ArticleService {
           return a;
         })
       );
+  }
+
+  deleteArticleBlock(articleId: string, articleBlockId: string) {
+    return this.api.authDelete(`/article/${articleId}/block/${articleBlockId}`);
   }
 
   // private fillArticleFunction() {
@@ -206,6 +201,26 @@ export class ArticleService {
           ...ab.notation.notationFen,
           rule: Rule.fromName(ab.notation.notationFen.rule as string),
           player: Player.fromName(ab.notation.notationFen.player as string)
+        }
+      }
+    };
+  }
+
+  private prepareToSaveArticle(article: Article) {
+    delete article.articleBlocks;
+    delete article.selectedArticleBlock;
+    return article;
+  }
+
+  private prepareToSaveArticleBlock(article: ArticleBlock) {
+    return {
+      ...article,
+      notation: {
+        ...article.notation,
+        notationFen: {
+          ...article.notation.notationFen,
+          player: article.notation.notationFen.player.toString(),
+          rule: article.notation.notationFen.rule.toString()
         }
       }
     };

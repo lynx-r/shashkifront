@@ -29,7 +29,7 @@ import { ClassicNotationComponent } from './classic-notation/classic-notation.co
 import { ClassicStrokeDetailsComponent } from './classic-stroke-details/classic-stroke-details.component';
 import { EditArticleBlockComponent } from './edit-article-item/edit-article-block.component';
 import { EditArticleComponent } from './edit-article/edit-article.component';
-import { EditArticlesComponent } from './edit-articles/edit-articles.component';
+import { EditArticleBlocksComponent } from './edit-articles/edit-article-blocks.component';
 import { NotationFenComponent } from './notation-fen/notation-fen.component';
 import { ViewBoardComponent } from './view-board/view-board.component';
 import { ViewNotationComponent } from './view-notation/view-notation.component';
@@ -38,9 +38,9 @@ import { ViewNotationComponent } from './view-notation/view-notation.component';
   declarations: [
     EditArticleComponent, EditArticleBlockComponent, BoardComponent, NotationFenComponent,
     ClassicNotationComponent, ClassicStrokeDetailsComponent, ClassicMovesComponent,
-    ClassicMovesDetailsComponent, ViewNotationComponent, ViewBoardComponent, EditArticlesComponent
+    ClassicMovesDetailsComponent, ViewNotationComponent, ViewBoardComponent, EditArticleBlocksComponent
   ],
-  exports: [EditArticlesComponent, EditArticleComponent, BoardComponent, ClassicNotationComponent,
+  exports: [EditArticleBlocksComponent, EditArticleComponent, BoardComponent, ClassicNotationComponent,
     ViewNotationComponent, ViewBoardComponent],
   imports: [
     SharedModule,

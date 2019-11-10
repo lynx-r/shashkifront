@@ -143,7 +143,7 @@ export class AuthService {
   }
 
   logout() {
-    return this.api.postPrivate('/account/logout/' + this.fingerprint, {})
+    return this.api.authPost('/account/logout/' + this.fingerprint, {})
       .pipe(
         switchMap((userToken: UserToken) => this.processLogin(userToken, false)),
         catchError((error) => {
@@ -153,7 +153,7 @@ export class AuthService {
   }
 
   saveUser(user: User) {
-    return this.api.putPrivate('/account', user);
+    return this.api.authPut('/account', user);
   }
 
   private resolveFingerprint(resolve) {
@@ -172,7 +172,7 @@ export class AuthService {
     this.storage.putUserId(tokenDecoded.userId);
     this.jwtToken$.next(token.token);
     if (requestUser) {
-      return this.api.getPrivate('/account/userdetails')
+      return this.api.authGet('/account/userdetails')
         .pipe(
           tap(user => this.storage.putOfflineUser(user))
         );

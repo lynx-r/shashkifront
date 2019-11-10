@@ -1,7 +1,7 @@
 /*
  * © Copyright
  *
- * edit-articles.component.ts is part of shashkifront.nosync.
+ * edit-article-blocks.component.ts is part of shashkifront.nosync.
  *
  * shashkifront.nosync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
@@ -30,20 +29,20 @@ import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 
 @Component({
-  selector: 'app-edit-articles',
-  templateUrl: './edit-articles.component.html',
+  selector: 'app-edit-article-blocks',
+  templateUrl: './edit-article-blocks.component.html',
   styles: []
 })
-export class EditArticlesComponent implements OnInit {
+export class EditArticleBlocksComponent implements OnInit {
 
   @Input() article: Article;
 
-  articlesFormGroup: FormGroup;
+  articleBlocksFormGroup: FormGroup;
 
   private readonly titleValidators: ValidatorFn[];
   private readonly contentValidators: ValidatorFn[];
 
-  get articles() {
+  get articleBlocks() {
     return this.article.articleBlocks;
   }
 
@@ -62,22 +61,22 @@ export class EditArticlesComponent implements OnInit {
   }
 
   get articlesControls(): FormGroup[] {
-    return (this.articlesFormGroup.get('articles') as FormArray).controls as FormGroup[];
+    return (this.articleBlocksFormGroup.get('articleBlocks') as FormArray).controls as FormGroup[];
   }
 
   get articlesFormArray() {
-    return (this.articlesFormGroup.get('articles') as FormArray);
+    return (this.articleBlocksFormGroup.get('articleBlocks') as FormArray);
   }
 
   ngOnInit() {
-    const articlesControls = this.articles.map(a => new FormGroup({
+    const articlesControls = this.articleBlocks.map(a => new FormGroup({
       id: new FormControl(a.id),
       title: new FormControl(a.title, [...this.titleValidators]),
       content: new FormControl(a.content, [...this.contentValidators]),
       status: new FormControl(a.status)
     }));
-    this.articlesFormGroup = new FormGroup({
-      articles: new FormArray([...articlesControls])
+    this.articleBlocksFormGroup = new FormGroup({
+      articleBlocks: new FormArray([...articlesControls])
     });
   }
 
@@ -86,6 +85,7 @@ export class EditArticlesComponent implements OnInit {
       .pipe(
         tap(articleBlock => {
           this.articlesFormArray.insert(0, new FormGroup({
+            id: new FormControl(articleBlock.id),
             title: new FormControl(articleBlock.title, [...this.titleValidators]),
             content: new FormControl(articleBlock.content, [...this.contentValidators]),
             status: new FormControl(articleBlock.status),
@@ -105,19 +105,27 @@ export class EditArticlesComponent implements OnInit {
   }
 
   onArticlesSubmit() {
-    const touchedArticles = this.articlesFormArray.controls.filter(c => c.touched).map(c => c.value);
-    const saveObservables = touchedArticles.map(a => this.articleService.saveArticleBlock(a));
-    forkJoin(saveObservables)
-      .pipe(tap(([a]) => console.log(a)))
+    const abIds = this.articlesFormArray.value.map((ab: ArticleBlock) => ab.id);
+    const article = {
+      ...this.article,
+      articleBlockIds: abIds
+    };
+    this.articleService.saveArticle(article)
+      .pipe(
+        tap(aSaved => this.store.dispatch(new UpsertArticle({article: aSaved})))
+      )
       .subscribe();
   }
 
-  onDeleteArticleBlock(index: number) {
+  onDeleteArticleBlock(a: FormGroup, index: number) {
     this.articlesFormArray.removeAt(index);
+    const aId = a.value.id;
+    this.articleService.deleteArticleBlock(this.article.id, aId)
+      .subscribe();
   }
 
   onSaveArticleBlock(articleBlock: ArticleBlock) {
-    const aBlock = {...this.articles.find(a => a.id === articleBlock.id)};
+    const aBlock = {...this.articleBlocks.find(a => a.id === articleBlock.id)};
     const updatedABlock = Object.assign(aBlock, articleBlock);
     this.articleService.saveArticleWithArticleBlock(this.article, updatedABlock)
       .pipe(
@@ -137,6 +145,18 @@ export class EditArticlesComponent implements OnInit {
     this.articlesFormArray.removeAt(index);
     this.articlesFormArray.removeAt(upIndex);
     this.articlesFormArray.insert(upIndex, a);
+    this.articlesFormArray.insert(index, tmpAB);
+  }
+
+  onMoveDownArticleBlock(a: FormGroup, index: number) {
+    if (index === this.articlesFormArray.length - 1) {
+      return;
+    }
+    const downIndex = index + 1;
+    const tmpAB = this.articlesFormArray.at(downIndex);
+    this.articlesFormArray.removeAt(index);
+    this.articlesFormArray.removeAt(downIndex);
+    this.articlesFormArray.insert(downIndex, a);
     this.articlesFormArray.insert(index, tmpAB);
   }
 }

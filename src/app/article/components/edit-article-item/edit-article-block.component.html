@@ -4,12 +4,12 @@
       <div (click)="onVisibilityToggle()" class="button-height cursor" fxFlex>
         <p class="snEllipsis" snEllipsis>{{title.value}}</p>
       </div>
-      <button (click)="saveArticle.emit(article)" [disabled]="!articleFormGroup.valid" mat-icon-button type="button">
-        <mat-icon>save</mat-icon>
-      </button>
       <button (click)="onVisibilityToggle()" mat-icon-button type="button">
         <mat-icon *ngIf="!visible">remove</mat-icon>
         <mat-icon *ngIf="visible">add</mat-icon>
+      </button>
+      <button (click)="saveArticle.emit(article)" [disabled]="!articleFormGroup.valid" mat-icon-button type="button">
+        <mat-icon>save</mat-icon>
       </button>
       <button (click)="moveUp.emit()" mat-icon-button type="button">
         <mat-icon>keyboard_arrow_up</mat-icon>
