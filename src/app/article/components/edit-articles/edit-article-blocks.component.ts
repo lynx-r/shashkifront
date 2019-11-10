@@ -92,7 +92,6 @@ export class EditArticleBlocksComponent implements OnInit {
           }));
         }),
         tap(articleBlock => {
-          console.log(articleBlock);
           const a = {
             ...this.article,
             articleBlocks: [articleBlock, ...this.article.articleBlocks],
@@ -154,9 +153,9 @@ export class EditArticleBlocksComponent implements OnInit {
     }
     const downIndex = index + 1;
     const tmpAB = this.articlesFormArray.at(downIndex);
-    this.articlesFormArray.removeAt(index);
     this.articlesFormArray.removeAt(downIndex);
-    this.articlesFormArray.insert(downIndex, a);
+    this.articlesFormArray.removeAt(index);
     this.articlesFormArray.insert(index, tmpAB);
+    this.articlesFormArray.insert(downIndex, a);
   }
 }
