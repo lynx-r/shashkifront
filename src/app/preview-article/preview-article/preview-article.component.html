@@ -1,13 +1,7 @@
 <mat-card class="fit">
   <mat-card-content>
-    <h2>{{selectedArticleBlock.title}}</h2>
-    <hr>
-    <div class="article-body">
-      <ng-container *ngFor="let component of components">
-        <ng-container *ngxComponentOutlet="component.component; context: {data: component.data}"></ng-container>
-        <!--  <app-inline-host [ngxComponentOutlet]="component.component" [data]="component.data"></app-inline-host>-->
-      </ng-container>
-    </div>
+    <h2>Разбор</h2>
+    <app-preview-article-block *ngFor="let ab of article.articleBlocks" [articleBlock]="ab"></app-preview-article-block>
   </mat-card-content>
 </mat-card>
 

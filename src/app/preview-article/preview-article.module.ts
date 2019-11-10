@@ -31,6 +31,7 @@ import { InlineNotationStrokeComponent } from './inline-notation-stroke/inline-n
 import { InlineNotationComponent } from './inline-notation/inline-notation.component';
 import { InlineTextComponent } from './inline-text/inline-text.component';
 import { NestedTextComponent } from './nested-text/nested-text.component';
+import { PreviewArticleBlockComponent } from './preview-article-block/preview-article-block.component';
 import { PreviewArticleComponent } from './preview-article/preview-article.component';
 import { StrokeMovesComponent } from './stroke-moves/stroke-moves.component';
 
@@ -52,7 +53,8 @@ import { StrokeMovesComponent } from './stroke-moves/stroke-moves.component';
     InlineNotationComponent,
     InlineHostComponent,
     NestedTextComponent,
-    StrokeMovesComponent
+    StrokeMovesComponent,
+    PreviewArticleBlockComponent
   ],
   exports: [
     PreviewArticleComponent
