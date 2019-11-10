@@ -27,7 +27,7 @@ import { ClassicMovesDetailsComponent } from './classic-moves-details/classic-mo
 import { ClassicMovesComponent } from './classic-moves/classic-moves.component';
 import { ClassicNotationComponent } from './classic-notation/classic-notation.component';
 import { ClassicStrokeDetailsComponent } from './classic-stroke-details/classic-stroke-details.component';
-import { EditArticleBlockComponent } from './edit-article-item/edit-article-block.component';
+import { EditArticleBlockComponent } from './edit-article-block/edit-article-block.component';
 import { EditArticleComponent } from './edit-article/edit-article.component';
 import { EditArticleBlocksComponent } from './edit-articles/edit-article-blocks.component';
 import { NotationFenComponent } from './notation-fen/notation-fen.component';

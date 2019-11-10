@@ -1,20 +1,68 @@
-<form (ngSubmit)="onArticlesSubmit()" [formGroup]="articleBlocksFormGroup">
-  <div fxLayout="row">
-    <button (click)="onAddArticleClicked()" mat-button="" type="button">Добавить разбор</button>
-    <button [disabled]="!articleBlocksFormGroup.valid" mat-button>Сохранить статью</button>
-  </div>
-  <div fxLayout="column">
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="articleFormGroup" fxLayout="column">
+      <mat-form-field>
+        <input [formControl]="articleTitle" matInput
+               placeholder="Заголовок"
+               type="text">
+        <mat-error *ngIf="articleTitle.invalid && (articleTitle.dirty || articleTitle.touched)">
+          <div *ngIf="articleTitle?.errors.minlength">
+            Минимум {{minTitleLength - articleTitle?.value.length}} символов
+          </div>
+          <div *ngIf="articleTitle?.errors.required">
+            Обязательное поле
+          </div>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea [formControl]="articleIntro" matInput
+                  placeholder="Вступление"
+                  type="text">
+        </textarea>
+        <mat-error *ngIf="articleIntro.invalid && (articleIntro.dirty || articleIntro.touched)">
+          <div *ngIf="articleIntro?.errors.minlength">
+            Минимум {{minIntroLength - articleIntro?.value.length}} символов
+          </div>
+          <div *ngIf="articleIntro?.errors.required">
+            Обязательное поле
+          </div>
+        </mat-error>
+      </mat-form-field>
+      <mat-select [formControl]="articleStatus" placeholder="Статус">
+        <mat-option [value]="DRAFT">Черновик</mat-option>
+        <mat-option [value]="PUBLISHED">Публикация</mat-option>
+      </mat-select>
+      <div *ngIf="articleFormGroup.get('task').value">Содержит задачу</div>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button (click)="onSaveArticle()" [disabled]="!articleFormGroup.valid" color="primary" mat-button>Сохранить
+    </button>
+  </mat-card-actions>
+</mat-card>
+<hr/>
+<div fxLayout="row">
+  <button (click)="onAddArticleClicked()" [disabled]="published" mat-button="" type="button">
+    <mat-icon>add</mat-icon>
+    Добавить разбор
+  </button>
+</div>
+<div fxLayout="column">
+  <form [formGroup]="articleBlockFormArray">
     <app-edit-article-block (remove)="onDeleteArticleBlock(a, i)"
                             [articleFormGroup]="a"
+                            [published]="published"
                             (select)="onSelectArticleBlock(a)"
                             (moveDown)="onMoveDownArticleBlock(a, i)"
                             (moveUp)="onMoveUpArticleBlock(a, i)"
                             (save)="onSaveArticleBlock($event)"
                             *ngFor="let a of articlesControls; index as i"
     ></app-edit-article-block>
-  </div>
-  <div fxLayout="row">
-    <button (click)="onAddArticleClicked()" mat-button="" type="button">Добавить разбор</button>
-    <button [disabled]="!articleBlocksFormGroup.valid" mat-button>Сохранить статью</button>
-  </div>
-</form>
+  </form>
+</div>
+<div fxLayout="row">
+  <button (click)="onAddArticleClicked()" [disabled]="published" mat-button="" type="button">
+    <mat-icon>add</mat-icon>
+    Добавить разбор
+  </button>
+</div>

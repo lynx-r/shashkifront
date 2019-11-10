@@ -20,10 +20,8 @@
 
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleBlock } from '../../../domain';
-import * as fromArticle from '../../reducers/article.reducer';
 
 @Component({
   selector: 'app-edit-article-block',
@@ -33,6 +31,7 @@ import * as fromArticle from '../../reducers/article.reducer';
 export class EditArticleBlockComponent implements OnInit, OnChanges {
 
   @Input() articleFormGroup: FormGroup;
+  @Input() published: boolean;
 
   @Output() save = new EventEmitter<ArticleBlock>();
   @Output() select = new EventEmitter();
@@ -42,15 +41,8 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
   @Output() loadPdnEvent = new EventEmitter<ArticleBlock>();
 
   visible: boolean;
-  tags: { [key: string]: string };
   minTitleLength = AppConstants.ARTICLE_TITLE_MIN_SYMBOLS;
   minContentLength = AppConstants.ARTICLE_CONTENT_MIN_SYMBOLS;
-
-  constructor(
-    private store: Store<fromArticle.State>,
-  ) {
-    this.tags = {};
-  }
 
   get articleBlock() {
     return this.articleFormGroup.value;
@@ -77,6 +69,9 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
   }
 
   onVisibilityToggle() {
+    if (this.published) {
+      return;
+    }
     this.visible = !this.visible;
     const state = this.visible ? AppConstants.ARTICLE_BLOCK_OPENED : AppConstants.ARTICLE_BLOCK_CLOSED;
     this.state.setValue(state);

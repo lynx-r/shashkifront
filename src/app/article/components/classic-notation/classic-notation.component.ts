@@ -20,7 +20,9 @@
 
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
+import { ArticleService } from '../../../core/services/article.service';
 import { Article, Move, Stroke } from '../../../domain';
 import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
@@ -47,6 +49,7 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
   }
 
   constructor(private store: Store<fromArticle.State>,
+              private articleService: ArticleService,
               private boardService: BoardService) {
   }
 
@@ -59,8 +62,6 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
     if (!!sStroke) {
       const sMove = this.boardService.findSelectedMoveInStroke(sStroke);
       this.onStrokeClicked(sMove, sStroke);
-      // } else if (this.notation.strokes.length) {
-      // this.onStrokeClicked(null, this.notation.strokes[0]);
     }
   }
 
@@ -91,14 +92,18 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
         return s;
       });
     const a = {
-      ...this.article,
+      ...this.selectedArticleBoard,
       task: stroke.task,
       notation: {
         ...this.notation,
         strokes: strokes
       }
     };
-    // this.store.dispatch(new SaveArticle({article: a}));
+    this.articleService.saveArticleWithArticleBlock(this.article, a)
+      .pipe(
+        tap(articleSaved => this.store.dispatch(new UpsertArticle({article: articleSaved})))
+      )
+      .subscribe();
   }
 
   onSaveTask(stroke: Stroke) {
@@ -119,13 +124,17 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
         };
       });
     const a = {
-      ...this.article,
+      ...this.selectedArticleBoard,
       task: stroke.task,
       notation: {
         ...this.notation,
         strokes: strokes
       }
     };
-    // this.store.dispatch(new SaveArticle({article: a}));
+    this.articleService.saveArticleWithArticleBlock(this.article, a)
+      .pipe(
+        tap(articleSaved => this.store.dispatch(new UpsertArticle({article: articleSaved})))
+      )
+      .subscribe();
   }
 }

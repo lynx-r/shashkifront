@@ -35,6 +35,7 @@ import { BoardService } from '../../services/board.service';
         <span [hidden]="!!m.eat">-{{getNotation(m.to)}}</span>
         <span [hidden]="hideMiddleEaten(m, i)">:{{getNotation(m.to)}}</span>
       </span>
+      <span>&nbsp;</span>
       <span [hidden]="!showInputNotation">
         <mat-form-field class="strength-input" appearance="outline" floatLabel="never">
           <input [(ngModel)]="stroke[strengthFieldName]"

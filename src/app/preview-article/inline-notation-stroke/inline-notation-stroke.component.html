@@ -1,5 +1,5 @@
 <ng-container *ngIf="stroke; else strokeNotFound">
-  <div *ngIf="!stroke?.task" class="cursor stroke" fxLayout="row" fxLayoutGap="8px">
+  <div *ngIf="!stroke.task" class="cursor stroke" fxLayout="row" fxLayoutGap="8px">
     <app-stroke-moves (playerMoveClicked)="onMoveClicked($event)"
                       [cellCount]="cellCount"
                       [moves]="stroke.whiteMoves"
