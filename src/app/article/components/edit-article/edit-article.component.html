@@ -2,6 +2,7 @@
   <app-edit-article-info (saveArticle)="onSaveArticle()"
                          [articleFormGroup]="articleFormGroup"
                          [task]="article.task"
+                         [canPublish]="articleBlocks.length > 0"
                          [humanReadableUrl]="article.humanReadableUrl"
   ></app-edit-article-info>
   <app-edit-article-blocks (addArticle)="onAddArticleClicked($event)"

@@ -45,8 +45,8 @@ export class ApiBase {
     });
   }
 
-  authPut(resource: string, data: any): Observable<any> {
-    return this.http.put(this.getAuthApiPath() + resource, data);
+  authPut(resource: string, data: any, options?: any): Observable<any> {
+    return this.http.put(this.getAuthApiPath() + resource, data, options);
   }
 
   authPatch(resource: string, data: any) {

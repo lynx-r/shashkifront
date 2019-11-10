@@ -32,6 +32,7 @@ export class EditArticleInfoComponent {
   @Input() humanReadableUrl: string;
   @Input() task: boolean;
   @Input() articleFormGroup: FormGroup;
+  @Input() canPublish: boolean;
 
   @Output() saveArticle = new EventEmitter();
 

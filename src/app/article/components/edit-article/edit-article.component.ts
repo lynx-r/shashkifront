@@ -73,6 +73,13 @@ export class EditArticleComponent implements OnInit {
     return this.article.articleBlocks;
   }
 
+  set articleBlocks(articleBlocks: ArticleBlock[]) {
+    this.article = {
+      ...this.article,
+      articleBlocks: articleBlocks
+    };
+  }
+
   get published() {
     return this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
   }
@@ -81,21 +88,31 @@ export class EditArticleComponent implements OnInit {
     this.createArticleFormGroups(this.article);
   }
 
-  onAddArticleClicked(event: { formControl: FormControl, index: number }) {
-    this.articleService.addArticleBlockToArticle(this.article.id)
+  onAddArticleClicked(end: boolean) {
+    this.articleService.addArticleBlockToArticle(this.article.id, end)
       .pipe(
         tap(articleBlock => {
-          this.articleBlockFormArray.insert(0, new FormGroup({
-            id: new FormControl(articleBlock.id),
-            title: new FormControl(articleBlock.title, this.titleRequireValidators),
-            content: new FormControl(articleBlock.content, this.contentValidators),
-            state: new FormControl(articleBlock.state),
-          }));
+          if (end) {
+            this.articleBlockFormArray.insert(this.articleBlockFormArray.length, new FormGroup({
+              id: new FormControl(articleBlock.id),
+              title: new FormControl(articleBlock.title, this.titleValidators),
+              content: new FormControl(articleBlock.content, this.contentValidators),
+              state: new FormControl(articleBlock.state),
+            }));
+          } else {
+            this.articleBlockFormArray.insert(0, new FormGroup({
+              id: new FormControl(articleBlock.id),
+              title: new FormControl(articleBlock.title, this.titleRequireValidators),
+              content: new FormControl(articleBlock.content, this.contentValidators),
+              state: new FormControl(articleBlock.state),
+            }));
+          }
         }),
         tap(articleBlock => {
+          this.articleBlocks = this.articleBlockFormArray.value;
           const a = {
             ...this.article,
-            articleBlocks: [articleBlock, ...this.article.articleBlocks],
+            articleBlocks: [articleBlock, ...this.articleBlocks],
             selectedArticleBlock: articleBlock
           };
           this.store.dispatch(new UpsertArticle({article: a}));
@@ -133,6 +150,7 @@ export class EditArticleComponent implements OnInit {
   }
 
   onDeleteArticleBlock(a: FormGroup, index: number) {
+    this.articleBlocks = this.articleBlocks.filter(ab => ab.id !== a.value.id);
     this.articleBlockFormArray.removeAt(index);
     const aId = a.value.id;
     this.articleService.deleteArticleBlock(this.article.id, aId)
@@ -177,6 +195,7 @@ export class EditArticleComponent implements OnInit {
   }
 
   private createArticleFormGroups(article: Article) {
+    console.log(article.articleBlocks);
     const published = article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
     this.articleBlockFormArray = new FormArray([
       ...article.articleBlocks.map((a, index) => new FormGroup({

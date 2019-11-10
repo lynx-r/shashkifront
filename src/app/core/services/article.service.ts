@@ -41,14 +41,17 @@ export class ArticleService {
       .pipe(this.fillArticleFunction());
   }
 
-  addArticleBlockToArticle(articleId: string): Observable<ArticleBlock> {
+  addArticleBlockToArticle(articleId: string, end?: boolean): Observable<ArticleBlock> {
     const a = {
       notation: {
         rule: 'RUSSIAN',
         player: 'WHITE'
       }
     };
-    return this.api.authPut(`/article/${articleId}/add`, a)
+    return this.api
+      .authPut(`/article/${articleId}/add`, a, {
+        params: {append: end}
+      })
       .pipe(
         this.fillArticleBlockFunction()
       );

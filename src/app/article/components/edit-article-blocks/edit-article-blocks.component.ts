@@ -33,7 +33,7 @@ export class EditArticleBlocksComponent {
   @Input() selectedArticleBlockId: string;
   @Input() articleBlockFormArray: FormArray;
 
-  @Output() addArticle = new EventEmitter();
+  @Output() addArticle = new EventEmitter<boolean>();
   @Output() moveDownArticleBlock = new EventEmitter<{ formGroup: FormGroup, index: number }>();
   @Output() moveUpArticleBlock = new EventEmitter<{ formGroup: FormGroup, index: number }>();
   @Output() deleteArticleBlock = new EventEmitter<{ formGroup: FormGroup, index: number }>();
