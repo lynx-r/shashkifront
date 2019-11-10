@@ -18,7 +18,8 @@
  *
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
@@ -27,7 +28,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
 import { StorageService } from '../../../core/services/storage.service';
-import { Article, ArticleBlock } from '../../../domain';
+import { Article } from '../../../domain';
 import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { selectArticleEntitiesByHru } from '../../reducers/article.reducer';
@@ -35,19 +36,23 @@ import { selectArticleEntitiesByHru } from '../../reducers/article.reducer';
 @Component({
   selector: 'app-edit-article-container',
   templateUrl: './edit-article-container.component.html',
-  styles: []
+  styleUrls: ['./edit-article-container.component.scss']
 })
-export class EditArticleContainerComponent implements OnInit, OnDestroy {
+export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   article$: Observable<Article>;
   toggleRight: string;
   previewTabIndex: number;
 
+  @ViewChild('editArticleRef', {static: false}) editArticleRef: ElementRef;
+  @ViewChild(MatTabGroup, {static: false}) previewArticleRef: MatTabGroup;
+
   constructor(
     private store: Store<fromArticle.State>,
     private route: ActivatedRoute,
     private articleService: ArticleService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private renderer: Renderer2
   ) {
   }
 
@@ -77,8 +82,18 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
 
-  onUpdateArticle(article: ArticleBlock) {
-    // this.store.dispatch(new UpsertArticle({article: article}));
+  ngAfterViewInit(): void {
+    if (!!this.editArticleRef && !!this.previewArticleRef) {
+      const clientWidth = (this.editArticleRef.nativeElement as HTMLElement).clientWidth;
+      (<HTMLElement>this.previewArticleRef._elementRef.nativeElement).style.width = clientWidth + 'px';
+
+      const scrollHeight = (this.editArticleRef.nativeElement as HTMLElement).getBoundingClientRect();
+      console.log(scrollHeight);
+      // const main = this.renderer.selectRootElement('.main-wrapper');
+      // const clientHeight = (<HTMLElement>main).clientHeight;
+      // console.log(main);
+      // (<HTMLElement>this.previewArticleRef._elementRef.nativeElement).style.height = clientHeight + 'px';
+    }
   }
 
   onPreviewTabIndexChanged($event: number) {
