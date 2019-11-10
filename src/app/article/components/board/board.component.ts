@@ -151,7 +151,6 @@ export class BoardComponent implements OnInit, OnChanges {
             selectedArticleBlock: articleBlock,
             articleBlocks: articleBlocks
           };
-          console.log(1);
           this.store.dispatch(new SelectArticle({article: articleUpdated}));
         }
       });

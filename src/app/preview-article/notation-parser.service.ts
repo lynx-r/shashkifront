@@ -50,7 +50,11 @@ export class NotationParserService {
           const val = t.value;
           switch (t.type) {
             case 'driveNum':
-              const data = {article: article, articleBlock: articleBlock, notationNum: val};
+              const driveArticle = {
+                ...article,
+                selectedArticleBlock: articleBlock
+              };
+              const data = {article: driveArticle, articleBlock: articleBlock, notationNum: val};
               return {component: InlineNotationStrokeComponent, index: i, data: data};
             case 'text':
               return {component: InlineTextComponent, index: i, data: {text: val, color: 'white'}};

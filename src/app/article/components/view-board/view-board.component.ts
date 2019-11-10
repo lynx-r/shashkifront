@@ -18,7 +18,7 @@
  *
  */
 
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppConstants } from '../../../core/config/app-constants';
@@ -37,8 +37,6 @@ import { BoardService } from '../../services/board.service';
 export class ViewBoardComponent implements OnInit, OnChanges {
 
   @Input() article: Article;
-
-  @Output() articleUpdated = new EventEmitter<Article>();
 
   flatCells: BoardCell[];
   cellNotation: string;
