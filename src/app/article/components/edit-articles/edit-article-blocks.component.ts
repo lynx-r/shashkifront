@@ -158,4 +158,12 @@ export class EditArticleBlocksComponent implements OnInit {
     this.articlesFormArray.insert(index, tmpAB);
     this.articlesFormArray.insert(downIndex, a);
   }
+
+  onSelectArticleBlock(a: FormGroup) {
+    this.articleService.selectArticleBlock(this.article, a.value)
+      .pipe(
+        tap(articleSaved => this.store.dispatch(new UpsertArticle({article: articleSaved})))
+      )
+      .subscribe();
+  }
 }

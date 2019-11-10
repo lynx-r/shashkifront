@@ -1,9 +1,6 @@
 <mat-card class="fit">
   <mat-card-content>
-    <h1>{{article.title}}</h1>
-    <div>
-      <i>{{article.intro}}</i>
-    </div>
+    <h2>{{selectedArticleBlock.title}}</h2>
     <hr>
     <div class="article-body">
       <ng-container *ngFor="let component of components">

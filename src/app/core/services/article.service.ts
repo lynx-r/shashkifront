@@ -136,6 +136,20 @@ export class ArticleService {
       );
   }
 
+  selectArticleBlock(article: Article, articleBlock: ArticleBlock) {
+    const a = {
+      ...article,
+      selectedArticleBlockId: articleBlock.id
+    };
+    return this.saveArticle(a)
+      .pipe(
+        map(articleSaved => ({
+          ...articleSaved,
+          selectedArticleBlock: articleSaved.articleBlocks.find(ab => ab.id === articleBlock.id)
+        }))
+      );
+  }
+
   deleteArticleBlock(articleId: string, articleBlockId: string) {
     return this.api.authDelete(`/article/${articleId}/block/${articleBlockId}`);
   }

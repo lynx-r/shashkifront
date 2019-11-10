@@ -21,7 +21,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppConstants } from '../../../core/config/app-constants';
-import { ArticleBlock, GameNotation, Move, Stroke } from '../../../domain';
+import { Article, Move, Stroke } from '../../../domain';
+import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { BoardService } from '../../services/board.service';
 
@@ -33,10 +34,17 @@ import { BoardService } from '../../services/board.service';
 })
 export class ClassicNotationComponent implements OnInit, OnChanges {
 
-  @Input() article: ArticleBlock;
+  @Input() article: Article;
 
-  notation: GameNotation;
   selectedStroke: Stroke;
+
+  get selectedArticleBoard() {
+    return this.article.selectedArticleBlock;
+  }
+
+  get notation() {
+    return this.selectedArticleBoard.notation;
+  }
 
   constructor(private store: Store<fromArticle.State>,
               private boardService: BoardService) {
@@ -47,7 +55,6 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.notation = this.article.notation;
     const sStroke = this.notation.strokes.find(s => s.selected);
     if (!!sStroke) {
       const sMove = this.boardService.findSelectedMoveInStroke(sStroke);
@@ -58,7 +65,6 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.notation = this.article.notation;
     const sStroke = this.notation.strokes.find(s => s.selected);
     if (sStroke) {
       this.selectedStroke = sStroke;
@@ -66,9 +72,13 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
   }
 
   onStrokeClicked(move: Move, stroke: Stroke) {
-    const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);
-    this.selectedStroke = article.notation.strokes.find(s => s.notationNumber === stroke.notationNumber);
-    // this.store.dispatch(new UpsertArticle({article: article}));
+    const articleBlock = this.boardService.highlightClickedMoveInArticle(this.selectedArticleBoard, stroke, move);
+    this.selectedStroke = articleBlock.notation.strokes.find(s => s.notationNumber === stroke.notationNumber);
+    const a = {
+      ...this.article,
+      selectedArticleBlock: articleBlock
+    };
+    this.store.dispatch(new UpsertArticle({article: a}));
   }
 
   onSaveStroke(stroke: Stroke) {

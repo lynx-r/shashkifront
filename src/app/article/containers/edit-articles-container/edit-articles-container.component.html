@@ -13,11 +13,11 @@
       </mat-button-toggle>
     </mat-button-toggle-group>
     <div [hidden]="toggleRight !== 'board'">
-      <!--      <div fxLayout="column" fxLayoutGap="8px">-->
-      <!--        <app-board (articleUpdated)="onUpdateArticle($event)" [article]="article" fxFlex="50"></app-board>-->
-      <!--        <app-classic-notation [article]="article" fxFlex="50"></app-classic-notation>-->
-      <!--      </div>-->
+      <div fxLayout="column" fxLayoutGap="8px">
+        <app-board (articleUpdated)="onUpdateArticle($event)" [article]="article" fxFlex="50"></app-board>
+        <app-classic-notation [article]="article" fxFlex="50"></app-classic-notation>
+      </div>
     </div>
-    <!--    <app-preview-article [article]="article" [hidden]="toggleRight !== 'preview'"></app-preview-article>-->
+    <app-preview-article [article]="article" [hidden]="toggleRight !== 'preview'"></app-preview-article>
   </div>
 </div>

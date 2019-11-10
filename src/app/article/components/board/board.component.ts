@@ -22,8 +22,10 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnI
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppConstants } from '../../../core/config/app-constants';
-import { ArticleBlock, BoardCell, Rule } from '../../../domain';
+import { ArticleService } from '../../../core/services/article.service';
+import { Article, ArticleBlock, BoardCell, Rule } from '../../../domain';
 import { BLACK_PIECE, EMPTY_CELL } from '../../../domain/board-cell';
+import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { BoardService } from '../../services/board.service';
 
@@ -35,7 +37,7 @@ import { BoardService } from '../../services/board.service';
 })
 export class BoardComponent implements OnInit, OnChanges {
 
-  @Input() article: ArticleBlock;
+  @Input() article: Article;
 
   @Output() articleUpdated = new EventEmitter<ArticleBlock>();
 
@@ -43,11 +45,20 @@ export class BoardComponent implements OnInit, OnChanges {
   cellNotation: string;
 
   constructor(private store: Store<fromArticle.State>,
+              private articleService: ArticleService,
               private boardService: BoardService) {
   }
 
+  get selectedArticleBlock() {
+    return this.article.selectedArticleBlock;
+  }
+
+  get notation() {
+    return this.selectedArticleBlock.notation;
+  }
+
   get cellCount() {
-    return (this.article.notation.notationFen.rule as Rule).cellCount;
+    return (this.notation.notationFen.rule as Rule).cellCount;
   }
 
   get rangeCellCount() {
@@ -104,18 +115,22 @@ export class BoardComponent implements OnInit, OnChanges {
   }
 
   onCellClick(cell: BoardCell) {
-    if (!!this.article.notation.winner || this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS) {
+    if (!!this.notation.winner || this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS) {
       return;
     }
-    this.boardService.touchCell(this.article.id, cell)
+    this.boardService.touchCell(this.selectedArticleBlock.id, cell)
       .subscribe(patch => {
         if (patch.length) {
-          const notation = this.boardService.applyPatchToNotation(patch, this.flatCells, this.article.notation);
-          const a = {
-            ...this.article,
+          const notation = this.boardService.applyPatchToNotation(patch, this.flatCells, this.notation);
+          const ab = {
+            ...this.selectedArticleBlock,
             notation: notation
           };
-          this.articleUpdated.emit(a);
+          const a = {
+            ...this.article,
+            selectedArticleBlock: ab
+          };
+          this.store.dispatch(new UpsertArticle({article: a}));
         }
       });
   }
@@ -127,6 +142,6 @@ export class BoardComponent implements OnInit, OnChanges {
   }
 
   private updateBoard() {
-    this.flatCells = this.boardService.getActualBoardCellsForNotation(this.article.notation);
+    this.flatCells = this.boardService.getActualBoardCellsForNotation(this.notation);
   }
 }

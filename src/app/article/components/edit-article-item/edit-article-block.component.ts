@@ -35,6 +35,7 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
   @Input() articleFormGroup: FormGroup;
 
   @Output() save = new EventEmitter<ArticleBlock>();
+  @Output() select = new EventEmitter();
   @Output() moveUp = new EventEmitter();
   @Output() moveDown = new EventEmitter();
   @Output() remove = new EventEmitter();

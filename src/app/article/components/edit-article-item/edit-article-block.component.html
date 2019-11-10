@@ -8,6 +8,9 @@
         <mat-icon *ngIf="!visible">remove</mat-icon>
         <mat-icon *ngIf="visible">add</mat-icon>
       </button>
+      <button (click)="select.emit()" [disabled]="!articleFormGroup.valid" mat-icon-button type="button">
+        <mat-icon>touch_app</mat-icon>
+      </button>
       <button (click)="save.emit(articleBlock)" [disabled]="!articleFormGroup.valid" mat-icon-button type="button">
         <mat-icon>save</mat-icon>
       </button>

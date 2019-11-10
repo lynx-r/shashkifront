@@ -22,7 +22,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angu
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ArticleBlock } from '../../domain';
+import { Article } from '../../domain';
 import { InlineContentDirective } from '../inline-content/inline-content.directive';
 import { NotationParserService } from '../notation-parser.service';
 import { ContentItem } from './content-item';
@@ -34,7 +34,7 @@ import { ContentItem } from './content-item';
 })
 export class PreviewArticleComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() article: ArticleBlock;
+  @Input() article: Article;
   /**
    * undefined when in not edit mode. it sends here an content of edited article
    */
@@ -52,6 +52,10 @@ export class PreviewArticleComponent implements OnInit, OnChanges, OnDestroy {
   components: ContentItem[];
 
   private articleContent$ = new BehaviorSubject<string>('');
+
+  get selectedArticleBlock() {
+    return this.article.selectedArticleBlock;
+  }
 
   constructor(
     private notationParserService: NotationParserService
@@ -99,13 +103,13 @@ export class PreviewArticleComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.title = this.article.title;
     this.components = [];
-    this.parseArticleContent(this.article.content);
+    this.parseArticleContent(this.selectedArticleBlock.content);
     this.initParseArticleContent();
   }
 
   ngOnChanges() {
     this.title = this.article.title;
-    this.articleContent$.next(this.article.content);
+    this.articleContent$.next(this.selectedArticleBlock.content);
   }
 
   ngOnDestroy(): void {
@@ -121,7 +125,7 @@ export class PreviewArticleComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private parseArticleContent(content) {
-    const components = this.notationParserService.recreateComponents(content, this.article);
+    const components = this.notationParserService.recreateComponents(content, this.selectedArticleBlock);
     if (components.length > 0) {
       this.components = [];
       this.components = [...components];

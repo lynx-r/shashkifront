@@ -6,10 +6,11 @@
   <div fxLayout="column">
     <app-edit-article-block (remove)="onDeleteArticleBlock(a, i)"
                             [articleFormGroup]="a"
+                            (select)="onSelectArticleBlock(a)"
                             (moveDown)="onMoveDownArticleBlock(a, i)"
                             (moveUp)="onMoveUpArticleBlock(a, i)"
-                            *ngFor="let a of articlesControls; index as i"
                             (save)="onSaveArticleBlock($event)"
+                            *ngFor="let a of articlesControls; index as i"
     ></app-edit-article-block>
   </div>
   <div fxLayout="row">
