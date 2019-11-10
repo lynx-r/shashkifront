@@ -20,6 +20,7 @@
 
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
@@ -123,7 +124,7 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
           task: false
         };
       });
-    const a = {
+    const ab = {
       ...this.selectedArticleBoard,
       task: stroke.task,
       notation: {
@@ -131,9 +132,17 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
         strokes: strokes
       }
     };
-    this.articleService.saveArticleWithArticleBlock(this.article, a)
+    const a = {
+      ...this.article,
+      task: stroke.task
+    };
+    const saveObservables = [
+      this.articleService.saveArticle(a),
+      this.articleService.saveArticleWithArticleBlock(this.article, ab)
+    ];
+    forkJoin(saveObservables)
       .pipe(
-        tap(articleSaved => this.store.dispatch(new UpsertArticle({article: articleSaved})))
+        tap(([article, articleSaved]) => this.store.dispatch(new UpsertArticle({article: articleSaved})))
       )
       .subscribe();
   }

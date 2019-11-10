@@ -124,6 +124,7 @@ export class ArticleService {
           const a = {
             ...article,
             articleBlocks: [...abs],
+            task: articleBlockSaved.task
           };
           if (articleBlockSaved.id === article.selectedArticleBlockId) {
             return {

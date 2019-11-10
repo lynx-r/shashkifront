@@ -28,11 +28,13 @@
           </div>
         </mat-error>
       </mat-form-field>
-      <mat-select [formControl]="articleStatus" placeholder="Статус">
-        <mat-option [value]="DRAFT">Черновик</mat-option>
-        <mat-option [value]="PUBLISHED">Публикация</mat-option>
-      </mat-select>
-      <div *ngIf="articleFormGroup.get('task').value">Содержит задачу</div>
+      <mat-form-field>
+        <mat-select [formControl]="articleStatus" placeholder="Статус">
+          <mat-option [value]="DRAFT">Черновик</mat-option>
+          <mat-option [value]="PUBLISHED">Публикация</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <small [hidden]="!article.task">Содержит задачу</small>
     </form>
   </mat-card-content>
   <mat-card-actions>
@@ -48,17 +50,15 @@
   </button>
 </div>
 <div fxLayout="column">
-  <form [formGroup]="articleBlockFormArray">
-    <app-edit-article-block (remove)="onDeleteArticleBlock(a, i)"
-                            [articleFormGroup]="a"
-                            [published]="published"
-                            (select)="onSelectArticleBlock(a)"
-                            (moveDown)="onMoveDownArticleBlock(a, i)"
-                            (moveUp)="onMoveUpArticleBlock(a, i)"
-                            (save)="onSaveArticleBlock($event)"
-                            *ngFor="let a of articlesControls; index as i"
-    ></app-edit-article-block>
-  </form>
+  <app-edit-article-block (moveDown)="onMoveDownArticleBlock(a, i)"
+                          (moveUp)="onMoveUpArticleBlock(a, i)"
+                          (remove)="onDeleteArticleBlock(a, i)"
+                          (save)="onSaveArticleBlock($event)"
+                          (select)="onSelectArticleBlock(a)"
+                          *ngFor="let a of articlesControls; index as i"
+                          [articleFormGroup]="a"
+                          [published]="published"
+  ></app-edit-article-block>
 </div>
 <div fxLayout="row">
   <button (click)="onAddArticleClicked()" [disabled]="published" mat-button="" type="button">
