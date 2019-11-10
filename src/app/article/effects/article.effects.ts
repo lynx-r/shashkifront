@@ -26,7 +26,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AppConstants } from '../../core/config/app-constants';
 import { ArticleService } from '../../core/services/article.service';
-import { ArticleActionTypes, SaveArticle, UpsertArticle } from '../actions/article.actions';
+import { ArticleActionTypes, SaveArticle, SelectArticle } from '../actions/article.actions';
 
 @Injectable()
 export class ArticleEffects {
@@ -40,7 +40,7 @@ export class ArticleEffects {
       tap(() => this.blockUI.start(AppConstants.CREATING_ARTICLE_MESSAGE)),
       map((action: SaveArticle) => action.payload.article),
       switchMap(article => this.articleService.saveArticle(article)),
-      map(article => new UpsertArticle({article: article})),
+      map(article => new SelectArticle({article: article})),
       tap(() => this.blockUI.stop()),
       catchError(err => {
         console.log(err);

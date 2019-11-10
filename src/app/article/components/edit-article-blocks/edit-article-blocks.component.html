@@ -22,6 +22,7 @@
                               *ngFor="let block of articlesControls; index as i"
                               [articleFormGroup]="block"
                               [published]="published$ | async"
+                              [selectedArticleBlockId]="selectedArticleBlockId$ | async"
                               [lastElement]="articlesControls.length === 1"
       ></app-edit-article-block>
     </div>

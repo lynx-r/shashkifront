@@ -20,7 +20,7 @@
 
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { UpsertArticle } from '../../article/actions/article.actions';
+import { SelectArticle } from '../../article/actions/article.actions';
 import { BoardService } from '../../article/services/board.service';
 import { RootState } from '../../core/reducers/reducer.reducer';
 import { Article, ArticleBlock, Move, Rule, Stroke } from '../../domain';
@@ -64,7 +64,7 @@ export class InlineNotationStrokeComponent implements OnInit, ContentComponent {
 
   onMoveClicked(move: Move) {
     const article = this.boardService.highlightClickedMoveInArticle(this.article, this.stroke, move);
-    this.store.dispatch(new UpsertArticle({article: article}));
+    this.store.dispatch(new SelectArticle({article: article}));
   }
 
 }

@@ -24,7 +24,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ArticleService } from '../../../core/services/article.service';
 import { Article } from '../../../domain';
-import { UpsertArticle } from '../../actions/article.actions';
+import { SelectArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { selectCurrentArticle } from '../../reducers/article.reducer';
 
@@ -64,6 +64,6 @@ export class ViewArticleContainerComponent implements OnInit, OnDestroy, AfterVi
   }
 
   onUpdateArticle(article: Article) {
-    this.store.dispatch(new UpsertArticle({article: article}));
+    this.store.dispatch(new SelectArticle({article: article}));
   }
 }

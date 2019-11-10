@@ -29,7 +29,7 @@ import { BoardService } from '../../services/board.service';
       <span *ngFor="let m of moves; index as i"
             [class.selected-move]="m.selected"
             (click)="playerMoveClicked.emit(m)"
-            class="moves"
+            class="moves cursor"
       >
         <span>{{getNotation(m.from)}}{{!!moves[i + 1] ? ':' : ''}}</span>
         <span [hidden]="!!m.eat">-{{getNotation(m.to)}}</span>

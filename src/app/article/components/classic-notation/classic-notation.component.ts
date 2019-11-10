@@ -25,7 +25,7 @@ import { tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
 import { Article, Move, Stroke } from '../../../domain';
-import { UpsertArticle } from '../../actions/article.actions';
+import { SelectArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { BoardService } from '../../services/board.service';
 
@@ -79,7 +79,7 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
     }
     const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);
     this.selectedStroke = article.selectedArticleBlock.notation.strokes.find(s => s.notationNumber === stroke.notationNumber);
-    this.store.dispatch(new UpsertArticle({article: article}));
+    this.store.dispatch(new SelectArticle({article: article}));
   }
 
   onSaveStroke(stroke: Stroke) {
@@ -101,7 +101,7 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
     };
     this.articleService.saveArticleWithArticleBlock(this.article, a)
       .pipe(
-        tap(articleSaved => this.store.dispatch(new UpsertArticle({article: articleSaved})))
+        tap(articleSaved => this.store.dispatch(new SelectArticle({article: articleSaved})))
       )
       .subscribe();
   }
@@ -141,7 +141,7 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
     ];
     forkJoin(saveObservables)
       .pipe(
-        tap(([article, articleSaved]) => this.store.dispatch(new UpsertArticle({article: articleSaved})))
+        tap(([article, articleSaved]) => this.store.dispatch(new SelectArticle({article: articleSaved})))
       )
       .subscribe();
   }

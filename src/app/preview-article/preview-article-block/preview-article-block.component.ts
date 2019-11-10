@@ -23,7 +23,7 @@ import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { UpsertArticle } from '../../article/actions/article.actions';
+import { SelectArticle } from '../../article/actions/article.actions';
 import * as fromArticle from '../../article/reducers/article.reducer';
 import { Article, ArticleBlock } from '../../domain';
 import { InlineContentDirective } from '../inline-content/inline-content.directive';
@@ -145,6 +145,6 @@ export class PreviewArticleBlockComponent implements OnInit, OnChanges, OnDestro
       ...this.article,
       selectedArticleBlock: this.articleBlock
     };
-    this.store.dispatch(new UpsertArticle({article: a}));
+    this.store.dispatch(new SelectArticle({article: a}));
   }
 }

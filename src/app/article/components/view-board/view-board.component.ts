@@ -25,7 +25,7 @@ import { AppConstants } from '../../../core/config/app-constants';
 import { NotifyService } from '../../../core/services/notify.service';
 import { Article, ArticleBlock, BoardCell, Move, Rule, Stroke } from '../../../domain';
 import { BLACK_PIECE, EMPTY_CELL } from '../../../domain/board-cell';
-import { UpsertArticle } from '../../actions/article.actions';
+import { SelectArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { BoardService } from '../../services/board.service';
 
@@ -163,7 +163,7 @@ export class ViewBoardComponent implements OnInit, OnChanges {
     this.disableBackward = false;
     const {move, stroke} = this.findMoveByNumFromStrokes();
     const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);
-    this.store.dispatch(new UpsertArticle({article: article}));
+    this.store.dispatch(new SelectArticle({article: article}));
     if (this.moveNum === this.moves.length - 1) {
       this.disableForward = true;
     }
@@ -179,11 +179,11 @@ export class ViewBoardComponent implements OnInit, OnChanges {
       this.disableBackward = true;
       const stroke = this.notation.strokes[0];
       const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, null);
-      this.store.dispatch(new UpsertArticle({article: article}));
+      this.store.dispatch(new SelectArticle({article: article}));
     } else {
       const {move, stroke} = this.findMoveByNumFromStrokes();
       const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);
-      this.store.dispatch(new UpsertArticle({article: article}));
+      this.store.dispatch(new SelectArticle({article: article}));
     }
   }
 

@@ -22,8 +22,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as fromArticles from '../../reducers/article.reducer';
-import { selectCurrentArticlePublished } from '../../reducers/article.reducer';
+import { selectCurrentArticle, selectCurrentArticlePublished } from '../../reducers/article.reducer';
 
 @Component({
   selector: 'app-edit-article-blocks',
@@ -42,6 +43,7 @@ export class EditArticleBlocksComponent implements OnInit {
   @Output() selectArticleBlock = new EventEmitter<FormGroup>();
 
   published$: Observable<boolean>;
+  selectedArticleBlockId$: Observable<string>;
 
   get articlesControls(): FormGroup[] {
     return this.articleBlockFormArray.controls as FormGroup[];
@@ -52,6 +54,10 @@ export class EditArticleBlocksComponent implements OnInit {
 
   ngOnInit(): void {
     this.published$ = this.store.select(selectCurrentArticlePublished);
+    this.selectedArticleBlockId$ = this.store.select(selectCurrentArticle)
+      .pipe(
+        map(a => a.selectedArticleBlockId)
+      );
   }
 
 }

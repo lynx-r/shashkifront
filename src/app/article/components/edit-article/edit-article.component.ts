@@ -25,7 +25,7 @@ import { tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
 import { Article, ArticleBlock } from '../../../domain';
-import { UpsertArticle } from '../../actions/article.actions';
+import { SelectArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { selectCurrentArticlePublished } from '../../reducers/article.reducer';
 
@@ -111,7 +111,7 @@ export class EditArticleComponent implements OnInit, OnChanges {
             selectedArticleBlock: articleBlock,
             selectedArticleBlockId: articleBlock.id
           };
-          this.store.dispatch(new UpsertArticle({article: a}));
+          this.store.dispatch(new SelectArticle({article: a}));
         })
       )
       .subscribe();
@@ -125,7 +125,7 @@ export class EditArticleComponent implements OnInit, OnChanges {
     };
     this.articleService.saveArticle(article)
       .pipe(
-        tap(aSaved => this.store.dispatch(new UpsertArticle({article: aSaved})))
+        tap(aSaved => this.store.dispatch(new SelectArticle({article: aSaved})))
       )
       .subscribe();
   }
@@ -133,7 +133,7 @@ export class EditArticleComponent implements OnInit, OnChanges {
   onSelectArticleBlock(a: FormGroup) {
     this.articleService.selectArticleBlock(this.article, a.value.id)
       .pipe(
-        tap(articleSaved => this.store.dispatch(new UpsertArticle({article: articleSaved})))
+        tap(articleSaved => this.store.dispatch(new SelectArticle({article: articleSaved})))
       )
       .subscribe();
   }
@@ -151,7 +151,7 @@ export class EditArticleComponent implements OnInit, OnChanges {
     this.articleService.saveArticleWithArticleBlock(this.article, updatedABlock)
       .pipe(
         tap(() => articleBlock.markAsPristine()),
-        tap(article => this.store.dispatch(new UpsertArticle({article: article})))
+        tap(article => this.store.dispatch(new SelectArticle({article: article})))
       )
       .subscribe();
   }
@@ -202,7 +202,7 @@ export class EditArticleComponent implements OnInit, OnChanges {
   private createArticleBlockFormGroup(block, published, index) {
     return new FormGroup({
       id: new FormControl(block.id),
-      title: new FormControl(block.titl, index === 0 ? this.titleRequireValidators : this.titleValidators),
+      title: new FormControl(block.title, index === 0 ? this.titleRequireValidators : this.titleValidators),
       content: new FormControl(block.content, this.contentValidators),
       state: new FormControl(block.state),
       notation: new FormControl(block.notation),
