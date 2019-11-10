@@ -77,7 +77,7 @@ export class ArticleExistsGuard implements CanActivate {
       .pipe(
         select(fromArticle.selectArticleEntitiesByHru),
         map(entities => entities[hru]),
-        map((a: Article) => !!a && !!a.articleBlocks),
+        map((a: Article) => !!a && a.articleBlocks.length > 0),
         take(1),
         catchError((err) => {
           this.router.navigate(['/404']);
@@ -92,7 +92,7 @@ export class ArticleExistsGuard implements CanActivate {
    * id - article id
    * bbid - selectedBoardBoxId
    */
-  hasArticleInApi(hru: string, authUser: boolean): Observable<boolean> {
+  fetchArticleFromApi(hru: string, authUser: boolean): Observable<boolean> {
     if (hru == null) {
       this.router.navigate(['/404']);
       return of(false);
@@ -114,7 +114,7 @@ export class ArticleExistsGuard implements CanActivate {
   }
 
   /**
-   * `hasArticle` composes `hasArticleInStore` and `hasArticleInApi`. It first checks
+   * `hasArticle` composes `hasArticleInStore` and `fetchArticleFromApi`. It first checks
    * if the article is in store, and if not it then checks if it is in the
    * API.
    */
@@ -125,7 +125,7 @@ export class ArticleExistsGuard implements CanActivate {
           if (inStore) {
             return of(inStore);
           }
-          return this.hasArticleInApi(hru, authUser);
+          return this.fetchArticleFromApi(hru, authUser);
         }),
       );
   }

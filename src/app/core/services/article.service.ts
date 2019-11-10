@@ -81,7 +81,7 @@ export class ArticleService {
       return this.api.authPost(`/article/${article.id}/fetch`, article)
         .pipe(this.fillArticleFunction());
     }
-    return this.api.post(`/article/${article.id}/fetch`, article.articleBlockIds)
+    return this.api.post(`/article/fetch`, article)
       .pipe(this.fillArticleFunction());
   }
 

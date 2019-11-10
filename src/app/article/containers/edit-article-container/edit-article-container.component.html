@@ -1,13 +1,20 @@
 <div *ngIf="article$ | async as article"
-     fxLayout="column"
+     fxLayout="row"
      fxLayoutGap="8px"
 >
-  <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
-    <app-board (articleUpdated)="onUpdateArticle($event)" [article]="article" fxFlex="50"></app-board>
-    <app-classic-notation [article]="article" fxFlex="50"></app-classic-notation>
-  </div>
-  <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
-    <app-edit-article [article]="article" fxFlex="50"></app-edit-article>
-    <app-preview-article [article]="article" fxFlex="50"></app-preview-article>
+  <app-edit-article-blocks [article]="article" fxFlex="50"></app-edit-article-blocks>
+  <div fxFlex="50">
+    <mat-tab-group (selectedIndexChange)="onPreviewTabIndexChanged($event)" [(selectedIndex)]="previewTabIndex">
+      <mat-tab label="Доска">
+        <br>
+        <div fxLayout="column" fxLayoutGap="8px">
+          <app-board (articleUpdated)="onUpdateArticle($event)" [article]="article" fxFlex="50"></app-board>
+          <app-classic-notation [article]="article" fxFlex="50"></app-classic-notation>
+        </div>
+      </mat-tab>
+      <mat-tab label="Разбор">
+        <app-preview-article [article]="article"></app-preview-article>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>

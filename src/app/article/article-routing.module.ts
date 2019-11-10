@@ -24,7 +24,7 @@ import { ArticleExistsGuard } from '../core/services/article-exists';
 import { AuthorityGuard } from '../core/services/authority-guard.service';
 import { ArticlesContainerComponent } from './containers/articles-container/articles-container.component';
 import { AuthorArticlesContainerComponent } from './containers/author-articles-container/author-articles-container.component';
-import { EditArticlesContainerComponent } from './containers/edit-articles-container/edit-articles-container.component';
+import { EditArticleContainerComponent } from './containers/edit-article-container/edit-article-container.component';
 import { ViewArticleContainerComponent } from './containers/view-article-container/view-article-container.component';
 
 const routes: Routes = [
@@ -39,7 +39,7 @@ const routes: Routes = [
   },
   {
     path: 'edit/:hru',
-    component: EditArticlesContainerComponent,
+    component: EditArticleContainerComponent,
     canActivate: [AuthorityGuard, ArticleExistsGuard],
     data: {
       authUser: true

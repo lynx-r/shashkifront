@@ -22,8 +22,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { ArticleService } from '../../../core/services/article.service';
 import { Article } from '../../../domain';
 import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
@@ -41,6 +42,7 @@ export class ViewArticleContainerComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromArticle.State>,
     private route: ActivatedRoute,
+    private articleService: ArticleService
   ) {
   }
 
@@ -50,7 +52,16 @@ export class ViewArticleContainerComponent implements OnInit, OnDestroy {
         map(params => params['hru']),
         switchMap(hru => this.store.select(selectArticleEntitiesByHru)
           .pipe(
-            map(entities => entities[hru])
+            map(entities => entities[hru]),
+            switchMap((a: Article) => {
+              if (a.articleBlocks.length > 0) {
+                return of(a);
+              }
+              return this.articleService.fetchArticle(a, true)
+                .pipe(
+                  tap(filledArticle => this.store.dispatch(new UpsertArticle({article: filledArticle})))
+                );
+            })
           )),
         untilComponentDestroyed(this)
       );
