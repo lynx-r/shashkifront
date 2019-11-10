@@ -115,7 +115,7 @@ export class BoardComponent implements OnInit, OnChanges {
   }
 
   onCellClick(cell: BoardCell) {
-    if (!!this.notation.winner || this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS) {
+    if (!!this.notation.winner || this.isPublished()) {
       return;
     }
     this.boardService.touchCell(this.selectedArticleBlock.id, cell)
@@ -153,4 +153,9 @@ export class BoardComponent implements OnInit, OnChanges {
   private updateBoard() {
     this.flatCells = this.boardService.getActualBoardCellsForNotation(this.notation);
   }
+
+  private isPublished() {
+    return this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
+  }
+
 }

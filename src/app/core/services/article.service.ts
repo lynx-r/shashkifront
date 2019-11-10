@@ -137,16 +137,16 @@ export class ArticleService {
       );
   }
 
-  selectArticleBlock(article: Article, articleBlock: ArticleBlock) {
+  selectArticleBlock(article: Article, articleBlockId: string) {
     const a = {
       ...article,
-      selectedArticleBlockId: articleBlock.id
+      selectedArticleBlockId: articleBlockId
     };
     return this.saveArticle(a)
       .pipe(
         map(articleSaved => ({
           ...articleSaved,
-          selectedArticleBlock: articleSaved.articleBlocks.find(ab => ab.id === articleBlock.id)
+          selectedArticleBlock: articleSaved.articleBlocks.find(ab => ab.id === articleBlockId)
         }))
       );
   }

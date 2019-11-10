@@ -129,7 +129,7 @@ export class ViewBoardComponent implements OnInit, OnChanges {
   }
 
   onCellClick(cell: BoardCell) {
-    if (!!this.notation.winner || this.solved || !this.article.task) {
+    if (!!this.notation.winner || this.solved || !this.selectedArticleBoard.task) {
       return;
     }
     this.moveNum++;
@@ -188,11 +188,10 @@ export class ViewBoardComponent implements OnInit, OnChanges {
   }
 
   private updateBoard() {
-    this.disableForward = this.selectedArticleBoard.task && !this.solved;
     this.flatCells = this.boardService.getActualBoardCellsForNotation(this.notation);
     this.moves = this.boardService.flattenStrokes(this.notation.strokes);
     this.moveNum = this.moves.findIndex(m => m.selected);
-    console.log(this.disableForward);
+    this.disableForward = this.selectedArticleBoard.task && !this.solved;
     this.disableBackward = this.moveNum === -1;
   }
 

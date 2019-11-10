@@ -18,7 +18,7 @@
  *
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
@@ -33,7 +33,7 @@ import * as fromArticle from '../../reducers/article.reducer';
   templateUrl: './edit-article-blocks.component.html',
   styles: []
 })
-export class EditArticleBlocksComponent implements OnInit {
+export class EditArticleBlocksComponent implements OnInit, OnChanges {
 
   @Input() article: Article;
 
@@ -93,16 +93,10 @@ export class EditArticleBlocksComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createArticleBlockFormArray(this.article);
-    this.articleFormGroup = new FormGroup({
-      id: new FormControl(this.article.id),
-      title: new FormControl(this.article.title, [Validators.required, ...this.titleValidators]),
-      intro: new FormControl(this.article.intro, this.introValidators),
-      status: new FormControl(this.article.status),
-      task: new FormControl(this.article.task),
-      selectedArticleBlockId: new FormControl(this.article.selectedArticleBlockId),
-      articleBlockIds: new FormControl(this.article.articleBlockIds),
-    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.createArticleFormGroups(this.article);
   }
 
   onAddArticleClicked() {
@@ -136,8 +130,20 @@ export class EditArticleBlocksComponent implements OnInit {
     };
     this.articleService.saveArticle(article)
       .pipe(
-        tap(articleSaved => this.createArticleBlockFormArray(articleSaved)),
         tap(aSaved => this.store.dispatch(new UpsertArticle({article: aSaved})))
+      )
+      .subscribe();
+  }
+
+  onSelectArticleBlock(a: FormGroup) {
+    const abIds = this.articleBlockFormArray.value.map((ab: ArticleBlock) => ab.id);
+    const article = {
+      ...this.articleFormGroup.value,
+      articleBlockIds: abIds
+    };
+    this.articleService.selectArticleBlock(article, a.value.id)
+      .pipe(
+        tap(articleSaved => this.store.dispatch(new UpsertArticle({article: articleSaved})))
       )
       .subscribe();
   }
@@ -187,15 +193,7 @@ export class EditArticleBlocksComponent implements OnInit {
     this.onSaveArticle();
   }
 
-  onSelectArticleBlock(a: FormGroup) {
-    this.articleService.selectArticleBlock(this.article, a.value)
-      .pipe(
-        tap(articleSaved => this.store.dispatch(new UpsertArticle({article: articleSaved})))
-      )
-      .subscribe();
-  }
-
-  private createArticleBlockFormArray(article: Article) {
+  private createArticleFormGroups(article: Article) {
     const published = article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
     this.articleBlockFormArray = new FormArray([
       ...article.articleBlocks.map(a => new FormGroup({
@@ -205,5 +203,14 @@ export class EditArticleBlocksComponent implements OnInit {
         state: new FormControl(a.state)
       }))
     ]);
+    this.articleFormGroup = new FormGroup({
+      id: new FormControl(article.id),
+      title: new FormControl(article.title, [Validators.required, ...this.titleValidators]),
+      intro: new FormControl(article.intro, this.introValidators),
+      status: new FormControl(article.status),
+      task: new FormControl(article.task),
+      selectedArticleBlockId: new FormControl(article.selectedArticleBlockId),
+      articleBlockIds: new FormControl(article.articleBlockIds),
+    });
   }
 }
