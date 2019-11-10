@@ -21,8 +21,10 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of, timer } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { ArticleService } from '../../../core/services/article.service';
+import { MediaService } from '../../../core/services/media.service';
 import { Article } from '../../../domain';
 import { SelectArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
@@ -40,27 +42,40 @@ export class ViewArticleContainerComponent implements OnInit, OnDestroy, AfterVi
 
   article$: Observable<Article>;
   viewBoardWidth: string;
+  isLoading: boolean;
 
   constructor(
     private store: Store<fromArticle.State>,
     private route: ActivatedRoute,
     private articleService: ArticleService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private mediaService: MediaService
   ) {
   }
 
   ngOnInit() {
     this.article$ = this.store.select(selectCurrentArticle);
+    this.mediaService.mediaObserver.asObservable()
+      .pipe(
+        switchMap(() => {
+          if (!!this.viewBoardContainerRef) {
+            this.isLoading = true;
+            return timer(100)
+              .pipe(
+                tap(() => this.viewBoardWidth = (<HTMLElement>this.viewBoardContainerRef.nativeElement).clientWidth + 'px'),
+                tap(() => this.isLoading = false)
+              );
+          }
+          return of();
+        })
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {
   }
 
   ngAfterViewChecked(): void {
-    if (!!this.viewBoardContainerRef) {
-      this.viewBoardWidth = (<HTMLElement>this.viewBoardContainerRef.nativeElement).clientWidth + 'px';
-      this.cdr.detectChanges();
-    }
   }
 
   onUpdateArticle(article: Article) {

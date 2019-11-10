@@ -1,6 +1,6 @@
 <div *ngIf="article$ | async as article" fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
   <div #viewBoardContainerRef fxFlex="35">
-    <app-view-board (articleUpdated)="onUpdateArticle($event)"
+    <app-view-board (articleUpdated)="onUpdateArticle($event)" [hidden]="isLoading"
                     [article]="article"
                     [ngClass.gt-sm]="'view-board'"
                     [style.width]="viewBoardWidth"
