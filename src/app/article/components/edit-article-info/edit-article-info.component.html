@@ -1,8 +1,14 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      Основная информация по разбору
-      <small [hidden]="!task" matTooltip="Этот разбор содержит задачу">задача</small>
+      <span class="button-height">
+        Основная информация по разбору
+        <small [hidden]="!task" matTooltip="Этот разбор содержит задачу">задача</small>
+      </span>
+      &nbsp;
+      <span class="button-height cursor" matTooltip="Посмотреть как гость">
+        <mat-icon [routerLink]="['../../view', humanReadableUrl]">tag_faces</mat-icon>
+      </span>
     </mat-card-title>
   </mat-card-header>
   <br>

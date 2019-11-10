@@ -29,6 +29,7 @@ import { AppConstants } from '../../../core/config/app-constants';
 })
 export class EditArticleInfoComponent {
 
+  @Input() humanReadableUrl: string;
   @Input() task: boolean;
   @Input() articleFormGroup: FormGroup;
 
