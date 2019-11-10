@@ -22,9 +22,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { ArticleBlock } from '../../../domain';
+import { ArticleService } from '../../../core/services/article.service';
+import { Article, ArticleBlock } from '../../../domain';
+import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { selectArticleEntitiesByHru } from '../../reducers/article.reducer';
 
@@ -35,13 +37,13 @@ import { selectArticleEntitiesByHru } from '../../reducers/article.reducer';
 })
 export class EditArticlesContainerComponent implements OnInit, OnDestroy {
 
-  article$: Observable<ArticleBlock>;
+  article$: Observable<Article>;
   toggleRight: string;
-  articles: ArticleBlock[];
 
   constructor(
     private store: Store<fromArticle.State>,
     private route: ActivatedRoute,
+    private articleService: ArticleService
   ) {
   }
 
@@ -52,8 +54,16 @@ export class EditArticlesContainerComponent implements OnInit, OnDestroy {
         map(params => params['hru']),
         switchMap(hru => this.store.select(selectArticleEntitiesByHru)
           .pipe(
-            tap((e: ArticleBlock[]) => this.articles = [...Object.values(e)]),
-            map(entities => entities[hru])
+            map(entities => entities[hru]),
+            switchMap((a: Article) => {
+              if (!!a.articleBlocks) {
+                return of(a);
+              }
+              return this.articleService.fetchArticle(a)
+                .pipe(
+                  tap(filledArticle => this.store.dispatch(new UpsertArticle({article: filledArticle})))
+                );
+            })
           )),
         untilComponentDestroyed(this)
       );

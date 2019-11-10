@@ -34,6 +34,9 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
 
   @Input() articleFormGroup: FormGroup;
 
+  @Output() saveArticle = new EventEmitter<ArticleBlock>();
+  @Output() moveUp = new EventEmitter();
+  @Output() moveDown = new EventEmitter();
   @Output() deleteArticle = new EventEmitter();
   @Output() loadPdnEvent = new EventEmitter<ArticleBlock>();
 
@@ -49,6 +52,10 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
     private store: Store<fromArticle.State>,
   ) {
     this.tags = {};
+  }
+
+  get article() {
+    return this.articleFormGroup.value;
   }
 
   get title() {

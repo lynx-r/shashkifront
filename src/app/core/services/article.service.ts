@@ -41,12 +41,47 @@ export class ArticleService {
       .pipe(this.fillArticleFunction());
   }
 
+  addArticleBlockToArticle(articleId: string): Observable<ArticleBlock> {
+    const a = {
+      notation: {
+        rule: 'RUSSIAN',
+        player: 'WHITE'
+      }
+    };
+    return this.api.putPrivate(`/article/${articleId}/add`, a)
+      .pipe(
+        map(ab => this.fillArticleBlock(ab))
+      );
+  }
+
   findArticleByHru(hru: string, privateUser?: boolean) {
     if (privateUser) {
       return this.api.getPrivate(`/article/${hru}`)
         .pipe(this.fillArticleFunction());
     }
     return this.api.get(`/article/${hru}`)
+      .pipe(this.fillArticleFunction());
+  }
+
+  findArticleBlocksByArticle(article: Article, authUser?: boolean): Observable<ArticleBlock[]> {
+    if (authUser) {
+      return this.api.postPrivate(`/article/${article.id}/blocks`, article.articleBlockIds)
+        .pipe(
+          map((articleBlocks: ArticleBlock[]) => articleBlocks.map(ab => this.fillArticleBlock(ab)))
+        );
+    }
+    return this.api.post(`/article/${article.id}/blocks`, article.articleBlockIds)
+      .pipe(
+        map((articleBlocks: ArticleBlock[]) => articleBlocks.map(ab => this.fillArticleBlock(ab)))
+      );
+  }
+
+  fetchArticle(article: Article, authUser?: boolean): Observable<Article> {
+    if (authUser) {
+      return this.api.postPrivate(`/article/${article.id}/fetch`, article)
+        .pipe(this.fillArticleFunction());
+    }
+    return this.api.post(`/article/${article.id}/fetch`, article.articleBlockIds)
       .pipe(this.fillArticleFunction());
   }
 
@@ -80,16 +115,76 @@ export class ArticleService {
         }
       }
     };
-    return this.api.putPrivate('/article/block', a);
-    // .pipe(this.fillArticleFunction());
+    return this.api.putPrivate('/article/block', a)
+      .pipe(this.fillArticleBlockFunction());
   }
+
+  saveArticleWithArticleBlock(article: Article, articleBlock: ArticleBlock): Observable<Article> {
+    return this.saveArticleBlock(articleBlock)
+      .pipe(
+        this.fillArticleBlockFunction(),
+        map(articleBlockSaved => {
+          const abs = article.articleBlocks.map(ab => {
+            if (ab.id === articleBlockSaved.id) {
+              return articleBlockSaved;
+            }
+            return ab;
+          });
+          const a = {
+            ...article,
+            articleBlocks: [...abs],
+          };
+          if (articleBlockSaved.id === article.selectedArticleBlockId) {
+            return {
+              ...a,
+              selectedArticleBlock: articleBlockSaved
+            };
+          }
+          return a;
+        })
+      );
+  }
+
+  // private fillArticleFunction() {
+  //   return (source: Observable<Article>) =>
+  //     new Observable<Article>(subscriber =>
+  //       source
+  //         .pipe(
+  //           map(article => ({...article, selectedArticleBlock: this.fillArticleBlock(article.selectedArticleBlock)}))
+  //         )
+  //         .subscribe(
+  //           value => subscriber.next(value),
+  //           error => subscriber.error(error),
+  //           () => subscriber.complete()
+  //         )
+  //     );
+  // }
 
   private fillArticleFunction() {
     return (source: Observable<Article>) =>
       new Observable<Article>(subscriber =>
         source
           .pipe(
-            map(article => ({...article, selectedArticleBlock: this.fillArticleBlock(article.selectedArticleBlock)}))
+            map(article => ({
+              ...article,
+              selectedArticleBlock: this.fillArticleBlock(article.selectedArticleBlock),
+              articleBlocks: article.articleBlocks.map(ab => this.fillArticleBlock(ab))
+            }))
+          )
+          .subscribe(
+            value => subscriber.next(value),
+            error => subscriber.error(error),
+            () => subscriber.complete()
+          )
+      );
+  }
+
+  private fillArticleBlockFunction() {
+    return (source: Observable<ArticleBlock>) =>
+      new Observable<ArticleBlock>(subscriber =>
+        source
+          .pipe(
+            map(articleBlock => ({...this.fillArticleBlock(articleBlock)}))
           )
           .subscribe(
             value => subscriber.next(value),
@@ -115,4 +210,5 @@ export class ArticleService {
       }
     };
   }
+
 }

@@ -4,11 +4,20 @@
       <div (click)="onVisibilityToggle()" class="button-height cursor" fxFlex>
         <p class="snEllipsis" snEllipsis>{{title.value}}</p>
       </div>
-      <button (click)="onVisibilityToggle()" mat-icon-button type="button">
-        <mat-icon *ngIf="!visible">keyboard_arrow_down</mat-icon>
-        <mat-icon *ngIf="visible">keyboard_arrow_up</mat-icon>
+      <button (click)="saveArticle.emit(article)" [disabled]="!articleFormGroup.valid" mat-icon-button type="button">
+        <mat-icon>save</mat-icon>
       </button>
-      <button (click)="onDeleteClicked()" mat-icon-button type="button">
+      <button (click)="onVisibilityToggle()" mat-icon-button type="button">
+        <mat-icon *ngIf="!visible">remove</mat-icon>
+        <mat-icon *ngIf="visible">add</mat-icon>
+      </button>
+      <button (click)="moveUp.emit()" mat-icon-button type="button">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+      <button (click)="moveDown.emit()" mat-icon-button type="button">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
+      <button (click)="deleteArticle.emit()" mat-icon-button type="button">
         <mat-icon color="warn">delete</mat-icon>
       </button>
     </div>

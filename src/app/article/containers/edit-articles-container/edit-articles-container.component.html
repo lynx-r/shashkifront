@@ -2,7 +2,7 @@
      fxLayout="row"
      fxLayoutGap="8px"
 >
-  <app-edit-articles [articles]="articles" fxFlex="50"></app-edit-articles>
+  <app-edit-articles [article]="article" fxFlex="50"></app-edit-articles>
   <div fxFlex="50">
     <mat-button-toggle-group [(ngModel)]="toggleRight" vertical="false">
       <mat-button-toggle value="preview">
@@ -18,6 +18,6 @@
       <!--        <app-classic-notation [article]="article" fxFlex="50"></app-classic-notation>-->
       <!--      </div>-->
     </div>
-    <app-preview-article [article]="article" [hidden]="toggleRight !== 'preview'"></app-preview-article>
+    <!--    <app-preview-article [article]="article" [hidden]="toggleRight !== 'preview'"></app-preview-article>-->
   </div>
 </div>

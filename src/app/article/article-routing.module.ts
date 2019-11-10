@@ -40,7 +40,10 @@ const routes: Routes = [
   {
     path: 'edit/:hru',
     component: EditArticlesContainerComponent,
-    canActivate: [AuthorityGuard, ArticleExistsGuard]
+    canActivate: [AuthorityGuard, ArticleExistsGuard],
+    data: {
+      authUser: true
+    }
   },
   {
     path: 'view/:hru',

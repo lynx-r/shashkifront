@@ -76,7 +76,8 @@ export class ArticleExistsGuard implements CanActivate {
     return this.store
       .pipe(
         select(fromArticle.selectArticleEntitiesByHru),
-        map(entities => !!entities[hru]),
+        map(entities => entities[hru]),
+        map((a: Article) => !!a && !!a.articleBlocks),
         take(1),
         catchError((err) => {
           this.router.navigate(['/404']);
@@ -91,14 +92,17 @@ export class ArticleExistsGuard implements CanActivate {
    * id - article id
    * bbid - selectedBoardBoxId
    */
-  hasArticleInApi(hru: string, privateUser: boolean): Observable<boolean> {
+  hasArticleInApi(hru: string, authUser: boolean): Observable<boolean> {
     if (hru == null) {
       this.router.navigate(['/404']);
       return of(false);
     }
     return this.articleService
-      .findArticleByHru(hru, privateUser)
+      .findArticleByHru(hru, authUser)
       .pipe(
+        switchMap((a: Article) =>
+          this.articleService.fetchArticle(a, authUser)
+        ),
         tap((a: Article) => this.store.dispatch(new AddArticle({article: a}))),
         map(apiArticle => !!apiArticle),
         catchError((err) => {
@@ -114,14 +118,14 @@ export class ArticleExistsGuard implements CanActivate {
    * if the article is in store, and if not it then checks if it is in the
    * API.
    */
-  hasArticle(hru: string, privateUser: boolean): Observable<boolean> {
+  hasArticle(hru: string, authUser: boolean): Observable<boolean> {
     return this.hasArticleInStore(hru)
       .pipe(
         switchMap((inStore) => {
           if (inStore) {
             return of(inStore);
           }
-          return this.hasArticleInApi(hru, privateUser);
+          return this.hasArticleInApi(hru, authUser);
         }),
       );
   }
@@ -143,7 +147,7 @@ export class ArticleExistsGuard implements CanActivate {
     return this.waitForCollectionToLoad()
       .pipe(
         switchMap(() =>
-          this.hasArticle(route.params['hru'], route.data.privateUser),
+          this.hasArticle(route.params['hru'], route.data.authUser),
         )
       );
   }
