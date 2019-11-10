@@ -18,7 +18,7 @@
  *
  */
 
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -35,7 +35,7 @@ import { selectCurrentArticle } from '../../reducers/article.reducer';
   templateUrl: './edit-article-container.component.html',
   styleUrls: ['./edit-article-container.component.scss']
 })
-export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterViewInit {
+export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   article$: Observable<Article>;
   toggleRight: string;
@@ -61,7 +61,7 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
   ngOnDestroy(): void {
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewChecked(): void {
     this.updateBoardWidth();
   }
 
