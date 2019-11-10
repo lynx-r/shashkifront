@@ -19,9 +19,12 @@
  */
 
 import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UpsertArticle } from '../../article/actions/article.actions';
+import * as fromArticle from '../../article/reducers/article.reducer';
 import { Article, ArticleBlock } from '../../domain';
 import { InlineContentDirective } from '../inline-content/inline-content.directive';
 import { NotationParserService } from '../notation-parser.service';
@@ -36,8 +39,11 @@ export class PreviewArticleBlockComponent implements OnInit, OnChanges, OnDestro
 
   @Input() article: Article;
   @Input() articleBlock: ArticleBlock;
+  @Input() visiblePublic: boolean;
 
   @ViewChild(InlineContentDirective, {static: false}) inline: InlineContentDirective;
+
+  hover: boolean;
 
   title: string;
   tokens: { [key: string]: RegExp };
@@ -51,7 +57,8 @@ export class PreviewArticleBlockComponent implements OnInit, OnChanges, OnDestro
   private articleContent$ = new BehaviorSubject<string>('');
 
   constructor(
-    private notationParserService: NotationParserService
+    private notationParserService: NotationParserService,
+    private store: Store<fromArticle.State>
   ) {
     this.tokens = {
       'cut': /(\n|.)*%cut%/,
@@ -125,4 +132,11 @@ export class PreviewArticleBlockComponent implements OnInit, OnChanges, OnDestro
     }
   }
 
+  onBlockClicked() {
+    const a = {
+      ...this.article,
+      selectedArticleBlock: this.articleBlock
+    };
+    this.store.dispatch(new UpsertArticle({article: a}));
+  }
 }

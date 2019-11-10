@@ -1,4 +1,6 @@
 <div *ngIf="article$ | async as article" fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
   <app-view-board (articleUpdated)="onUpdateArticle($event)" [article]="article" fxFlex="35"></app-view-board>
-  <app-preview-article [article]="article" fxFlex="65"></app-preview-article>
+  <app-preview-article [article]="article"
+                       [visiblePublic]="true"
+                       fxFlex="65"></app-preview-article>
 </div>

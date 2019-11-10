@@ -79,7 +79,7 @@ export class ViewBoardComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.disableForward = this.article.task && !this.solved;
+    // this.disableForward = this.selectedArticleBoard.task && !this.solved;
     this.updateBoard();
   }
 
@@ -173,7 +173,7 @@ export class ViewBoardComponent implements OnInit, OnChanges {
     if (this.moveNum === -2) {
       return;
     }
-    this.disableForward = this.article.task && !this.solved;
+    this.disableForward = this.selectedArticleBoard.task && !this.solved;
     this.moveNum--;
     if (this.moveNum === -1) {
       this.disableBackward = true;
@@ -188,9 +188,11 @@ export class ViewBoardComponent implements OnInit, OnChanges {
   }
 
   private updateBoard() {
+    this.disableForward = this.selectedArticleBoard.task && !this.solved;
     this.flatCells = this.boardService.getActualBoardCellsForNotation(this.notation);
     this.moves = this.boardService.flattenStrokes(this.notation.strokes);
     this.moveNum = this.moves.findIndex(m => m.selected);
+    console.log(this.disableForward);
     this.disableBackward = this.moveNum === -1;
   }
 

@@ -8,6 +8,7 @@
     <app-preview-article-block *ngFor="let ab of article.articleBlocks"
                                [articleBlock]="ab"
                                [article]="article"
+                               [visiblePublic]="visiblePublic"
     ></app-preview-article-block>
   </mat-card-content>
 </mat-card>

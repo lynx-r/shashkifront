@@ -29,5 +29,6 @@ import { Article } from '../../domain';
 export class PreviewArticleComponent {
 
   @Input() article: Article;
+  @Input() visiblePublic: boolean;
 
 }
