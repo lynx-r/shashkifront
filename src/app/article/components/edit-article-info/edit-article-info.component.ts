@@ -21,13 +21,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { combineLatest } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
-import { UpsertArticle } from '../../actions/article.actions';
+import { Article } from '../../../domain';
+import { SelectArticle } from '../../actions/article.actions';
 import * as fromArticles from '../../reducers/article.reducer';
-import { selectCurrentArticle } from '../../reducers/article.reducer';
 
 @Component({
   selector: 'app-edit-article-info',
@@ -36,8 +35,7 @@ import { selectCurrentArticle } from '../../reducers/article.reducer';
 })
 export class EditArticleInfoComponent implements OnInit {
 
-  @Input() humanReadableUrl: string;
-  @Input() task: boolean;
+  @Input() article: Article;
   @Input() articleFormGroup: FormGroup;
 
   @Output() saveArticle = new EventEmitter();
@@ -49,6 +47,14 @@ export class EditArticleInfoComponent implements OnInit {
 
   get articleTitle() {
     return (this.articleFormGroup.get('title') as FormControl);
+  }
+
+  get task() {
+    return this.article.task;
+  }
+
+  get humanReadableUrl() {
+    return this.article.humanReadableUrl;
   }
 
   get articleIntro() {
@@ -64,16 +70,16 @@ export class EditArticleInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    combineLatest([this.articleStatus.valueChanges, this.store.select(selectCurrentArticle)])
+    this.articleStatus.valueChanges
       .pipe(
-        switchMap(([status, article]) => {
+        switchMap((status) => {
           const a = {
-            ...article,
+            ...this.article,
             status: status
           };
           return this.articleService.saveArticle(a);
         }),
-        tap(a => this.store.dispatch(new UpsertArticle({article: a})))
+        tap(a => this.store.dispatch(new SelectArticle({article: a})))
       )
       .subscribe();
   }

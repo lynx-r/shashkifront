@@ -1,8 +1,7 @@
 <div fxLayout="column" fxLayoutGap="12px">
   <app-edit-article-info (saveArticle)="onSaveArticle()"
                          [articleFormGroup]="articleFormGroup"
-                         [task]="article.task"
-                         [humanReadableUrl]="article.humanReadableUrl"
+                         [article]="article"
   ></app-edit-article-info>
   <app-edit-article-blocks (addArticle)="onAddArticleClicked($event)"
                            (deleteArticleBlock)="onDeleteArticleBlock($event.formGroup, $event.index)"

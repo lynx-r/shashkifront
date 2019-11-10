@@ -1,45 +1,43 @@
-<mat-card *ngIf="notation" class="fit">
-  <mat-card-content class="fit">
-    <div class="fit" fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutGap="12px">
-      <div fxLayout="column">
-        <div (click)="onStrokeClicked(null, notation.strokes[0])"
-             [class.selected-move]="notation.strokes[0]?.selected"
-             class="cursor"
-        >
-          Начало
-        </div>
-        <div fxLayout="row" fxLayoutGap="12px">
-          <div fxLayout="column">
-            <app-classic-moves (playerMoveClicked)="onStrokeClicked($event, s)"
-                               *ngFor="let s of notation.strokes"
-                               [cellCount]="notation.notationFen.rule.cellCount"
-                               [class.task-notation]="s.task"
-                               [moves]="s.whiteMoves"
-                               [notationNumber]="s.notationNumber"
-            ></app-classic-moves>
-          </div>
-          <div fxLayout="column">
-            <app-classic-moves (playerMoveClicked)="onStrokeClicked($event, s)"
-                               *ngFor="let s of notation.strokes"
-                               [cellCount]="notation.notationFen.rule.cellCount"
-                               [class.task-notation]="s.task"
-                               [moves]="s.blackMoves"
-            ></app-classic-moves>
-          </div>
-        </div>
+<div *ngIf="notation" class="fit">
+  <div class="fit" fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutGap="12px">
+    <div fxLayout="column">
+      <div (click)="onStrokeClicked(null, notation.strokes[0])"
+           [class.selected-move]="notation.strokes[0]?.selected"
+           class="cursor"
+      >
+        Начало
       </div>
-      <mat-divider [vertical]="true" fxHide.lt-sm></mat-divider>
-      <div fxFlex>
-        <app-classic-stroke-details (playerMoveClicked)="onStrokeClicked($event, selectedStroke)"
-                                    (saveStroke)="onSaveStroke($event)"
-                                    (saveTask)="onSaveTask($event)"
-                                    [editable]="!isPublished"
-                                    [markTask]="false"
-                                    [notation]="notation"
-                                    [stroke]="selectedStroke"
-        ></app-classic-stroke-details>
+      <div fxLayout="row" fxLayoutGap="12px">
+        <div fxLayout="column">
+          <app-classic-moves (playerMoveClicked)="onStrokeClicked($event, s)"
+                             *ngFor="let s of notation.strokes"
+                             [cellCount]="notation.notationFen.rule.cellCount"
+                             [class.task-notation]="s.task"
+                             [moves]="s.whiteMoves"
+                             [notationNumber]="s.notationNumber"
+          ></app-classic-moves>
+        </div>
+        <div fxLayout="column">
+          <app-classic-moves (playerMoveClicked)="onStrokeClicked($event, s)"
+                             *ngFor="let s of notation.strokes"
+                             [cellCount]="notation.notationFen.rule.cellCount"
+                             [class.task-notation]="s.task"
+                             [moves]="s.blackMoves"
+          ></app-classic-moves>
+        </div>
       </div>
     </div>
-  </mat-card-content>
-</mat-card>
+    <mat-divider [vertical]="true" fxHide.lt-sm></mat-divider>
+    <div fxFlex>
+      <app-classic-stroke-details (playerMoveClicked)="onStrokeClicked($event, selectedStroke)"
+                                  (saveStroke)="onSaveStroke($event)"
+                                  (saveTask)="onSaveTask($event)"
+                                  [editable]="!published"
+                                  [markTask]="false"
+                                  [notation]="notation"
+                                  [stroke]="selectedStroke"
+      ></app-classic-stroke-details>
+    </div>
+  </div>
+</div>
 

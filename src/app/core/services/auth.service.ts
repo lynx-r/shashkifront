@@ -87,11 +87,7 @@ export class AuthService {
 
   fingerPrint() {
     return fromPromise(new Promise((resolve) => {
-        if (!!window.requestIdleCallback) {
-          window.requestIdleCallback(() => this.resolveFingerprint(resolve));
-        } else {
           setTimeout(() => this.resolveFingerprint(resolve), 500);
-        }
       })
     );
   }

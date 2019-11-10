@@ -37,6 +37,7 @@
       <mat-form-field>
         <textarea [formControl]="articleIntro" matInput
                   placeholder="Вступление"
+                  [readonly]="articleStatus.value === PUBLISHED"
                   type="text">
         </textarea>
         <mat-error *ngIf="articleIntro.invalid && (articleIntro.dirty || articleIntro.touched)">

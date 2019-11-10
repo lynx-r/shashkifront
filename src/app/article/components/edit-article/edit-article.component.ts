@@ -185,14 +185,13 @@ export class EditArticleComponent implements OnInit, OnChanges {
   private createArticleFormGroups() {
     const article = this.article;
     const published = this.published;
-    console.log(published);
     this.articleBlockFormArray = new FormArray([
       ...article.articleBlocks.map((a, index) => this.createArticleBlockFormGroup(a, published, index))
     ]);
     this.articleFormGroup = new FormGroup({
       id: new FormControl(article.id),
-      title: new FormControl({value: article.title, disabled: published}, this.titleRequireValidators),
-      intro: new FormControl({value: article.intro, disabled: published}, this.introValidators),
+      title: new FormControl(article.title, this.titleRequireValidators),
+      intro: new FormControl(article.intro, this.introValidators),
       task: new FormControl(article.task),
       status: new FormControl(article.status),
       selectedArticleBlockId: new FormControl(article.selectedArticleBlockId),
@@ -203,11 +202,8 @@ export class EditArticleComponent implements OnInit, OnChanges {
   private createArticleBlockFormGroup(block, published, index) {
     return new FormGroup({
       id: new FormControl(block.id),
-      title: new FormControl({
-        value: block.title,
-        disabled: published
-      }, index === 0 ? this.titleRequireValidators : this.titleValidators),
-      content: new FormControl({value: block.content, disabled: published}, this.contentValidators),
+      title: new FormControl(block.titl, index === 0 ? this.titleRequireValidators : this.titleValidators),
+      content: new FormControl(block.content, this.contentValidators),
       state: new FormControl(block.state),
       notation: new FormControl(block.notation),
       task: new FormControl(block.task),

@@ -18,14 +18,14 @@
  *
  */
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
-import { Article, ArticleBlock, BoardCell, Rule } from '../../../domain';
+import { Article, BoardCell, Rule } from '../../../domain';
 import { BLACK_PIECE, EMPTY_CELL } from '../../../domain/board-cell';
-import { UpsertArticle } from '../../actions/article.actions';
+import { SelectArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { BoardService } from '../../services/board.service';
 
@@ -38,8 +38,6 @@ import { BoardService } from '../../services/board.service';
 export class BoardComponent implements OnInit, OnChanges {
 
   @Input() article: Article;
-
-  @Output() articleUpdated = new EventEmitter<ArticleBlock>();
 
   flatCells: BoardCell[];
   cellNotation: string;
@@ -153,7 +151,8 @@ export class BoardComponent implements OnInit, OnChanges {
             selectedArticleBlock: articleBlock,
             articleBlocks: articleBlocks
           };
-          this.store.dispatch(new UpsertArticle({article: articleUpdated}));
+          console.log(1);
+          this.store.dispatch(new SelectArticle({article: articleUpdated}));
         }
       });
   }

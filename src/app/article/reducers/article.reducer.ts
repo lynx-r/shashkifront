@@ -86,9 +86,9 @@ export function reducer(
       return adapter.removeAll(state);
     }
 
-    case ArticleActionTypes.CurrentArticle: {
+    case ArticleActionTypes.SelectArticle: {
       return {
-        ...state,
+        ...adapter.upsertOne(action.payload.article, state),
         currentArticle: action.payload.article
       };
     }
