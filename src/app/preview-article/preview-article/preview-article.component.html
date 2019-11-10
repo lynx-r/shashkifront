@@ -1,10 +1,11 @@
 <mat-card class="fit">
   <mat-card-content>
-    <h2>{{article.title}}</h2>
-    <div>
-      <i>{{article.intro}}</i>
+    <div class="article-header">
+      <h2>{{article.title}}</h2>
+      <div>
+        <i>{{article.intro}}</i>
+      </div>
     </div>
-    <hr>
     <app-preview-article-block *ngFor="let ab of article.articleBlocks"
                                [articleBlock]="ab"
                                [article]="article"

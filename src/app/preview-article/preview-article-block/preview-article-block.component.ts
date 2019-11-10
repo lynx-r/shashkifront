@@ -33,7 +33,15 @@ import { ContentItem } from '../preview-article/content-item';
 @Component({
   selector: 'app-preview-article-block',
   templateUrl: './preview-article-block.component.html',
-  styles: [``]
+  styles: [`
+      .article-body {
+          margin: 8px;
+      }
+
+      .article-header {
+          margin: 8px;
+      }
+  `]
 })
 export class PreviewArticleBlockComponent implements OnInit, OnChanges, OnDestroy {
 

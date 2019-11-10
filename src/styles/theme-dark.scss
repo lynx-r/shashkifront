@@ -63,4 +63,10 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
   .alert-danger {
     color: mat-color($dark-warn);
   }
+
+  .block-highlighted {
+    background-color: mat-color($dark-primary, 700);
+    border-radius: 8px;
+  }
+
 }

@@ -54,9 +54,9 @@ export class NotationParserService {
               return {component: InlineNotationStrokeComponent, index: i, data: data};
             case 'text':
               return {component: InlineTextComponent, index: i, data: {text: val, color: 'white'}};
-            case 'h2':
             case 'h3':
-            case 'h4': {
+            case 'h4':
+            case 'h5': {
               const firstSpace = val.indexOf(' ');
               const hNum = val.substring(0, firstSpace).length;
               const header = val.substring(firstSpace);
@@ -94,9 +94,9 @@ export class NotationParserService {
     // .debug(true)
       .rule(/[\p{L}\d !$%^&*)(+=.,<>{}\[\]:;'"|~`_\-]+/u, (ctx) => ctx.accept('text'))
       .rule(/@(\d+)/, (ctx, match) => ctx.accept('driveNum', +match[1]))
-      .rule(/#\s.+/, ctx => ctx.accept('h2'))
-      .rule(/##\s.+/, ctx => ctx.accept('h3'))
-      .rule(/###\s.+/, ctx => ctx.accept('h4'))
+      .rule(/#\s.+/, ctx => ctx.accept('h3'))
+      .rule(/##\s.+/, ctx => ctx.accept('h4'))
+      .rule(/###\s.+/, ctx => ctx.accept('h5'))
       .rule(/\/\/[^\r\n]*\r?\n/, (ctx) => ctx.ignore())
       .rule(/\n/, (ctx) => ctx.accept('br'))
     ;
