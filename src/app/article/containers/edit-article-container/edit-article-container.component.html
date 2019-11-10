@@ -1,5 +1,6 @@
 <div *ngIf="article$ | async as article"
-     fxLayout="row"
+     fxLayout.gt-sm="row"
+     fxLayout.lt-md="column"
      fxLayoutGap="8px"
 >
   <app-edit-article-blocks [article]="article" fxFlex="50"></app-edit-article-blocks>

@@ -26,6 +26,7 @@ import { RouterModule } from '@angular/router';
 import { NgxSvgModule } from 'ngx-svg';
 import { DialogsModule } from '../core/dialogs/dialogs.module';
 import { DirectivesModule } from '../core/directves/directives/directives.module';
+import { PipesModule } from '../core/pipes';
 import { ComponentsModule } from './components/components.module';
 import { MaterialModule } from './material.module';
 
@@ -38,6 +39,7 @@ const SHARED_MODULES = [
   NgxSvgModule,
   DialogsModule,
   DirectivesModule,
+  PipesModule,
   ComponentsModule
 ];
 
