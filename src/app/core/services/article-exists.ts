@@ -101,7 +101,7 @@ export class ArticleExistsGuard implements CanActivate {
       .findArticleByHru(hru, authUser)
       .pipe(
         switchMap((a: Article) =>
-          this.articleService.fetchArticle(a, authUser)
+          this.articleService.fetchArticle(a.id, authUser)
         ),
         tap((a: Article) => this.store.dispatch(new AddArticle({article: a}))),
         map(apiArticle => !!apiArticle),

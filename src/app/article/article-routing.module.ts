@@ -48,7 +48,10 @@ const routes: Routes = [
   {
     path: 'view/:hru',
     component: ViewArticleContainerComponent,
-    canActivate: [ArticleExistsGuard]
+    canActivate: [ArticleExistsGuard],
+    data: {
+      authUser: false
+    }
   },
 ];
 

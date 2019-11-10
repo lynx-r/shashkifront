@@ -62,7 +62,7 @@ export class ViewArticleContainerComponent implements OnInit, OnDestroy, AfterVi
               if (a.articleBlocks.length > 0) {
                 return of(a);
               }
-              return this.articleService.fetchArticle(a, true)
+              return this.articleService.fetchArticle(a.id)
                 .pipe(
                   tap(filledArticle => this.store.dispatch(new UpsertArticle({article: filledArticle})))
                 );

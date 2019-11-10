@@ -58,47 +58,45 @@ export class ArticleService {
   }
 
   findArticleByHru(hru: string, privateUser?: boolean) {
+    const resource = `/article/${hru}`;
     if (privateUser) {
-      return this.api.authGet(`/article/${hru}`)
+      return this.api.authGet(resource)
         .pipe(this.fillArticleFunction());
     }
-    return this.api.get(`/article/${hru}`)
+    return this.api.get(resource)
       .pipe(this.fillArticleFunction());
   }
 
   findArticleBlocksByArticle(article: Article, authUser?: boolean): Observable<ArticleBlock[]> {
+    const resource = `/article/${article.id}/blocks`;
     if (authUser) {
-      return this.api.authPost(`/article/${article.id}/blocks`, article.articleBlockIds)
+      return this.api.authPost(resource, article.articleBlockIds)
         .pipe(
           map((articleBlocks: ArticleBlock[]) => articleBlocks.map(ab => this.fillArticleBlock(ab)))
         );
     }
-    return this.api.post(`/article/${article.id}/blocks`, article.articleBlockIds)
+    return this.api.post(resource, article.articleBlockIds)
       .pipe(
         map((articleBlocks: ArticleBlock[]) => articleBlocks.map(ab => this.fillArticleBlock(ab)))
       );
   }
 
-  fetchArticle(article: Article, authUser?: boolean): Observable<Article> {
+  fetchArticle(articleId: string, authUser?: boolean): Observable<Article> {
+    const resource = `/article/${articleId}/fetch`;
     if (authUser) {
-      return this.api.authPost(`/article/${article.id}/fetch`, article)
+      return this.api.authGet(resource)
         .pipe(this.fillArticleFunction());
     }
-    return this.api.post(`/article/fetch`, article)
+    return this.api.get(resource)
       .pipe(this.fillArticleFunction());
   }
 
   listArticles(filter: ArticlesFilter, privateUser?: boolean): Observable<ArticlesResponse> {
+    const resource = '/article/list';
     if (privateUser) {
-      return this.api.authGet('/article/list', filter);
-      // .pipe(
-      //   map((res: ArticlesResponse) => ({...res, articles: [...res.articles.map(a => this.fillArticleBlock(a))]}))
-      // );
+      return this.api.authGet(resource, filter);
     }
-    return this.api.get('/article/list', filter);
-    // .pipe(
-    //   map((res: ArticlesResponse) => ({...res, articles: [...res.articles.map(a => this.fillArticleBlock(a))]}))
-    // );
+    return this.api.get(resource, filter);
   }
 
   saveArticle(article: Article): Observable<Article> {
@@ -157,21 +155,6 @@ export class ArticleService {
   deleteArticleBlock(articleId: string, articleBlockId: string) {
     return this.api.authDelete(`/article/${articleId}/block/${articleBlockId}`);
   }
-
-  // private fillArticleFunction() {
-  //   return (source: Observable<Article>) =>
-  //     new Observable<Article>(subscriber =>
-  //       source
-  //         .pipe(
-  //           map(article => ({...article, selectedArticleBlock: this.fillArticleBlock(article.selectedArticleBlock)}))
-  //         )
-  //         .subscribe(
-  //           value => subscriber.next(value),
-  //           error => subscriber.error(error),
-  //           () => subscriber.complete()
-  //         )
-  //     );
-  // }
 
   private fillArticleFunction() {
     return (source: Observable<Article>) =>

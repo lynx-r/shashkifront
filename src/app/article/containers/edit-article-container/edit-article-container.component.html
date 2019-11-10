@@ -7,7 +7,7 @@
   <div #previewArticleContainerRef fxFlex.gt-sm="50" fxFlex.lt-md="100">
     <mat-tab-group (selectedIndexChange)="onPreviewTabIndexChanged($event)"
                    [(selectedIndex)]="previewTabIndex"
-                   [ngClass.gt-md]="'preview-tab-group'">
+                   [ngClass.gt-sm]="'preview-tab-group'">
       <mat-tab label="Доска">
         <br>
         <div fxLayout="column" fxLayoutGap="8px">

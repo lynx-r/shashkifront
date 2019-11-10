@@ -27,7 +27,6 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
-import { MediaService } from '../../../core/services/media.service';
 import { StorageService } from '../../../core/services/storage.service';
 import { Article } from '../../../domain';
 import { UpsertArticle } from '../../actions/article.actions';
@@ -53,7 +52,6 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
     private route: ActivatedRoute,
     private articleService: ArticleService,
     private storageService: StorageService,
-    private mediaService: MediaService
   ) {
   }
 
@@ -70,7 +68,7 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
               if (a.articleBlocks.length > 0) {
                 return of(a);
               }
-              return this.articleService.fetchArticle(a, true)
+              return this.articleService.fetchArticle(a.id, true)
                 .pipe(
                   tap(filledArticle => this.store.dispatch(new UpsertArticle({article: filledArticle})))
                 );
@@ -78,19 +76,18 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
           )),
         untilComponentDestroyed(this)
       );
-    this.mediaService.mediaObserver.asObservable().subscribe(() => setInterval(() => this.updateBoardWidth(), 500));
   }
 
   ngOnDestroy(): void {
   }
 
   ngAfterViewInit(): void {
+    this.updateBoardWidth();
   }
 
   private updateBoardWidth() {
     if (!!this.previewArticleContainerRef && !!this.previewTabGroupRef) {
       const clientWidth = (this.previewArticleContainerRef.nativeElement as HTMLElement).offsetWidth;
-      console.log(111, clientWidth);
       (<HTMLElement>this.previewTabGroupRef._elementRef.nativeElement).style.width = clientWidth + 'px';
     }
   }

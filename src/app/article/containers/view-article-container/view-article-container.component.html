@@ -2,7 +2,7 @@
   <div #viewBoardContainerRef fxFlex="35">
     <app-view-board (articleUpdated)="onUpdateArticle($event)"
                     [article]="article"
-                    [ngClass.gt-md]="'view-board'"
+                    [ngClass.gt-sm]="'view-board'"
                     [style.width]="viewBoardWidth"
     ></app-view-board>
   </div>
