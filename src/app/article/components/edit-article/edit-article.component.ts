@@ -39,8 +39,8 @@ export class EditArticleComponent implements OnInit, OnChanges {
   @ViewChild('content', {static: true}) content: NgModel;
   @ViewChild('title', {static: true}) title: NgModel;
 
-  PUBLISHED = AppConstants.PUBLISHED_STATUS;
-  DRAFT = AppConstants.DRAFT_STATUS;
+  PUBLISHED = AppConstants.ARTICLE_PUBLISHED_STATUS;
+  DRAFT = AppConstants.ARTICLE_DRAFT_STATUS;
 
   editArticle: ArticleBlock;
 

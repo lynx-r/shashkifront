@@ -25,7 +25,7 @@ export interface ArticleBlock {
   title: string;
   content: string;
   notation: GameNotation;
-  status: string;
+  state: string;
   task: boolean;
   createdAt: string;
   updatedAt: string;

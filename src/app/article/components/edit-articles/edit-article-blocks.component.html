@@ -4,12 +4,12 @@
     <button [disabled]="!articleBlocksFormGroup.valid" mat-button>Сохранить статью</button>
   </div>
   <div fxLayout="column">
-    <app-edit-article-block (deleteArticle)="onDeleteArticleBlock(a, i)"
+    <app-edit-article-block (remove)="onDeleteArticleBlock(a, i)"
                             [articleFormGroup]="a"
                             (moveDown)="onMoveDownArticleBlock(a, i)"
                             (moveUp)="onMoveUpArticleBlock(a, i)"
                             *ngFor="let a of articlesControls; index as i"
-                            (saveArticle)="onSaveArticleBlock($event)"
+                            (save)="onSaveArticleBlock($event)"
     ></app-edit-article-block>
   </div>
   <div fxLayout="row">

@@ -34,14 +34,11 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
 
   @Input() articleFormGroup: FormGroup;
 
-  @Output() saveArticle = new EventEmitter<ArticleBlock>();
+  @Output() save = new EventEmitter<ArticleBlock>();
   @Output() moveUp = new EventEmitter();
   @Output() moveDown = new EventEmitter();
-  @Output() deleteArticle = new EventEmitter();
+  @Output() remove = new EventEmitter();
   @Output() loadPdnEvent = new EventEmitter<ArticleBlock>();
-
-  PUBLISHED = AppConstants.PUBLISHED_STATUS;
-  DRAFT = AppConstants.DRAFT_STATUS;
 
   visible: boolean;
   tags: { [key: string]: string };
@@ -54,7 +51,7 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
     this.tags = {};
   }
 
-  get article() {
+  get articleBlock() {
     return this.articleFormGroup.value;
   }
 
@@ -66,12 +63,12 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
     return this.articleFormGroup.get('content') as FormControl;
   }
 
-  get status() {
-    return this.articleFormGroup.get('status') as FormControl;
+  get state() {
+    return this.articleFormGroup.get('state') as FormControl;
   }
 
   ngOnInit() {
-    this.visible = this.status.value === AppConstants.NEW_STATUS;
+    this.visible = this.state.value === AppConstants.ARTICLE_BLOCK_OPENED;
   }
 
   ngOnChanges(): void {
@@ -80,9 +77,9 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
 
   onVisibilityToggle() {
     this.visible = !this.visible;
+    const state = this.visible ? AppConstants.ARTICLE_BLOCK_OPENED : AppConstants.ARTICLE_BLOCK_CLOSED;
+    this.state.setValue(state);
+    this.save.emit(this.articleBlock);
   }
 
-  onDeleteClicked() {
-    this.deleteArticle.emit();
-  }
 }

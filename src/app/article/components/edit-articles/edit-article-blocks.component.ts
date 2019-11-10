@@ -73,7 +73,7 @@ export class EditArticleBlocksComponent implements OnInit {
       id: new FormControl(a.id),
       title: new FormControl(a.title, [...this.titleValidators]),
       content: new FormControl(a.content, [...this.contentValidators]),
-      status: new FormControl(a.status)
+      state: new FormControl(a.state)
     }));
     this.articleBlocksFormGroup = new FormGroup({
       articleBlocks: new FormArray([...articlesControls])
@@ -88,7 +88,7 @@ export class EditArticleBlocksComponent implements OnInit {
             id: new FormControl(articleBlock.id),
             title: new FormControl(articleBlock.title, [...this.titleValidators]),
             content: new FormControl(articleBlock.content, [...this.contentValidators]),
-            status: new FormControl(articleBlock.status),
+            state: new FormControl(articleBlock.state),
           }));
         }),
         tap(articleBlock => {

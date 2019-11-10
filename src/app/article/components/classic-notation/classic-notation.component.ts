@@ -43,7 +43,7 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
   }
 
   get isPublished() {
-    return this.article.status === AppConstants.PUBLISHED_STATUS;
+    return this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
   }
 
   ngOnInit() {

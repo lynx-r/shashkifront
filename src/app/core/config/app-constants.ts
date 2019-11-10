@@ -197,8 +197,9 @@ export class AppConstants {
 
   static AFTER_LOGIN_REDIRECT = '/article/list-author';
   static AFTER_LOGOUT_REDIRECT = '/contribute/SignIn';
-  static PUBLISHED_STATUS = 'PUBLISHED';
-  static NEW_STATUS = 'NEW';
-  static DRAFT_STATUS = 'DRAFT';
+  static ARTICLE_PUBLISHED_STATUS = 'PUBLISHED';
+  static ARTICLE_DRAFT_STATUS = 'DRAFT';
+  static ARTICLE_BLOCK_OPENED = 'OPENED';
+  static ARTICLE_BLOCK_CLOSED = 'CLOSED';
   static STRENGTH_SYMBOL = '&#x1F9D0;';
 }

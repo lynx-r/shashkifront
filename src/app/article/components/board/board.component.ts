@@ -104,7 +104,7 @@ export class BoardComponent implements OnInit, OnChanges {
   }
 
   onCellClick(cell: BoardCell) {
-    if (!!this.article.notation.winner || this.article.status === AppConstants.PUBLISHED_STATUS) {
+    if (!!this.article.notation.winner || this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS) {
       return;
     }
     this.boardService.touchCell(this.article.id, cell)
