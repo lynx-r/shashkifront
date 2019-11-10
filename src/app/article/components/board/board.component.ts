@@ -19,6 +19,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppConstants } from '../../../core/config/app-constants';
@@ -38,6 +39,7 @@ import { BoardService } from '../../services/board.service';
 export class BoardComponent implements OnInit, OnChanges {
 
   @Input() article: Article;
+  @Input() articleStatus: FormControl;
 
   @Output() articleUpdated = new EventEmitter<ArticleBlock>();
 
@@ -155,7 +157,7 @@ export class BoardComponent implements OnInit, OnChanges {
   }
 
   private isPublished() {
-    return this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
+    return this.articleStatus.value === AppConstants.ARTICLE_PUBLISHED_STATUS;
   }
 
 }

@@ -36,6 +36,7 @@ import * as fromArticle from '../../reducers/article.reducer';
 export class EditArticleComponent implements OnInit, OnChanges {
 
   @Input() article: Article;
+  @Input() articleStatus: FormControl;
 
   articleFormGroup: FormGroup;
   articleBlockFormArray: FormArray;
@@ -74,11 +75,24 @@ export class EditArticleComponent implements OnInit, OnChanges {
   }
 
   get published() {
-    return this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
+    return this.articleStatus.value === AppConstants.ARTICLE_PUBLISHED_STATUS;
   }
 
   ngOnInit(): void {
-    this.createArticleFormGroups(this.article);
+    this.createArticleFormGroups();
+    this.articleStatus.valueChanges
+      .subscribe(value => {
+        console.log(value);
+        if (!value) {
+          return;
+        }
+        const a = {
+          ...this.article,
+          status: value
+        };
+        this.articleService.saveArticle(a)
+          .subscribe(() => this.createArticleFormGroups());
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -120,7 +134,6 @@ export class EditArticleComponent implements OnInit, OnChanges {
     };
     this.articleService.saveArticle(article)
       .pipe(
-        tap(() => this.articleFormGroup.markAsPristine()),
         tap(aSaved => this.store.dispatch(new UpsertArticle({article: aSaved})))
       )
       .subscribe();
@@ -178,8 +191,10 @@ export class EditArticleComponent implements OnInit, OnChanges {
     this.onSaveArticle();
   }
 
-  private createArticleFormGroups(article: Article) {
-    const published = article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
+  private createArticleFormGroups() {
+    const article = this.article;
+    const published = this.published;
+    console.log(published);
     this.articleBlockFormArray = new FormArray([
       ...article.articleBlocks.map((a, index) => this.createArticleBlockFormGroup(a, published, index))
     ]);
@@ -187,8 +202,8 @@ export class EditArticleComponent implements OnInit, OnChanges {
       id: new FormControl(article.id),
       title: new FormControl({value: article.title, disabled: published}, this.titleRequireValidators),
       intro: new FormControl({value: article.intro, disabled: published}, this.introValidators),
-      status: new FormControl({value: article.status, disabled: article.articleBlocks.length === 0}),
       task: new FormControl(article.task),
+      status: new FormControl(article.status),
       selectedArticleBlockId: new FormControl(article.selectedArticleBlockId),
       articleBlockIds: new FormControl(article.articleBlockIds),
     });

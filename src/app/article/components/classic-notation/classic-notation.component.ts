@@ -19,6 +19,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -38,6 +39,7 @@ import { BoardService } from '../../services/board.service';
 export class ClassicNotationComponent implements OnInit, OnChanges {
 
   @Input() article: Article;
+  @Input() articleStatus: FormControl;
 
   selectedStroke: Stroke;
 
@@ -55,7 +57,7 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
   }
 
   get isPublished() {
-    return this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
+    return this.articleStatus.value === AppConstants.ARTICLE_PUBLISHED_STATUS;
   }
 
   ngOnInit() {

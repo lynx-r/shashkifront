@@ -3,7 +3,8 @@
      fxLayout.lt-md="column"
      fxLayoutGap="8px"
 >
-  <app-edit-article [article]="article" fxFlex.gt-sm="50" fxFlex.lt-md="100"></app-edit-article>
+  <app-edit-article [articleStatus]="articleStatusFormControl" [article]="article" fxFlex.gt-sm="50"
+                    fxFlex.lt-md="100"></app-edit-article>
   <div #previewArticleContainerRef fxFlex.gt-sm="50" fxFlex.lt-md="100">
     <mat-tab-group (selectedIndexChange)="onPreviewTabIndexChanged($event)"
                    [(selectedIndex)]="previewTabIndex"
@@ -11,8 +12,9 @@
       <mat-tab label="Доска">
         <br>
         <div fxLayout="column" fxLayoutGap="8px">
-          <app-board [article]="article" fxFlex="50"></app-board>
-          <app-classic-notation [article]="article" fxFlex="50"></app-classic-notation>
+          <app-board [articleStatus]="articleStatusFormControl" [article]="article" fxFlex="50"></app-board>
+          <app-classic-notation [articleStatus]="articleStatusFormControl" [article]="article"
+                                fxFlex="50"></app-classic-notation>
         </div>
       </mat-tab>
       <mat-tab label="Разбор">

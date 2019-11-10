@@ -39,7 +39,6 @@
       <mat-form-field class="full-width">
         <input [formControl]="title"
                matInput
-               name="title"
                placeholder="Заголовок разбора"
                title="Заголовок разбора"
         >
@@ -54,10 +53,10 @@
       </mat-form-field>
       <mat-form-field class="fit">
         <textarea [formControl]="content"
-                  [rows]="10"
                   class="fit"
                   matInput
-                  name="content"
+                  cdkAutosizeMinRows="2"
+                  cdkTextareaAutosize
                   placeholder="Скопируйте или сделайте здесь вашу разбор"
                   title="Текст разбора"
         ></textarea>
