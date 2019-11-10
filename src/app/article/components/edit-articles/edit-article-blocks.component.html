@@ -1,6 +1,13 @@
 <mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Основная информация по разбору
+      <small [hidden]="!article.task" matTooltip="Этот разбор содержит задачу">задача</small>
+    </mat-card-title>
+  </mat-card-header>
+  <br>
   <mat-card-content>
-    <form [formGroup]="articleFormGroup" fxLayout="column">
+    <form [formGroup]="articleFormGroup" fxLayout="column" fxLayoutGap="20px">
       <mat-form-field>
         <input [formControl]="articleTitle" matInput
                placeholder="Заголовок"
@@ -34,7 +41,6 @@
           <mat-option [value]="PUBLISHED">Публикация</mat-option>
         </mat-select>
       </mat-form-field>
-      <small [hidden]="!article.task">Содержит задачу</small>
     </form>
   </mat-card-content>
   <mat-card-actions>
@@ -42,27 +48,32 @@
     </button>
   </mat-card-actions>
 </mat-card>
-<hr/>
-<div fxLayout="row">
-  <button (click)="onAddArticleClicked()" [disabled]="published" mat-button="" type="button">
-    <mat-icon>add</mat-icon>
-    Добавить разбор
-  </button>
-</div>
-<div fxLayout="column">
-  <app-edit-article-block (moveDown)="onMoveDownArticleBlock(a, i)"
-                          (moveUp)="onMoveUpArticleBlock(a, i)"
-                          (remove)="onDeleteArticleBlock(a, i)"
-                          (save)="onSaveArticleBlock($event)"
-                          (select)="onSelectArticleBlock(a)"
-                          *ngFor="let a of articlesControls; index as i"
-                          [articleFormGroup]="a"
-                          [published]="published"
-  ></app-edit-article-block>
-</div>
-<div fxLayout="row">
-  <button (click)="onAddArticleClicked()" [disabled]="published" mat-button="" type="button">
-    <mat-icon>add</mat-icon>
-    Добавить разбор
-  </button>
-</div>
+<br>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Конструктор разбора
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-actions>
+    <div fxLayout="row">
+      <button (click)="onAddArticleClicked()" [disabled]="published" mat-button type="button">
+        <mat-icon>add</mat-icon>
+        Добавить блок
+      </button>
+    </div>
+  </mat-card-actions>
+  <mat-card-content>
+    <div fxLayout="column" fxLayoutGap="12px">
+      <app-edit-article-block (moveDown)="onMoveDownArticleBlock(a, i)"
+                              (moveUp)="onMoveUpArticleBlock(a, i)"
+                              (remove)="onDeleteArticleBlock(a, i)"
+                              (save)="onSaveArticleBlock($event)"
+                              (select)="onSelectArticleBlock(a)"
+                              *ngFor="let a of articlesControls; index as i"
+                              [articleFormGroup]="a"
+                              [published]="published"
+      ></app-edit-article-block>
+    </div>
+  </mat-card-content>
+</mat-card>
