@@ -46,6 +46,7 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges {
   minTitleLength = AppConstants.ARTICLE_TITLE_MIN_SYMBOLS;
 
   private readonly titleValidators: ValidatorFn[];
+  private readonly titleRequireValidators: ValidatorFn[];
   private readonly introValidators: ValidatorFn[];
   private readonly contentValidators: ValidatorFn[];
 
@@ -58,6 +59,11 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges {
     private articleService: ArticleService
   ) {
     this.titleValidators = [
+      Validators.minLength(AppConstants.ARTICLE_TITLE_MIN_SYMBOLS),
+      Validators.maxLength(AppConstants.ARTICLE_TITLE_MAX_SYMBOLS)
+    ];
+    this.titleRequireValidators = [
+      Validators.required,
       Validators.minLength(AppConstants.ARTICLE_TITLE_MIN_SYMBOLS),
       Validators.maxLength(AppConstants.ARTICLE_TITLE_MAX_SYMBOLS)
     ];
@@ -105,8 +111,8 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges {
         tap(articleBlock => {
           this.articleBlockFormArray.insert(0, new FormGroup({
             id: new FormControl(articleBlock.id),
-            title: new FormControl(articleBlock.title, [...this.titleValidators]),
-            content: new FormControl(articleBlock.content, [...this.contentValidators]),
+            title: new FormControl(articleBlock.title, this.titleRequireValidators),
+            content: new FormControl(articleBlock.content, this.contentValidators),
             state: new FormControl(articleBlock.state),
           }));
         }),
@@ -196,16 +202,19 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges {
   private createArticleFormGroups(article: Article) {
     const published = article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
     this.articleBlockFormArray = new FormArray([
-      ...article.articleBlocks.map(a => new FormGroup({
+      ...article.articleBlocks.map((a, index) => new FormGroup({
         id: new FormControl(a.id),
-        title: new FormControl({value: a.title, disabled: published}, [...this.titleValidators]),
-        content: new FormControl({value: a.content, disabled: published}, [...this.contentValidators]),
+        title: new FormControl({
+          value: a.title,
+          disabled: published
+        }, index === 0 ? this.titleRequireValidators : this.titleValidators),
+        content: new FormControl({value: a.content, disabled: published}, this.contentValidators),
         state: new FormControl(a.state)
       }))
     ]);
     this.articleFormGroup = new FormGroup({
       id: new FormControl(article.id),
-      title: new FormControl(article.title, [Validators.required, ...this.titleValidators]),
+      title: new FormControl(article.title, this.titleRequireValidators),
       intro: new FormControl(article.intro, this.introValidators),
       status: new FormControl(article.status),
       task: new FormControl(article.task),

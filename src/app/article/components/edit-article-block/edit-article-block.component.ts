@@ -60,6 +60,10 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
     return this.articleFormGroup.get('state') as FormControl;
   }
 
+  get saveButtonColor() {
+    return (!this.articleFormGroup.valid || this.published) ? 'warn' : (this.articleFormGroup.touched ? 'accent' : 'primary');
+  }
+
   ngOnInit() {
     this.visible = this.state.value === AppConstants.ARTICLE_BLOCK_OPENED;
   }

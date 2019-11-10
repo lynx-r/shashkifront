@@ -17,6 +17,7 @@
         <mat-icon>touch_app</mat-icon>
       </button>
       <button (click)="save.emit(articleBlock)" [disabled]="!articleFormGroup.valid || published" mat-icon-button
+              [color]="saveButtonColor"
               type="button">
         <mat-icon>save</mat-icon>
       </button>
