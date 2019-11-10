@@ -32,6 +32,7 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
 
   @Input() articleFormGroup: FormGroup;
   @Input() published: boolean;
+  @Input() lastElement: boolean;
   @Input() selectedArticleBlockId: string;
 
   @Output() save = new EventEmitter<ArticleBlock>();
@@ -62,11 +63,15 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
   }
 
   get saveButtonColor() {
-    return (!this.articleFormGroup.valid || this.published) ? 'warn' : (this.articleFormGroup.touched ? 'accent' : 'primary');
+    return (!this.articleFormGroup.valid || this.published) ? 'warn' : (this.articleFormGroup.dirty ? 'accent' : 'primary');
   }
 
   get selectedColor() {
     return this.selectedArticleBlockId === this.articleBlock.id ? 'warn' : 'primary';
+  }
+
+  get deleteColor() {
+    return this.published || this.lastElement ? 'accent' : 'warn';
   }
 
   ngOnInit() {

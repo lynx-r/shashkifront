@@ -18,6 +18,7 @@
         <mat-icon>touch_app</mat-icon>
       </button>
       <button (click)="save.emit(articleBlock)" [disabled]="!articleFormGroup.valid || published" mat-icon-button
+              [matTooltip]="articleFormGroup.dirty ? 'Есть изменения' : ''"
               [color]="saveButtonColor"
               type="button">
         <mat-icon>save</mat-icon>
@@ -28,8 +29,8 @@
       <button (click)="moveDown.emit()" [disabled]="published" mat-icon-button type="button">
         <mat-icon>keyboard_arrow_down</mat-icon>
       </button>
-      <button (click)="remove.emit()" [disabled]="published" mat-icon-button type="button">
-        <mat-icon color="warn">delete</mat-icon>
+      <button (click)="remove.emit()" [disabled]="published || lastElement" mat-icon-button type="button">
+        <mat-icon [color]="deleteColor">delete</mat-icon>
       </button>
     </div>
   </mat-card-actions>

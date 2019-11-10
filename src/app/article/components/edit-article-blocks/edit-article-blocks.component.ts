@@ -20,7 +20,6 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
-import { ArticleBlock } from '../../../domain';
 
 @Component({
   selector: 'app-edit-article-blocks',
@@ -37,7 +36,7 @@ export class EditArticleBlocksComponent {
   @Output() moveDownArticleBlock = new EventEmitter<{ formGroup: FormGroup, index: number }>();
   @Output() moveUpArticleBlock = new EventEmitter<{ formGroup: FormGroup, index: number }>();
   @Output() deleteArticleBlock = new EventEmitter<{ formGroup: FormGroup, index: number }>();
-  @Output() saveArticleBlock = new EventEmitter<ArticleBlock>();
+  @Output() saveArticleBlock = new EventEmitter<FormGroup>();
   @Output() selectArticleBlock = new EventEmitter<FormGroup>();
 
   get articlesControls(): FormGroup[] {

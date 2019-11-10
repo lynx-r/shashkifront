@@ -42,7 +42,7 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field>
-        <mat-select [disabled]="!canPublish" [formControl]="articleStatus" placeholder="Статус">
+        <mat-select [formControl]="articleStatus" placeholder="Статус">
           <mat-option [value]="DRAFT">Черновик</mat-option>
           <mat-option [value]="PUBLISHED">Публикация</mat-option>
         </mat-select>

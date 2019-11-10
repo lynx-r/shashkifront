@@ -18,7 +18,7 @@
  *
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
@@ -33,7 +33,7 @@ import * as fromArticle from '../../reducers/article.reducer';
   templateUrl: './edit-article.component.html',
   styles: []
 })
-export class EditArticleComponent implements OnInit {
+export class EditArticleComponent implements OnInit, OnChanges {
 
   @Input() article: Article;
 
@@ -47,7 +47,7 @@ export class EditArticleComponent implements OnInit {
 
   constructor(
     private store: Store<fromArticle.State>,
-    private articleService: ArticleService
+    private articleService: ArticleService,
   ) {
     this.titleValidators = [
       Validators.minLength(AppConstants.ARTICLE_TITLE_MIN_SYMBOLS),
@@ -70,14 +70,7 @@ export class EditArticleComponent implements OnInit {
   }
 
   get articleBlocks() {
-    return this.article.articleBlocks;
-  }
-
-  set articleBlocks(articleBlocks: ArticleBlock[]) {
-    this.article = {
-      ...this.article,
-      articleBlocks: articleBlocks
-    };
+    return this.articleBlockFormArray.value;
   }
 
   get published() {
@@ -88,32 +81,30 @@ export class EditArticleComponent implements OnInit {
     this.createArticleFormGroups(this.article);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+  }
+
   onAddArticleClicked(end: boolean) {
     this.articleService.addArticleBlockToArticle(this.article.id, end)
       .pipe(
         tap(articleBlock => {
           if (end) {
-            this.articleBlockFormArray.insert(this.articleBlockFormArray.length, new FormGroup({
-              id: new FormControl(articleBlock.id),
-              title: new FormControl(articleBlock.title, this.titleValidators),
-              content: new FormControl(articleBlock.content, this.contentValidators),
-              state: new FormControl(articleBlock.state),
-            }));
+            this.articleBlockFormArray.insert(this.articleBlockFormArray.length,
+              this.createArticleBlockFormGroup(articleBlock, this.published, -1)
+            );
           } else {
-            this.articleBlockFormArray.insert(0, new FormGroup({
-              id: new FormControl(articleBlock.id),
-              title: new FormControl(articleBlock.title, this.titleRequireValidators),
-              content: new FormControl(articleBlock.content, this.contentValidators),
-              state: new FormControl(articleBlock.state),
-            }));
+            this.articleBlockFormArray.insert(0,
+              this.createArticleBlockFormGroup(articleBlock, this.published, 0)
+            );
           }
         }),
         tap(articleBlock => {
-          this.articleBlocks = this.articleBlockFormArray.value;
           const a = {
             ...this.article,
-            articleBlocks: [articleBlock, ...this.articleBlocks],
-            selectedArticleBlock: articleBlock
+            articleBlocks: this.articleBlocks,
+            articleBlockIds: this.articleBlocks.map(b => b.id),
+            selectedArticleBlock: articleBlock,
+            selectedArticleBlockId: articleBlock.id
           };
           this.store.dispatch(new UpsertArticle({article: a}));
         })
@@ -122,47 +113,39 @@ export class EditArticleComponent implements OnInit {
   }
 
   onSaveArticle() {
-    const abIds = this.articleBlockFormArray.value.map((ab: ArticleBlock) => ab.id);
+    const abIds = this.articleBlocks.map((ab: ArticleBlock) => ab.id);
     const article = {
       ...this.articleFormGroup.value,
       articleBlockIds: abIds
     };
     this.articleService.saveArticle(article)
       .pipe(
-        tap(aSaved => this.createArticleFormGroups(aSaved)),
         tap(aSaved => this.store.dispatch(new UpsertArticle({article: aSaved})))
       )
       .subscribe();
   }
 
   onSelectArticleBlock(a: FormGroup) {
-    const abIds = this.articleBlockFormArray.value.map((ab: ArticleBlock) => ab.id);
-    const article = {
-      ...this.articleFormGroup.value,
-      articleBlockIds: abIds
-    };
-    this.articleService.selectArticleBlock(article, a.value.id)
+    this.articleService.selectArticleBlock(this.article, a.value.id)
       .pipe(
-        tap(aSaved => this.createArticleFormGroups(aSaved)),
         tap(articleSaved => this.store.dispatch(new UpsertArticle({article: articleSaved})))
       )
       .subscribe();
   }
 
   onDeleteArticleBlock(a: FormGroup, index: number) {
-    this.articleBlocks = this.articleBlocks.filter(ab => ab.id !== a.value.id);
     this.articleBlockFormArray.removeAt(index);
     const aId = a.value.id;
     this.articleService.deleteArticleBlock(this.article.id, aId)
       .subscribe();
   }
 
-  onSaveArticleBlock(articleBlock: ArticleBlock) {
-    const aBlock = {...this.articleBlocks.find(a => a.id === articleBlock.id)};
-    const updatedABlock = Object.assign(aBlock, articleBlock);
+  onSaveArticleBlock(articleBlock: FormGroup) {
+    const aBlock = {...this.articleBlocks.find(a => a.id === articleBlock.value.id)};
+    const updatedABlock = Object.assign(aBlock, articleBlock.value);
     this.articleService.saveArticleWithArticleBlock(this.article, updatedABlock)
       .pipe(
-        tap(aSaved => this.createArticleFormGroups(aSaved)),
+        tap(() => articleBlock.markAsPristine()),
         tap(article => this.store.dispatch(new UpsertArticle({article: article})))
       )
       .subscribe();
@@ -195,27 +178,32 @@ export class EditArticleComponent implements OnInit {
   }
 
   private createArticleFormGroups(article: Article) {
-    console.log(article.articleBlocks);
     const published = article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
     this.articleBlockFormArray = new FormArray([
-      ...article.articleBlocks.map((a, index) => new FormGroup({
-        id: new FormControl(a.id),
-        title: new FormControl({
-          value: a.title,
-          disabled: published
-        }, index === 0 ? this.titleRequireValidators : this.titleValidators),
-        content: new FormControl({value: a.content, disabled: published}, this.contentValidators),
-        state: new FormControl(a.state)
-      }))
+      ...article.articleBlocks.map((a, index) => this.createArticleBlockFormGroup(a, published, index))
     ]);
     this.articleFormGroup = new FormGroup({
       id: new FormControl(article.id),
       title: new FormControl(article.title, this.titleRequireValidators),
       intro: new FormControl(article.intro, this.introValidators),
-      status: new FormControl(article.status),
+      status: new FormControl({value: article.status, disabled: article.articleBlocks.length === 0}),
       task: new FormControl(article.task),
       selectedArticleBlockId: new FormControl(article.selectedArticleBlockId),
       articleBlockIds: new FormControl(article.articleBlockIds),
+    });
+  }
+
+  private createArticleBlockFormGroup(block, published, index) {
+    return new FormGroup({
+      id: new FormControl(block.id),
+      title: new FormControl({
+        value: block.title,
+        disabled: published
+      }, index === 0 ? this.titleRequireValidators : this.titleValidators),
+      content: new FormControl({value: block.content, disabled: published}, this.contentValidators),
+      state: new FormControl(block.state),
+      notation: new FormControl(block.notation),
+      task: new FormControl(block.task),
     });
   }
 }
