@@ -1,7 +1,13 @@
 <mat-card class="fit">
   <mat-card-content>
-    <h2>Разбор</h2>
-    <app-preview-article-block *ngFor="let ab of article.articleBlocks" [articleBlock]="ab"></app-preview-article-block>
+    <h2>{{article.title}}</h2>
+    <div>
+      <i>{{article.intro}}</i>
+    </div>
+    <app-preview-article-block *ngFor="let ab of article.articleBlocks"
+                               [articleBlock]="ab"
+                               [article]="article"
+    ></app-preview-article-block>
   </mat-card-content>
 </mat-card>
 

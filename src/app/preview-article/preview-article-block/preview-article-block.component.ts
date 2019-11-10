@@ -22,7 +22,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angu
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ArticleBlock } from '../../domain';
+import { Article, ArticleBlock } from '../../domain';
 import { InlineContentDirective } from '../inline-content/inline-content.directive';
 import { NotationParserService } from '../notation-parser.service';
 import { ContentItem } from '../preview-article/content-item';
@@ -34,6 +34,7 @@ import { ContentItem } from '../preview-article/content-item';
 })
 export class PreviewArticleBlockComponent implements OnInit, OnChanges, OnDestroy {
 
+  @Input() article: Article;
   @Input() articleBlock: ArticleBlock;
 
   @ViewChild(InlineContentDirective, {static: false}) inline: InlineContentDirective;
@@ -117,7 +118,7 @@ export class PreviewArticleBlockComponent implements OnInit, OnChanges, OnDestro
   }
 
   private parseArticleContent(content) {
-    const components = this.notationParserService.recreateComponents(content, this.articleBlock);
+    const components = this.notationParserService.recreateComponents(content, this.article, this.articleBlock);
     if (components.length > 0) {
       this.components = [];
       this.components = [...components];

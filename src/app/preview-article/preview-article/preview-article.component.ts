@@ -18,117 +18,16 @@
  *
  */
 
-import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Component, Input } from '@angular/core';
 import { Article } from '../../domain';
-import { InlineContentDirective } from '../inline-content/inline-content.directive';
-import { NotationParserService } from '../notation-parser.service';
-import { ContentItem } from './content-item';
 
 @Component({
   selector: 'app-preview-article',
   templateUrl: './preview-article.component.html',
   styleUrls: ['./preview-article.component.css'],
 })
-export class PreviewArticleComponent implements OnInit, OnChanges, OnDestroy {
+export class PreviewArticleComponent {
 
   @Input() article: Article;
-  /**
-   * undefined when in not edit mode. it sends here an content of edited article
-   */
-  @Input() internal: boolean;
 
-  @ViewChild(InlineContentDirective, {static: false}) inline: InlineContentDirective;
-
-  title: string;
-  tokens: { [key: string]: RegExp };
-  ul: { [key: string]: RegExp };
-  driveTokens: { [key: string]: RegExp };
-  linkTokens: { [key: string]: RegExp };
-  imgTokens: { [key: string]: RegExp };
-  markdown: { [key: string]: RegExp };
-  components: ContentItem[];
-
-  private articleContent$ = new BehaviorSubject<string>('');
-
-  get selectedArticleBlock() {
-    return this.article.selectedArticleBlock;
-  }
-
-  constructor(
-    private notationParserService: NotationParserService
-  ) {
-    this.tokens = {
-      'cut': /(\n|.)*%cut%/,
-      'h4': /###.+/,
-      'h3': /##.+/,
-      'h2': /#.+/,
-      'hrule': /\*{3,}|_{3,}|-{3,}/,
-      'ul': /(\n\*.+)+/,
-      'ol': /(\n\d+\..+)+/,
-      'board': /\n\$\d+/,
-      'newline': /\n\n+?/,
-    };
-    this.ul = {
-      'uitem': /\*\s+(.+)/,
-      'oitem': /\d+\.(.+)/,
-    };
-    this.driveTokens = {
-      'boardId': /\$\d+/,
-      'driveNum': /:\d+/,
-      'branchId': /\/\d+/,
-      'driveId': /@\d+/
-    };
-    this.linkTokens = {
-      'text': /\[.+\]/,
-      'link': /\(.+\)/,
-    };
-    this.imgTokens = {
-      'text': /!\[.+\]/,
-      'link': /\(.+\)/,
-    };
-    this.markdown = {
-      'drive': /\s\$\d+(((:\d+)(\/\d+))*@\d+)+\s/, // $board:driveNum/branchId@driveNum
-      'link': /\s\[[^[]+\]\([^()]+\)\s/,
-      'img': /\s!\[[^[]+\]\([^(]+\)\s/,
-      'bold': /\s\*\*.+\*\*\s/,
-      'italic': /\s\*.+\*\s/,
-      'underline': /\s_.+_\s/,
-      'highlight': /\s\+.+\+\s/,
-    };
-  }
-
-  ngOnInit() {
-    this.title = this.article.title;
-    this.components = [];
-    this.parseArticleContent(this.selectedArticleBlock.content);
-    this.initParseArticleContent();
-  }
-
-  ngOnChanges() {
-    this.title = this.article.title;
-    this.articleContent$.next(this.selectedArticleBlock.content);
-  }
-
-  ngOnDestroy(): void {
-  }
-
-  private initParseArticleContent() {
-    this.articleContent$
-      .pipe(
-        tap((content) => this.parseArticleContent(content)),
-        untilComponentDestroyed(this)
-      )
-      .subscribe();
-  }
-
-  private parseArticleContent(content) {
-    const components = this.notationParserService.recreateComponents(content, this.selectedArticleBlock);
-    if (components.length > 0) {
-      this.components = [];
-      this.components = [...components];
-    }
-  }
 }

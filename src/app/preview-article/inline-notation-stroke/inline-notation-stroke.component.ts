@@ -20,8 +20,10 @@
 
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { UpsertArticle } from '../../article/actions/article.actions';
+import { BoardService } from '../../article/services/board.service';
 import { RootState } from '../../core/reducers/reducer.reducer';
-import { ArticleBlock, Move, Rule, Stroke } from '../../domain';
+import { Article, ArticleBlock, Move, Rule, Stroke } from '../../domain';
 import { ContentComponent } from '../preview-article/content-component';
 
 @Component({
@@ -32,11 +34,20 @@ import { ContentComponent } from '../preview-article/content-component';
 })
 export class InlineNotationStrokeComponent implements OnInit, ContentComponent {
 
-  @Input() data: { article: ArticleBlock, notationNum: number };
+  @Input() data: { article: Article, articleBlock: ArticleBlock, notationNum: number };
 
   stroke: Stroke;
 
-  constructor(private store: Store<RootState>) {
+  constructor(private store: Store<RootState>,
+              private boardService: BoardService) {
+  }
+
+  get article() {
+    return this.data.article;
+  }
+
+  get articleBlock() {
+    return this.data.articleBlock;
   }
 
   get cellCount() {
@@ -44,7 +55,7 @@ export class InlineNotationStrokeComponent implements OnInit, ContentComponent {
   }
 
   get notation() {
-    return this.data.article.notation;
+    return this.articleBlock.notation;
   }
 
   ngOnInit() {
@@ -52,44 +63,8 @@ export class InlineNotationStrokeComponent implements OnInit, ContentComponent {
   }
 
   onMoveClicked(move: Move) {
-    const strokes = this.notation.strokes
-      .map(s => {
-        const selected = s.notationNumber === this.stroke.notationNumber;
-        if (selected && this.stroke.notationNumber !== 0) {
-          const wMs = this.updateMoveSelection(s.whiteMoves, move);
-          const bMs = this.updateMoveSelection(s.blackMoves, move);
-          return {
-            ...s,
-            selected: true,
-            whiteMoves: wMs,
-            blackMoves: bMs
-          };
-        }
-        return {
-          ...s,
-          selected: selected,
-          whiteMoves: s.whiteMoves.map(m => ({...m, selected: false})),
-          blackMoves: s.blackMoves.map(m => ({...m, selected: false})),
-        };
-      });
-    const a = {
-      ...this.data.article,
-      notation: {
-        ...this.data.article.notation,
-        strokes: strokes
-      }
-    };
-    // this.store.dispatch(new UpsertArticle({article: a}));
-  }
-
-  private updateMoveSelection(moves: Move[], move: Move) {
-    return moves
-      .map(m => {
-        return {
-          ...m,
-          selected: m === move
-        };
-      });
+    const article = this.boardService.highlightClickedMoveInArticle(this.article, this.stroke, move);
+    this.store.dispatch(new UpsertArticle({article: article}));
   }
 
 }

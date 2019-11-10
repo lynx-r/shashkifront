@@ -74,13 +74,9 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
   }
 
   onStrokeClicked(move: Move, stroke: Stroke) {
-    const articleBlock = this.boardService.highlightClickedMoveInArticle(this.selectedArticleBoard, stroke, move);
-    this.selectedStroke = articleBlock.notation.strokes.find(s => s.notationNumber === stroke.notationNumber);
-    const a = {
-      ...this.article,
-      selectedArticleBlock: articleBlock
-    };
-    this.store.dispatch(new UpsertArticle({article: a}));
+    const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);
+    this.selectedStroke = article.selectedArticleBlock.notation.strokes.find(s => s.notationNumber === stroke.notationNumber);
+    this.store.dispatch(new UpsertArticle({article: article}));
   }
 
   onSaveStroke(stroke: Stroke) {

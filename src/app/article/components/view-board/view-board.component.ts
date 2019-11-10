@@ -23,8 +23,9 @@ import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppConstants } from '../../../core/config/app-constants';
 import { NotifyService } from '../../../core/services/notify.service';
-import { ArticleBlock, BoardCell, Move, Rule, Stroke } from '../../../domain';
+import { Article, ArticleBlock, BoardCell, Move, Rule, Stroke } from '../../../domain';
 import { BLACK_PIECE, EMPTY_CELL } from '../../../domain/board-cell';
+import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { BoardService } from '../../services/board.service';
 
@@ -35,9 +36,9 @@ import { BoardService } from '../../services/board.service';
 })
 export class ViewBoardComponent implements OnInit, OnChanges {
 
-  @Input() article: ArticleBlock;
+  @Input() article: Article;
 
-  @Output() articleUpdated = new EventEmitter<ArticleBlock>();
+  @Output() articleUpdated = new EventEmitter<Article>();
 
   flatCells: BoardCell[];
   cellNotation: string;
@@ -54,8 +55,23 @@ export class ViewBoardComponent implements OnInit, OnChanges {
               private notifyService: NotifyService) {
   }
 
+  get selectedArticleBoard() {
+    return this.article.selectedArticleBlock;
+  }
+
+  set selectedArticleBoard(articleBlock: ArticleBlock) {
+    this.article = {
+      ...this.article,
+      selectedArticleBlock: articleBlock
+    };
+  }
+
+  get notation() {
+    return this.selectedArticleBoard.notation;
+  }
+
   get cellCount() {
-    return (this.article.notation.notationFen.rule as Rule).cellCount;
+    return (this.notation.notationFen.rule as Rule).cellCount;
   }
 
   get rangeCellCount() {
@@ -113,7 +129,7 @@ export class ViewBoardComponent implements OnInit, OnChanges {
   }
 
   onCellClick(cell: BoardCell) {
-    if (!!this.article.notation.winner || this.solved || !this.article.task) {
+    if (!!this.notation.winner || this.solved || !this.article.task) {
       return;
     }
     this.moveNum++;
@@ -147,7 +163,7 @@ export class ViewBoardComponent implements OnInit, OnChanges {
     this.disableBackward = false;
     const {move, stroke} = this.findMoveByNumFromStrokes();
     const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);
-    // this.store.dispatch(new UpsertArticle({article: article}));
+    this.store.dispatch(new UpsertArticle({article: article}));
     if (this.moveNum === this.moves.length - 1) {
       this.disableForward = true;
     }
@@ -161,36 +177,36 @@ export class ViewBoardComponent implements OnInit, OnChanges {
     this.moveNum--;
     if (this.moveNum === -1) {
       this.disableBackward = true;
-      const stroke = this.article.notation.strokes[0];
+      const stroke = this.notation.strokes[0];
       const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, null);
-      // this.store.dispatch(new UpsertArticle({article: article}));
+      this.store.dispatch(new UpsertArticle({article: article}));
     } else {
       const {move, stroke} = this.findMoveByNumFromStrokes();
       const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);
-      // this.store.dispatch(new UpsertArticle({article: article}));
+      this.store.dispatch(new UpsertArticle({article: article}));
     }
   }
 
   private updateBoard() {
-    this.flatCells = this.boardService.getActualBoardCellsForNotation(this.article.notation);
-    this.moves = this.boardService.flattenStrokes(this.article.notation.strokes);
+    this.flatCells = this.boardService.getActualBoardCellsForNotation(this.notation);
+    this.moves = this.boardService.flattenStrokes(this.notation.strokes);
     this.moveNum = this.moves.findIndex(m => m.selected);
     this.disableBackward = this.moveNum === -1;
   }
 
   private findMoveByNumFromStrokes() {
     const move = this.moves[this.moveNum];
-    const stroke = this.article.notation.strokes.find(s => s.whiteMoves.some(m => m === move) || s.blackMoves.some(m => m === move));
+    const stroke = this.notation.strokes.find(s => s.whiteMoves.some(m => m === move) || s.blackMoves.some(m => m === move));
     return {move, stroke};
   }
 
   private updateIfStrokeSolved(stroke: Stroke, move: Move) {
     if (stroke.blackMoves[stroke.blackMoves.length - 1] === move || stroke.blackMoves.length === 0) {
-      this.article = {
-        ...this.article,
+      this.selectedArticleBoard = {
+        ...this.selectedArticleBoard,
         notation: {
-          ...this.article.notation,
-          strokes: this.article.notation.strokes.map(s => {
+          ...this.notation,
+          strokes: this.notation.strokes.map(s => {
             if (s.notationNumber === stroke.notationNumber) {
               return {
                 ...stroke,

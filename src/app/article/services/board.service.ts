@@ -24,7 +24,7 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { AppConstants } from '../../core/config/app-constants';
 import { ApiBase } from '../../core/services/api-base';
-import { ArticleBlock, BoardCell, GameNotation, Move, Stroke } from '../../domain';
+import { Article, BoardCell, GameNotation, Move, Stroke } from '../../domain';
 import { EMPTY_CELL } from '../../domain/board-cell';
 
 @Injectable({
@@ -126,11 +126,9 @@ export class BoardService {
     return cellCount - row + 1;
   }
 
-  highlightBoardCell(notation: GameNotation, c: BoardCell) {
-  }
-
-  highlightClickedMoveInArticle(article: ArticleBlock, stroke: Stroke, move: Move) {
-    const strokes = article.notation.strokes
+  highlightClickedMoveInArticle(article: Article, stroke: Stroke, move: Move): Article {
+    const articleBlock = article.selectedArticleBlock;
+    const strokes = articleBlock.notation.strokes
       .map(s => {
         const selected = s.notationNumber === stroke.notationNumber;
         if (selected && stroke.notationNumber !== 0) {
@@ -150,12 +148,23 @@ export class BoardService {
           blackMoves: s.blackMoves.map(m => ({...m, selected: false})),
         };
       });
-    return {
-      ...article,
+    const articleBlockUpdated = {
+      ...articleBlock,
       notation: {
-        ...article.notation,
+        ...articleBlock.notation,
         strokes: strokes
       }
+    };
+    const absUp = article.articleBlocks.map(ab => {
+      if (ab.id === articleBlockUpdated.id) {
+        return articleBlockUpdated;
+      }
+      return ab;
+    });
+    return {
+      ...article,
+      selectedArticleBlock: articleBlockUpdated,
+      articleBlocks: absUp
     };
   }
 

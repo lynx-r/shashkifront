@@ -24,7 +24,8 @@ import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ArticleBlock } from '../../../domain';
+import { Article } from '../../../domain';
+import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { selectArticleEntitiesByHru } from '../../reducers/article.reducer';
 
@@ -35,7 +36,7 @@ import { selectArticleEntitiesByHru } from '../../reducers/article.reducer';
 })
 export class ViewArticleContainerComponent implements OnInit, OnDestroy {
 
-  article$: Observable<ArticleBlock>;
+  article$: Observable<Article>;
 
   constructor(
     private store: Store<fromArticle.State>,
@@ -58,7 +59,7 @@ export class ViewArticleContainerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
 
-  onUpdateArticle(article: ArticleBlock) {
-    // this.store.dispatch(new UpsertArticle({article: article}));
+  onUpdateArticle(article: Article) {
+    this.store.dispatch(new UpsertArticle({article: article}));
   }
 }

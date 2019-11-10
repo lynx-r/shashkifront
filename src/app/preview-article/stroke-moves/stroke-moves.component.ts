@@ -18,7 +18,7 @@
  *
  */
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BoardService } from '../../article/services/board.service';
 import { BoardCell, Move } from '../../domain';
 
@@ -35,9 +35,7 @@ import { BoardCell, Move } from '../../domain';
         <span *ngIf="!hideMiddleEaten(m, i)">:{{getNotation(m.to)}}</span>
       </span>
   `,
-  styles: [`
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: [``],
 })
 export class StrokeMovesComponent implements OnInit {
 

@@ -21,7 +21,7 @@
 import { Injectable } from '@angular/core';
 import { TextTokenizer } from 'text-tokenizer';
 import { NotifyService } from '../core/services/notify.service';
-import { ArticleBlock } from '../domain';
+import { Article, ArticleBlock } from '../domain';
 import { InlineNotationStrokeComponent } from './inline-notation-stroke/inline-notation-stroke.component';
 import { InlineTextComponent } from './inline-text/inline-text.component';
 import { ContentItem } from './preview-article/content-item';
@@ -39,7 +39,7 @@ export class NotationParserService {
     this.config();
   }
 
-  recreateComponents(content: string, article: ArticleBlock) {
+  recreateComponents(content: string, article: Article, articleBlock: ArticleBlock) {
     if (!content) {
       return [];
     }
@@ -50,7 +50,8 @@ export class NotationParserService {
           const val = t.value;
           switch (t.type) {
             case 'driveNum':
-              return {component: InlineNotationStrokeComponent, index: i, data: {article: article, notationNum: val}};
+              const data = {article: article, articleBlock: articleBlock, notationNum: val};
+              return {component: InlineNotationStrokeComponent, index: i, data: data};
             case 'text':
               return {component: InlineTextComponent, index: i, data: {text: val, color: 'white'}};
             case 'h2':

@@ -20,7 +20,8 @@
 
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ArticleBlock, GameNotation, Move, Stroke } from '../../../domain';
+import { Article, Move, Stroke } from '../../../domain';
+import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { BoardService } from '../../services/board.service';
 
@@ -32,16 +33,21 @@ import { BoardService } from '../../services/board.service';
 })
 export class ViewNotationComponent implements OnInit, OnChanges {
 
-  @Input() article: ArticleBlock;
+  @Input() article: Article;
 
-  notation: GameNotation;
+  get selectedArticleBoard() {
+    return this.article.selectedArticleBlock;
+  }
+
+  get notation() {
+    return this.selectedArticleBoard.notation;
+  }
 
   constructor(private store: Store<fromArticle.State>,
               private boardService: BoardService) {
   }
 
   ngOnInit() {
-    this.notation = this.article.notation;
     const sStroke = this.notation.strokes.find(s => s.selected);
     if (!!sStroke) {
       const sMove = this.boardService.findSelectedMoveInStroke(sStroke);
@@ -52,11 +58,10 @@ export class ViewNotationComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.notation = this.article.notation;
   }
 
   onStrokeClicked(move: Move, stroke: Stroke) {
     const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);
-    // this.store.dispatch(new UpsertArticle({article: article}));
+    this.store.dispatch(new UpsertArticle({article: article}));
   }
 }
