@@ -13,7 +13,8 @@
         <mat-icon *ngIf="!visible">visibility_off</mat-icon>
         <mat-icon *ngIf="visible">visibility</mat-icon>
       </button>
-      <button (click)="select.emit()" [disabled]="!articleFormGroup.valid || published" mat-icon-button type="button">
+      <button (click)="select.emit()" [color]="selectedColor" [disabled]="!articleFormGroup.valid || published"
+              mat-icon-button type="button">
         <mat-icon>touch_app</mat-icon>
       </button>
       <button (click)="save.emit(articleBlock)" [disabled]="!articleFormGroup.valid || published" mat-icon-button

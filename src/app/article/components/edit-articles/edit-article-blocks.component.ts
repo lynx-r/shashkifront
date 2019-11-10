@@ -99,10 +99,10 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.createArticleFormGroups(this.article);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.createArticleFormGroups(this.article);
   }
 
   onAddArticleClicked() {
@@ -136,6 +136,7 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges {
     };
     this.articleService.saveArticle(article)
       .pipe(
+        tap(aSaved => this.createArticleFormGroups(aSaved)),
         tap(aSaved => this.store.dispatch(new UpsertArticle({article: aSaved})))
       )
       .subscribe();
@@ -149,6 +150,7 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges {
     };
     this.articleService.selectArticleBlock(article, a.value.id)
       .pipe(
+        tap(aSaved => this.createArticleFormGroups(aSaved)),
         tap(articleSaved => this.store.dispatch(new UpsertArticle({article: articleSaved})))
       )
       .subscribe();
@@ -166,9 +168,8 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges {
     const updatedABlock = Object.assign(aBlock, articleBlock);
     this.articleService.saveArticleWithArticleBlock(this.article, updatedABlock)
       .pipe(
-        tap(article => {
-          this.store.dispatch(new UpsertArticle({article: article}));
-        })
+        tap(aSaved => this.createArticleFormGroups(aSaved)),
+        tap(article => this.store.dispatch(new UpsertArticle({article: article})))
       )
       .subscribe();
   }

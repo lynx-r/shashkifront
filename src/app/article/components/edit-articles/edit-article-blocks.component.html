@@ -72,6 +72,7 @@
                               (select)="onSelectArticleBlock(a)"
                               *ngFor="let a of articlesControls; index as i"
                               [articleFormGroup]="a"
+                              [selectedArticleBlockId]="article.selectedArticleBlockId"
                               [published]="published"
       ></app-edit-article-block>
     </div>
