@@ -18,7 +18,7 @@
  *
  */
 
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -27,6 +27,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
+import { MediaService } from '../../../core/services/media.service';
 import { StorageService } from '../../../core/services/storage.service';
 import { Article } from '../../../domain';
 import { UpsertArticle } from '../../actions/article.actions';
@@ -44,15 +45,15 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
   toggleRight: string;
   previewTabIndex: number;
 
-  @ViewChild('editArticleRef', {static: false}) editArticleRef: ElementRef;
-  @ViewChild(MatTabGroup, {static: false}) previewArticleRef: MatTabGroup;
+  @ViewChild('previewArticleContainerRef', {static: false}) previewArticleContainerRef: ElementRef;
+  @ViewChild(MatTabGroup, {static: false}) previewTabGroupRef: MatTabGroup;
 
   constructor(
     private store: Store<fromArticle.State>,
     private route: ActivatedRoute,
     private articleService: ArticleService,
     private storageService: StorageService,
-    private renderer: Renderer2
+    private mediaService: MediaService
   ) {
   }
 
@@ -77,22 +78,20 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
           )),
         untilComponentDestroyed(this)
       );
+    this.mediaService.mediaObserver.asObservable().subscribe(() => setInterval(() => this.updateBoardWidth(), 500));
   }
 
   ngOnDestroy(): void {
   }
 
   ngAfterViewInit(): void {
-    if (!!this.editArticleRef && !!this.previewArticleRef) {
-      const clientWidth = (this.editArticleRef.nativeElement as HTMLElement).clientWidth;
-      (<HTMLElement>this.previewArticleRef._elementRef.nativeElement).style.width = clientWidth + 'px';
+  }
 
-      const scrollHeight = (this.editArticleRef.nativeElement as HTMLElement).getBoundingClientRect();
-      console.log(scrollHeight);
-      // const main = this.renderer.selectRootElement('.main-wrapper');
-      // const clientHeight = (<HTMLElement>main).clientHeight;
-      // console.log(main);
-      // (<HTMLElement>this.previewArticleRef._elementRef.nativeElement).style.height = clientHeight + 'px';
+  private updateBoardWidth() {
+    if (!!this.previewArticleContainerRef && !!this.previewTabGroupRef) {
+      const clientWidth = (this.previewArticleContainerRef.nativeElement as HTMLElement).offsetWidth;
+      console.log(111, clientWidth);
+      (<HTMLElement>this.previewTabGroupRef._elementRef.nativeElement).style.width = clientWidth + 'px';
     }
   }
 

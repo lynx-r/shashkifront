@@ -1,5 +1,11 @@
 <div *ngIf="article$ | async as article" fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
-  <app-view-board (articleUpdated)="onUpdateArticle($event)" [article]="article" fxFlex="35"></app-view-board>
+  <div #viewBoardContainerRef fxFlex="35">
+    <app-view-board (articleUpdated)="onUpdateArticle($event)"
+                    [article]="article"
+                    [ngClass.gt-md]="'view-board'"
+                    [style.width]="viewBoardWidth"
+    ></app-view-board>
+  </div>
   <app-preview-article [article]="article"
                        [visiblePublic]="true"
                        fxFlex="65"></app-preview-article>

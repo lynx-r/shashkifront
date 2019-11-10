@@ -185,8 +185,8 @@ export class EditArticleComponent implements OnInit, OnChanges {
     ]);
     this.articleFormGroup = new FormGroup({
       id: new FormControl(article.id),
-      title: new FormControl(article.title, this.titleRequireValidators),
-      intro: new FormControl(article.intro, this.introValidators),
+      title: new FormControl({value: article.title, disabled: published}, this.titleRequireValidators),
+      intro: new FormControl({value: article.intro, disabled: published}, this.introValidators),
       status: new FormControl({value: article.status, disabled: article.articleBlocks.length === 0}),
       task: new FormControl(article.task),
       selectedArticleBlockId: new FormControl(article.selectedArticleBlockId),

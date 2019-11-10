@@ -32,7 +32,7 @@ export class MediaService {
   smallMobile$: Observable<boolean | undefined>;
   desktop$: Observable<boolean | undefined>;
 
-  constructor(private mediaObserver: MediaObserver) {
+  constructor(public mediaObserver: MediaObserver) {
     const grid = new Map([
       ['xs', true],
       ['sm', true],
