@@ -36,7 +36,6 @@ import * as fromArticle from '../../reducers/article.reducer';
 export class EditArticleComponent implements OnInit, OnChanges {
 
   @Input() article: Article;
-  @Input() articleStatus: FormControl;
 
   articleFormGroup: FormGroup;
   articleBlockFormArray: FormArray;
@@ -75,27 +74,11 @@ export class EditArticleComponent implements OnInit, OnChanges {
   }
 
   get published() {
-    return this.articleStatus.value === AppConstants.ARTICLE_PUBLISHED_STATUS;
+    return this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
   }
 
   ngOnInit(): void {
     this.createArticleFormGroups();
-    this.articleStatus.valueChanges
-      .subscribe(value => {
-        console.log(value);
-        if (!value) {
-          return;
-        }
-        const a = {
-          ...this.article,
-          status: value
-        };
-        this.articleService.saveArticle(a)
-          .pipe(
-            tap(aSaved => this.store.dispatch(new UpsertArticle({article: aSaved})))
-          )
-          .subscribe(() => this.createArticleFormGroups());
-      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

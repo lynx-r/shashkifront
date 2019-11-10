@@ -19,7 +19,6 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -39,7 +38,6 @@ import { BoardService } from '../../services/board.service';
 export class ClassicNotationComponent implements OnInit, OnChanges {
 
   @Input() article: Article;
-  @Input() articleStatus: FormControl;
 
   selectedStroke: Stroke;
 
@@ -51,13 +49,13 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
     return this.selectedArticleBoard.notation;
   }
 
+  get published() {
+    return this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
+  }
+
   constructor(private store: Store<fromArticle.State>,
               private articleService: ArticleService,
               private boardService: BoardService) {
-  }
-
-  get isPublished() {
-    return this.articleStatus.value === AppConstants.ARTICLE_PUBLISHED_STATUS;
   }
 
   ngOnInit() {
@@ -76,7 +74,7 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
   }
 
   onStrokeClicked(move: Move, stroke: Stroke) {
-    if (this.isPublished) {
+    if (this.published) {
       return;
     }
     const article = this.boardService.highlightClickedMoveInArticle(this.article, stroke, move);

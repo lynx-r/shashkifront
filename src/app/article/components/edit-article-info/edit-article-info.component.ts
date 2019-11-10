@@ -32,7 +32,6 @@ export class EditArticleInfoComponent {
   @Input() humanReadableUrl: string;
   @Input() task: boolean;
   @Input() articleFormGroup: FormGroup;
-  @Input() articleStatus: FormControl;
 
   @Output() saveArticle = new EventEmitter();
 
@@ -47,6 +46,10 @@ export class EditArticleInfoComponent {
 
   get articleIntro() {
     return (this.articleFormGroup.get('intro') as FormControl);
+  }
+
+  get articleStatus() {
+    return (this.articleFormGroup.get('status') as FormControl);
   }
 
 }

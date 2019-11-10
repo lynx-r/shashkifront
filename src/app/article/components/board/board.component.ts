@@ -19,7 +19,6 @@
  */
 
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { AppConstants } from '../../../core/config/app-constants';
@@ -39,7 +38,6 @@ import { BoardService } from '../../services/board.service';
 export class BoardComponent implements OnInit, OnChanges {
 
   @Input() article: Article;
-  @Input() articleStatus: FormControl;
 
   @Output() articleUpdated = new EventEmitter<ArticleBlock>();
 
@@ -116,8 +114,22 @@ export class BoardComponent implements OnInit, OnChanges {
     return classes;
   }
 
+  get published() {
+    return this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
+  }
+
+  onHoverCell(cell: BoardCell) {
+    const n = this.boardService.getCellNotation(cell, this.cellCount);
+    const numNotation = this.boardService.getNumericCellNotationByAlphNotation(n);
+    this.cellNotation = n + '<br>' + (numNotation ? numNotation : '-');
+  }
+
+  private updateBoard() {
+    this.flatCells = this.boardService.getActualBoardCellsForNotation(this.notation);
+  }
+
   onCellClick(cell: BoardCell) {
-    if (!!this.notation.winner || this.isPublished()) {
+    if (!!this.notation.winner || this.published) {
       return;
     }
     this.boardService.touchCell(this.selectedArticleBlock.id, cell)
@@ -144,20 +156,6 @@ export class BoardComponent implements OnInit, OnChanges {
           this.store.dispatch(new UpsertArticle({article: articleUpdated}));
         }
       });
-  }
-
-  onHoverCell(cell: BoardCell) {
-    const n = this.boardService.getCellNotation(cell, this.cellCount);
-    const numNotation = this.boardService.getNumericCellNotationByAlphNotation(n);
-    this.cellNotation = n + '<br>' + (numNotation ? numNotation : '-');
-  }
-
-  private updateBoard() {
-    this.flatCells = this.boardService.getActualBoardCellsForNotation(this.notation);
-  }
-
-  private isPublished() {
-    return this.articleStatus.value === AppConstants.ARTICLE_PUBLISHED_STATUS;
   }
 
 }

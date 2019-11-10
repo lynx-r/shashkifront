@@ -75,8 +75,7 @@ export class ArticleExistsGuard implements CanActivate {
     }
     return this.store
       .pipe(
-        select(fromArticle.selectArticleEntitiesByHru),
-        map(entities => entities[hru]),
+        select(fromArticle.selectCurrentArticle),
         map((a: Article) => !!a && a.articleBlocks.length > 0),
         take(1),
         catchError((err) => {

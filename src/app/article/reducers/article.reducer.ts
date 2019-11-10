@@ -27,12 +27,14 @@ export const articlesFeatureKey = 'articles';
 
 export interface State extends EntityState<Article> {
   // additional entities state properties
+  currentArticle: Article;
 }
 
 export const adapter: EntityAdapter<Article> = createEntityAdapter<Article>();
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  currentArticle: null
 });
 
 export function reducer(
@@ -41,7 +43,10 @@ export function reducer(
 ): State {
   switch (action.type) {
     case ArticleActionTypes.AddArticle: {
-      return adapter.addOne(action.payload.article, state);
+      return {
+        ...adapter.addOne(action.payload.article, state),
+        currentArticle: action.payload.article
+      };
     }
 
     case ArticleActionTypes.AddArticles: {
@@ -78,6 +83,13 @@ export function reducer(
 
     case ArticleActionTypes.ClearArticles: {
       return adapter.removeAll(state);
+    }
+
+    case ArticleActionTypes.CurrentArticle: {
+      return {
+        ...state,
+        currentArticle: action.payload.article
+      };
     }
 
     default: {
@@ -126,4 +138,9 @@ export const selectArticleEntitiesByHru = createSelector(
     }
     return dict;
   }
+);
+
+export const selectCurrentArticle = createSelector(
+  getArticlesFeature,
+  (state) => state.currentArticle
 );

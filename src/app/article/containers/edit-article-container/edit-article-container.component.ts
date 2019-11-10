@@ -22,16 +22,13 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
 import { StorageService } from '../../../core/services/storage.service';
 import { Article } from '../../../domain';
-import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
-import { selectArticleEntitiesByHru } from '../../reducers/article.reducer';
+import { selectCurrentArticle } from '../../reducers/article.reducer';
 
 @Component({
   selector: 'app-edit-article-container',
@@ -58,24 +55,7 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
   ngOnInit() {
     this.previewTabIndex = this.storageService.get(AppConstants.PREVIEW_TAB_INDEX_COOKIE);
     this.toggleRight = 'board';
-    this.article$ = this.route.params
-      .pipe(
-        map(params => params['hru']),
-        switchMap(hru => this.store.select(selectArticleEntitiesByHru)
-          .pipe(
-            map(entities => entities[hru]),
-            switchMap((a: Article) => {
-              if (a.articleBlocks.length > 0) {
-                return of(a);
-              }
-              return this.articleService.fetchArticle(a.id, true)
-                .pipe(
-                  tap(filledArticle => this.store.dispatch(new UpsertArticle({article: filledArticle})))
-                );
-            })
-          )),
-        untilComponentDestroyed(this)
-      );
+    this.article$ = this.store.select(selectCurrentArticle);
   }
 
   ngOnDestroy(): void {

@@ -35,6 +35,7 @@ export enum ArticleActionTypes {
   ClearArticles = '[Article] Clear Articles',
 
   SaveArticle = '[Article] Save Articles',
+  CurrentArticle = '[Article] Current Articles',
 }
 
 export class LoadArticles implements Action {
@@ -111,6 +112,13 @@ export class SaveArticle implements Action {
   }
 }
 
+export class CurrentArticle implements Action {
+  readonly type = ArticleActionTypes.CurrentArticle;
+
+  constructor(public payload: { article: Article }) {
+  }
+}
+
 export type ArticleActions =
   LoadArticles
   | AddArticle
@@ -122,4 +130,5 @@ export type ArticleActions =
   | DeleteArticle
   | DeleteArticles
   | ClearArticles
-  | SaveArticle;
+  | SaveArticle
+  | CurrentArticle;
