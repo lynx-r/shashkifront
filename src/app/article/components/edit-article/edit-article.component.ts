@@ -120,6 +120,7 @@ export class EditArticleComponent implements OnInit, OnChanges {
     };
     this.articleService.saveArticle(article)
       .pipe(
+        tap(() => this.articleFormGroup.markAsPristine()),
         tap(aSaved => this.store.dispatch(new UpsertArticle({article: aSaved})))
       )
       .subscribe();
