@@ -41,7 +41,7 @@ export class ArticleService {
       .pipe(this.fillArticleFunction());
   }
 
-  addArticleBlockToArticle(articleId: string, end?: boolean): Observable<ArticleBlock> {
+  addArticleBlockToArticle(articleId: string, end = false): Observable<ArticleBlock> {
     const a = {
       notation: {
         rule: 'RUSSIAN',

@@ -27,6 +27,7 @@ import { ArticleService } from '../../../core/services/article.service';
 import { Article, ArticleBlock } from '../../../domain';
 import { UpsertArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
+import { selectCurrentArticlePublished } from '../../reducers/article.reducer';
 
 @Component({
   selector: 'app-edit-article',
@@ -79,6 +80,10 @@ export class EditArticleComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.createArticleFormGroups();
+    this.store.select(selectCurrentArticlePublished)
+      .pipe(
+        tap(() => this.createArticleFormGroups())
+      );
   }
 
   ngOnChanges(changes: SimpleChanges): void {

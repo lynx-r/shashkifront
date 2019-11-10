@@ -18,16 +18,23 @@
  *
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { combineLatest } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
+import { ArticleService } from '../../../core/services/article.service';
+import { UpsertArticle } from '../../actions/article.actions';
+import * as fromArticles from '../../reducers/article.reducer';
+import { selectCurrentArticle } from '../../reducers/article.reducer';
 
 @Component({
   selector: 'app-edit-article-info',
   templateUrl: './edit-article-info.component.html',
   styles: []
 })
-export class EditArticleInfoComponent {
+export class EditArticleInfoComponent implements OnInit {
 
   @Input() humanReadableUrl: string;
   @Input() task: boolean;
@@ -52,4 +59,22 @@ export class EditArticleInfoComponent {
     return (this.articleFormGroup.get('status') as FormControl);
   }
 
+  constructor(private store: Store<fromArticles.State>,
+              private articleService: ArticleService) {
+  }
+
+  ngOnInit(): void {
+    combineLatest([this.articleStatus.valueChanges, this.store.select(selectCurrentArticle)])
+      .pipe(
+        switchMap(([status, article]) => {
+          const a = {
+            ...article,
+            status: status
+          };
+          return this.articleService.saveArticle(a);
+        }),
+        tap(a => this.store.dispatch(new UpsertArticle({article: a})))
+      )
+      .subscribe();
+  }
 }

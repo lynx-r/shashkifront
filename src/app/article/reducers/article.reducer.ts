@@ -20,6 +20,7 @@
 
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { AppConstants } from '../../core/config/app-constants';
 import { Article } from '../../domain';
 import { ArticleActions, ArticleActionTypes } from '../actions/article.actions';
 
@@ -143,4 +144,9 @@ export const selectArticleEntitiesByHru = createSelector(
 export const selectCurrentArticle = createSelector(
   getArticlesFeature,
   (state) => state.currentArticle
+);
+
+export const selectCurrentArticlePublished = createSelector(
+  selectCurrentArticle,
+  (article) => article.status === AppConstants.ARTICLE_PUBLISHED_STATUS
 );
