@@ -122,15 +122,24 @@ export class BoardComponent implements OnInit, OnChanges {
       .subscribe(patch => {
         if (patch.length) {
           const notation = this.boardService.applyPatchToNotation(patch, this.flatCells, this.notation);
-          const ab = {
+          const articleBlock = {
             ...this.selectedArticleBlock,
             notation: notation
           };
-          const a = {
+          const articleBlocks = [
+            ...this.article.articleBlocks.map(ab => {
+              if (articleBlock.id === ab.id) {
+                return articleBlock;
+              }
+              return ab;
+            })
+          ];
+          const articleUpdated = {
             ...this.article,
-            selectedArticleBlock: ab
+            selectedArticleBlock: articleBlock,
+            articleBlocks: articleBlocks
           };
-          this.store.dispatch(new UpsertArticle({article: a}));
+          this.store.dispatch(new UpsertArticle({article: articleUpdated}));
         }
       });
   }

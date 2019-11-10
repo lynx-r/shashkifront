@@ -4,6 +4,7 @@
     <div>
       <i>{{article.intro}}</i>
     </div>
+    <hr>
     <app-preview-article-block *ngFor="let ab of article.articleBlocks"
                                [articleBlock]="ab"
                                [article]="article"
