@@ -19,7 +19,6 @@
  */
 
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -48,8 +47,6 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
   @ViewChild('previewArticleContainerRef', {static: false}) previewArticleContainerRef: ElementRef;
   @ViewChild(MatTabGroup, {static: false}) previewTabGroupRef: MatTabGroup;
 
-  articleStatusFormControl: FormControl;
-
   constructor(
     private store: Store<fromArticle.State>,
     private route: ActivatedRoute,
@@ -59,7 +56,6 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
   }
 
   ngOnInit() {
-    this.articleStatusFormControl = new FormControl('');
     this.previewTabIndex = this.storageService.get(AppConstants.PREVIEW_TAB_INDEX_COOKIE);
     this.toggleRight = 'board';
     this.article$ = this.route.params
@@ -69,9 +65,6 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
           .pipe(
             map(entities => entities[hru]),
             switchMap((a: Article) => {
-              if (!!a.status && a.status !== this.articleStatusFormControl.value) {
-                this.articleStatusFormControl.setValue(a.status);
-              }
               if (a.articleBlocks.length > 0) {
                 return of(a);
               }

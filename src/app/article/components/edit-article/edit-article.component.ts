@@ -91,6 +91,9 @@ export class EditArticleComponent implements OnInit, OnChanges {
           status: value
         };
         this.articleService.saveArticle(a)
+          .pipe(
+            tap(aSaved => this.store.dispatch(new UpsertArticle({article: aSaved})))
+          )
           .subscribe(() => this.createArticleFormGroups());
       });
   }

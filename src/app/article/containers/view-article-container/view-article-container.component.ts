@@ -18,7 +18,7 @@
  *
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
@@ -35,7 +35,7 @@ import { selectArticleEntitiesByHru } from '../../reducers/article.reducer';
   templateUrl: './view-article-container.component.html',
   styleUrls: ['./view-article-container.component.scss']
 })
-export class ViewArticleContainerComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ViewArticleContainerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChild('viewBoardRef', {static: false}) viewBoardRef: ElementRef;
   @ViewChild('viewBoardContainerRef', {static: false}) viewBoardContainerRef: ElementRef;
@@ -75,7 +75,7 @@ export class ViewArticleContainerComponent implements OnInit, OnDestroy, AfterVi
   ngOnDestroy(): void {
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewChecked(): void {
     if (!!this.viewBoardContainerRef) {
       this.viewBoardWidth = (<HTMLElement>this.viewBoardContainerRef.nativeElement).clientWidth + 'px';
       this.cdr.detectChanges();
