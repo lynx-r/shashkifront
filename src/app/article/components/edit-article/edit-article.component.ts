@@ -95,11 +95,11 @@ export class EditArticleComponent implements OnInit, OnChanges {
         tap(articleBlock => {
           if (end) {
             this.articleBlockFormArray.insert(this.articleBlockFormArray.length,
-              this.createArticleBlockFormGroup(articleBlock, this.published, -1)
+              this.createArticleBlockFormGroup(articleBlock, -1)
             );
           } else {
             this.articleBlockFormArray.insert(0,
-              this.createArticleBlockFormGroup(articleBlock, this.published, 0)
+              this.createArticleBlockFormGroup(articleBlock, 0)
             );
           }
         }),
@@ -185,9 +185,8 @@ export class EditArticleComponent implements OnInit, OnChanges {
 
   private createArticleFormGroups() {
     const article = this.article;
-    const published = this.published;
     this.articleBlockFormArray = new FormArray([
-      ...article.articleBlocks.map((a, index) => this.createArticleBlockFormGroup(a, published, index))
+      ...article.articleBlocks.map((a, index) => this.createArticleBlockFormGroup(a, index))
     ]);
     this.articleFormGroup = new FormGroup({
       id: new FormControl(article.id),
@@ -200,13 +199,13 @@ export class EditArticleComponent implements OnInit, OnChanges {
     });
   }
 
-  private createArticleBlockFormGroup(block, published, index) {
+  private createArticleBlockFormGroup(block, index) {
+    const titleValidators = index === 0 ? this.titleRequireValidators : this.titleValidators;
     return new FormGroup({
       id: new FormControl(block.id),
-      title: new FormControl(block.title, index === 0 ? this.titleRequireValidators : this.titleValidators),
+      title: new FormControl(block.title, titleValidators),
       content: new FormControl(block.content, this.contentValidators),
       state: new FormControl(block.state),
-      // notation: new FormControl(block.notation),
       task: new FormControl(block.task),
     });
   }
