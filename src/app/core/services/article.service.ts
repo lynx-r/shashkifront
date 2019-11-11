@@ -214,17 +214,20 @@ export class ArticleService {
   }
 
   private prepareToSaveArticleBlock(article: ArticleBlock) {
-    return {
-      ...article,
-      notation: {
-        ...article.notation,
-        notationFen: {
-          ...article.notation.notationFen,
-          player: article.notation.notationFen.player.toString(),
-          rule: article.notation.notationFen.rule.toString()
+    if (!!article.notation) {
+      return {
+        ...article,
+        notation: {
+          ...article.notation,
+          notationFen: {
+            ...article.notation.notationFen,
+            player: article.notation.notationFen.player.toString(),
+            rule: article.notation.notationFen.rule.toString()
+          }
         }
-      }
-    };
+      };
+    }
+    return article;
   }
 
 }

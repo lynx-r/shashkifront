@@ -206,7 +206,7 @@ export class EditArticleComponent implements OnInit, OnChanges {
       title: new FormControl(block.title, index === 0 ? this.titleRequireValidators : this.titleValidators),
       content: new FormControl(block.content, this.contentValidators),
       state: new FormControl(block.state),
-      notation: new FormControl(block.notation),
+      // notation: new FormControl(block.notation),
       task: new FormControl(block.task),
     });
   }
