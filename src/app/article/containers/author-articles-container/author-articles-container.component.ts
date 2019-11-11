@@ -31,7 +31,7 @@ import { AbstractArticlesContainer } from '../abstract-articles-container';
 })
 export class AuthorArticlesContainerComponent extends AbstractArticlesContainer implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['title', 'intro', 'task', 'status', 'updatedAt'];
+  displayedColumns: string[] = ['title', 'intro', 'task', 'status', 'createdAt'];
 
   status = {
     'DRAFT': {name: 'Ч', tooltip: 'Черновик'},

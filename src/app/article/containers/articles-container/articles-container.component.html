@@ -5,7 +5,7 @@
   </mat-form-field>
 
   <div class="table-container">
-    <mat-table [dataSource]="data" class="table" matSort matSortActive="updatedAt" matSortDirection="desc"
+    <mat-table [dataSource]="data" class="table" matSort matSortActive="createdAt" matSortDirection="desc"
                matSortDisableClear
     >
       <!--      multiTemplateDataRows-->
@@ -45,7 +45,7 @@
         <mat-header-cell *matHeaderCellDef class="mat-header-cell-center" disableClear fxFlex.gt-md="14"
                          fxFlex.lt-lg="16" fxFlex.lt-sm="30"
                          mat-sort-header>
-          Обновлено
+          Создано
         </mat-header-cell>
         <mat-cell *matCellDef="let row" class="justify-text" fxFlex.gt-md="14" fxFlex.lt-lg="16" fxFlex.lt-sm="30">
           <span [matTooltip]="row.createdAt | date:'medium'" fxHide.lt-lg>
