@@ -29,7 +29,8 @@
       <button (click)="moveDown.emit()" [disabled]="published" mat-icon-button type="button">
         <mat-icon>keyboard_arrow_down</mat-icon>
       </button>
-      <button (click)="remove.emit()" [disabled]="published || lastElement" mat-icon-button type="button">
+      <button (click)="remove.emit()" [disabled]="published || lastElement"
+              mat-icon-button type="button">
         <mat-icon [color]="deleteColor">delete</mat-icon>
       </button>
     </div>
@@ -38,6 +39,7 @@
     <div fxLayout="column" fxLayoutGap="12px">
       <mat-form-field class="full-width">
         <input [formControl]="title"
+               [readonly]="published"
                matInput
                placeholder="Заголовок разбора"
                title="Заголовок разбора"
@@ -53,6 +55,7 @@
       </mat-form-field>
       <mat-form-field class="fit">
         <textarea [formControl]="content"
+                  [readonly]="published"
                   class="fit"
                   matInput
                   cdkAutosizeMinRows="2"

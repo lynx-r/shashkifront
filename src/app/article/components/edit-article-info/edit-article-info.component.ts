@@ -65,6 +65,10 @@ export class EditArticleInfoComponent implements OnInit {
     return (this.articleFormGroup.get('status') as FormControl);
   }
 
+  get published() {
+    return this.articleStatus.value === AppConstants.ARTICLE_PUBLISHED_STATUS;
+  }
+
   constructor(private store: Store<fromArticles.State>,
               private articleService: ArticleService) {
   }

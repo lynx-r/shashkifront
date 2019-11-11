@@ -71,7 +71,7 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
   }
 
   get deleteColor() {
-    return this.published || this.lastElement ? 'accent' : 'warn';
+    return (this.published || this.lastElement) ? '' : 'warn';
   }
 
   ngOnInit() {

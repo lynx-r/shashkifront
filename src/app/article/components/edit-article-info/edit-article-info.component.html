@@ -23,6 +23,7 @@
       <br>
       <mat-form-field>
         <input [formControl]="articleTitle" matInput
+               [readonly]="published"
                placeholder="Заголовок"
                type="text">
         <mat-error *ngIf="articleTitle.invalid && (articleTitle.dirty || articleTitle.touched)">
@@ -37,7 +38,7 @@
       <mat-form-field>
         <textarea [formControl]="articleIntro" matInput
                   placeholder="Вступление"
-                  [readonly]="articleStatus.value === PUBLISHED"
+                  [readonly]="published"
                   type="text">
         </textarea>
         <mat-error *ngIf="articleIntro.invalid && (articleIntro.dirty || articleIntro.touched)">
