@@ -1,7 +1,7 @@
 /*
  * © Copyright
  *
- * default-layout.component.ts is part of shashkifront.nosync.
+ * my-hammer-config.ts is part of shashkifront.nosync.
  *
  * shashkifront.nosync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,19 +18,14 @@
  *
  */
 
-import { Component, OnInit } from '@angular/core';
+import { HammerGestureConfig } from '@angular/platform-browser';
 
-@Component({
-  selector: 'app-default-layout',
-  templateUrl: './default-layout.component.html',
-  styleUrls: ['./default-layout.component.scss']
-})
-export class DefaultLayoutComponent implements OnInit {
+declare var Hammer: any;
 
-  constructor() {
+export class MyHammerConfig extends HammerGestureConfig {
+  buildHammer(element: HTMLElement) {
+    return new Hammer(element, {
+      touchAction: 'auto',
+    });
   }
-
-  ngOnInit() {
-  }
-
 }

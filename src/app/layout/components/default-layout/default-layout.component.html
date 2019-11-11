@@ -1,7 +1,7 @@
 <div class="layout" fxLayout="column">
   <app-header fxFlex="nogrow"></app-header>
-  <main class="main-wrapper" fxFlex>
-    <div class="content-wrapper" fxLayout="row">
+  <main class="main-wrapper" fxFlex fxFlexOffset.gt-sm="64px" fxFlexOffset.lt-md="56px" fxLayout="column">
+    <div class="content-wrapper" fxFlexOffset.gt-sm="40px" fxFlexOffset.lt-md="35px" fxLayout="row">
       <article fxFlex.gt-md="80" fxFlex.lt-lg="96" fxFlexOffset.gt-md="10" fxFlexOffset.lt-lg="2">
         <ng-content></ng-content>
       </article>

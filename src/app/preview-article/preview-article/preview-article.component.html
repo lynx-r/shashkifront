@@ -8,5 +8,6 @@
                            [articleBlock]="ab"
                            [article]="article"
                            [visiblePublic]="visiblePublic"
+                           (tap)="clickedBlockId = ab.id"
+                           [class.block-highlighted]="isHighlightBlock(ab)"
 ></app-preview-article-block>
-

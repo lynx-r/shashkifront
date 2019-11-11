@@ -23,7 +23,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import localeRu from '@angular/common/locales/ru';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { EffectsModule } from '@ngrx/effects';
@@ -36,6 +36,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MyHammerConfig } from './core/config/my-hammer-config';
 import { NotFoundPageComponent } from './core/containers/not-found-page';
 import { CoreEffects } from './core/effects/core-effects.service';
 import { metaReducers, reducers } from './core/reducers/reducer.reducer';
@@ -81,6 +82,11 @@ registerLocaleData(localeRu);
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true,
+    },
+    {
+      // hammer instantion with custom config
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: MyHammerConfig,
     },
   ]
 })

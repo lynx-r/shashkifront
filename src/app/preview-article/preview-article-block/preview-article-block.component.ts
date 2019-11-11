@@ -35,7 +35,7 @@ import { ContentItem } from '../preview-article/content-item';
   templateUrl: './preview-article-block.component.html',
   styles: [`
       .article-body {
-          margin: 8px;
+          padding: 8px;
       }
 
       .article-header {

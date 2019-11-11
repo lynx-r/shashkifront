@@ -19,7 +19,7 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { Article } from '../../domain';
+import { Article, ArticleBlock } from '../../domain';
 
 @Component({
   selector: 'app-preview-article',
@@ -30,5 +30,11 @@ export class PreviewArticleComponent {
 
   @Input() article: Article;
   @Input() visiblePublic: boolean;
+
+  clickedBlockId: string;
+
+  isHighlightBlock(block: ArticleBlock) {
+    return this.visiblePublic && this.clickedBlockId === block.id;
+  }
 
 }

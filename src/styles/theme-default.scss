@@ -56,8 +56,8 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
     color: mat-color($candy-app-warn);
   }
 
-  .block-highlighted {
-    background-color: mat-color($candy-app-primary, 100);
+  .block-highlighted .article-body {
+    background-color: mat-color($candy-app-primary, 50);
     border-radius: 8px;
   }
 
