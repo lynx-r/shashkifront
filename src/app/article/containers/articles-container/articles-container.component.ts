@@ -31,7 +31,7 @@ import { AbstractArticlesContainer } from '../abstract-articles-container';
 })
 export class ArticlesContainerComponent extends AbstractArticlesContainer implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['title', 'intro', 'task', 'updatedAt'];
+  displayedColumns: string[] = ['title', 'intro', 'task', 'createdAt'];
 
   constructor(
     protected store: Store<fromArticle.State>,

@@ -76,7 +76,7 @@ export class ArticleExistsGuard implements CanActivate {
     return this.store
       .pipe(
         select(fromArticle.selectCurrentArticle),
-        map((a: Article) => !!a && a.articleBlocks.length > 0),
+        map((a: Article) => !!a && a.humanReadableUrl === hru && a.articleBlocks.length > 0),
         take(1),
         catchError((err) => {
           this.router.navigate(['/404']);

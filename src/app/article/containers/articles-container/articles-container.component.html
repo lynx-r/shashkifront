@@ -23,37 +23,36 @@
       </ng-container>
 
       <ng-container matColumnDef="intro">
-        <mat-header-cell *matHeaderCellDef fxFlex.gt-md="48" fxHide.lt-lg>Вступление</mat-header-cell>
-        <mat-cell *matCellDef="let row" class="snEllipsis" fxFlex.gt-md="48" fxHide.lt-lg snEllipsis>
+        <mat-header-cell *matHeaderCellDef fxFlex.gt-md="47" fxHide.lt-lg>Вступление</mat-header-cell>
+        <mat-cell *matCellDef="let row" class="snEllipsis" fxFlex.gt-md="47" fxHide.lt-lg snEllipsis>
           {{row.intro}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="task">
-        <mat-header-cell *matHeaderCellDef class="mat-header-cell-center" fxFlex.gt-md="5" fxFlex.lt-lg="8"
-                         fxFlex.lt-sm="20" fxHide.lt-sm
-                         mat-sort-header>
+        <mat-header-cell *matHeaderCellDef class="mat-header-cell-center" fxFlex.gt-md="6" fxFlex.lt-lg="8"
+                         fxFlex.lt-sm="20" fxHide.lt-sm mat-sort-header>
           Задача
         </mat-header-cell>
         <mat-cell *matCellDef="let row" [matTooltip]="row.task ? 'В этом разборе есть задача' : ''" class="justify-text"
-                  fxFlex.gt-md="5" fxFlex.lt-lg="8" fxFlex.lt-sm="20" fxHide.lt-sm
+                  fxFlex.gt-md="6" fxFlex.lt-lg="8" fxFlex.lt-sm="20" fxHide.lt-sm
         >
           {{row.task ? 'З' : '-'}}
         </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="updatedAt">
+      <ng-container matColumnDef="createdAt">
         <mat-header-cell *matHeaderCellDef class="mat-header-cell-center" disableClear fxFlex.gt-md="14"
                          fxFlex.lt-lg="16" fxFlex.lt-sm="30"
                          mat-sort-header>
           Обновлено
         </mat-header-cell>
         <mat-cell *matCellDef="let row" class="justify-text" fxFlex.gt-md="14" fxFlex.lt-lg="16" fxFlex.lt-sm="30">
-          <span [matTooltip]="row.updatedAt | date:'medium'" fxHide.lt-lg>
-            {{row.updatedAt | date:'short'}}
+          <span [matTooltip]="row.createdAt | date:'medium'" fxHide.lt-lg>
+            {{row.createdAt | date:'short'}}
           </span>
-          <span [matTooltip]="row.updatedAt | date:'medium'" fxHide.gt-md>
-            {{row.updatedAt | date:'d.M.yy'}}
+          <span [matTooltip]="row.createdAt | date:'medium'" fxHide.gt-md>
+            {{row.createdAt | date:'d.M.yy'}}
           </span>
         </mat-cell>
       </ng-container>
