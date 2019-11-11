@@ -3,24 +3,26 @@
      fxLayout.lt-md="column"
      fxLayoutGap="8px"
 >
-  <app-edit-article [article]="article" fxFlex.gt-sm="50"
-                    fxFlex.lt-md="100"></app-edit-article>
+  <app-edit-article [article]="article" fxFlex.gt-sm="50" fxFlex.lt-md="100"></app-edit-article>
+
   <div #previewArticleContainerRef fxFlex.gt-sm="50" fxFlex.lt-md="100">
-    <mat-tab-group (selectedIndexChange)="onPreviewTabIndexChanged($event)"
-                   [(selectedIndex)]="previewTabIndex"
-                   [ngClass.gt-sm]="'preview-tab-group'">
-      <mat-tab label="Доска">
-        <br>
-        <div fxLayout="column" fxLayoutGap="8px">
-          <app-board [article]="article" fxFlex="50"></app-board>
-          <app-classic-notation [article]="article"
-                                fxFlex="50"></app-classic-notation>
-        </div>
-        <br>
-      </mat-tab>
-      <mat-tab label="Разбор">
-        <app-preview-article [article]="article"></app-preview-article>
-      </mat-tab>
-    </mat-tab-group>
+    <div [hidden]="isLoading">
+      <mat-tab-group (selectedIndexChange)="onPreviewTabIndexChanged($event)"
+                     [(selectedIndex)]="previewTabIndex"
+                     [ngClass.gt-sm]="'preview-tab-group'"
+      >
+        <mat-tab label="Доска">
+          <br>
+          <div fxLayout="column" fxLayoutGap="8px">
+            <app-board [article]="article" fxFlex="50"></app-board>
+            <app-classic-notation [article]="article" fxFlex="50"></app-classic-notation>
+          </div>
+          <br>
+        </mat-tab>
+        <mat-tab label="Разбор">
+          <app-preview-article [article]="article"></app-preview-article>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
   </div>
 </div>

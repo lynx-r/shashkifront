@@ -18,7 +18,7 @@
  *
  */
 
-import { AfterViewChecked, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, of, timer } from 'rxjs';
@@ -26,7 +26,6 @@ import { switchMap, tap } from 'rxjs/operators';
 import { ArticleService } from '../../../core/services/article.service';
 import { MediaService } from '../../../core/services/media.service';
 import { Article } from '../../../domain';
-import { SelectArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { selectCurrentArticle } from '../../reducers/article.reducer';
 
@@ -35,7 +34,7 @@ import { selectCurrentArticle } from '../../reducers/article.reducer';
   templateUrl: './view-article-container.component.html',
   styleUrls: ['./view-article-container.component.scss']
 })
-export class ViewArticleContainerComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class ViewArticleContainerComponent implements OnInit, OnDestroy {
 
   @ViewChild('viewBoardRef', {static: false}) viewBoardRef: ElementRef;
   @ViewChild('viewBoardContainerRef', {static: false}) viewBoardContainerRef: ElementRef;
@@ -60,7 +59,7 @@ export class ViewArticleContainerComponent implements OnInit, OnDestroy, AfterVi
         switchMap(() => {
           if (!!this.viewBoardContainerRef) {
             this.isLoading = true;
-            return timer(100)
+            return timer(150)
               .pipe(
                 tap(() => this.viewBoardWidth = (<HTMLElement>this.viewBoardContainerRef.nativeElement).clientWidth + 'px'),
                 tap(() => this.isLoading = false)
@@ -75,10 +74,4 @@ export class ViewArticleContainerComponent implements OnInit, OnDestroy, AfterVi
   ngOnDestroy(): void {
   }
 
-  ngAfterViewChecked(): void {
-  }
-
-  onUpdateArticle(article: Article) {
-    this.store.dispatch(new SelectArticle({article: article}));
-  }
 }

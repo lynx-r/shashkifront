@@ -18,13 +18,15 @@
  *
  */
 
-import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of, timer } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
+import { MediaService } from '../../../core/services/media.service';
 import { StorageService } from '../../../core/services/storage.service';
 import { Article } from '../../../domain';
 import * as fromArticle from '../../reducers/article.reducer';
@@ -35,20 +37,23 @@ import { selectCurrentArticle } from '../../reducers/article.reducer';
   templateUrl: './edit-article-container.component.html',
   styleUrls: ['./edit-article-container.component.scss']
 })
-export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class EditArticleContainerComponent implements OnInit, OnDestroy {
+
+  @ViewChild('previewArticleContainerRef', {static: false}) previewArticleContainerRef: ElementRef;
+  @ViewChild(MatTabGroup, {static: false}) previewTabGroupRef: MatTabGroup;
 
   article$: Observable<Article>;
   toggleRight: string;
   previewTabIndex: number;
 
-  @ViewChild('previewArticleContainerRef', {static: false}) previewArticleContainerRef: ElementRef;
-  @ViewChild(MatTabGroup, {static: false}) previewTabGroupRef: MatTabGroup;
+  isLoading: boolean;
 
   constructor(
     private store: Store<fromArticle.State>,
     private route: ActivatedRoute,
     private articleService: ArticleService,
     private storageService: StorageService,
+    private mediaService: MediaService
   ) {
   }
 
@@ -56,20 +61,28 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
     this.previewTabIndex = this.storageService.get(AppConstants.PREVIEW_TAB_INDEX_COOKIE);
     this.toggleRight = 'board';
     this.article$ = this.store.select(selectCurrentArticle);
+    this.mediaService.mediaObserver.asObservable()
+      .pipe(
+        switchMap(() => {
+          if (!!this.previewArticleContainerRef && !!this.previewTabGroupRef) {
+            this.isLoading = true;
+            return timer(150)
+              .pipe(
+                tap(() => {
+                  const clientWidth = (this.previewArticleContainerRef.nativeElement as HTMLElement).clientWidth;
+                  (<HTMLElement>this.previewTabGroupRef._elementRef.nativeElement).style.width = clientWidth + 'px';
+                }),
+                tap(() => this.isLoading = false)
+              );
+          }
+          return of();
+        })
+      )
+      .subscribe();
+
   }
 
   ngOnDestroy(): void {
-  }
-
-  ngAfterViewChecked(): void {
-    this.updateBoardWidth();
-  }
-
-  private updateBoardWidth() {
-    if (!!this.previewArticleContainerRef && !!this.previewTabGroupRef) {
-      const clientWidth = (this.previewArticleContainerRef.nativeElement as HTMLElement).offsetWidth;
-      (<HTMLElement>this.previewTabGroupRef._elementRef.nativeElement).style.width = clientWidth + 'px';
-    }
   }
 
   onPreviewTabIndexChanged($event: number) {

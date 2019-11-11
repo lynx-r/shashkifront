@@ -4,6 +4,7 @@
                     [ngClass.gt-sm]="'view-board'"
                     [style.width]="viewBoardWidth"
                     #viewBoardRef
+                    [hidden]="isLoading"
     ></app-view-board>
   </div>
   <app-preview-article [article]="article"
