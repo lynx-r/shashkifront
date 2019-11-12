@@ -32,6 +32,10 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
     }
   }
 
+  .active-icon {
+    color: mat-color($candy-app-accent) !important;
+  }
+
   .tile-white {
     background-color: mat-color($candy-app-primary, 100);
   }

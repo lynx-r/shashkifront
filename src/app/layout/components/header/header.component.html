@@ -68,12 +68,12 @@
           Мои разборы
         </button>
         <mat-divider></mat-divider>
-        <button (click)="onThemeChange(false)" [class.active]="user?.theme === 'default'" mat-menu-item>
-          <mat-icon>wb_sunny</mat-icon>
+        <button (click)="onThemeChange(false)" mat-menu-item>
+          <mat-icon [class.active-icon]="user?.theme === 'default'">wb_sunny</mat-icon>
           <span>Светлая тема</span>
         </button>
-        <button (click)="onThemeChange(true)" [class.active]="user?.theme !== 'default'" mat-menu-item>
-          <mat-icon>wb_incandescent</mat-icon>
+        <button (click)="onThemeChange(true)" mat-menu-item>
+          <mat-icon [class.active-icon]="user?.theme !== 'default'">wb_incandescent</mat-icon>
           <span>Тёмная тема</span>
         </button>
         <mat-divider></mat-divider>
@@ -87,12 +87,12 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #themeMenu="matMenu">
-        <button (click)="onThemeChange(false)" [class.active]="user?.theme === 'default'" mat-menu-item>
-          <mat-icon>wb_sunny</mat-icon>
+        <button (click)="onThemeChange(false)" mat-menu-item>
+          <mat-icon [class.active-icon]="user?.theme === 'default'">wb_sunny</mat-icon>
           <span>Светлая тема</span>
         </button>
-        <button (click)="onThemeChange(true)" [class.active]="user?.theme !== 'default'" mat-menu-item>
-          <mat-icon>wb_incandescent</mat-icon>
+        <button (click)="onThemeChange(true)" mat-menu-item>
+          <mat-icon [class.active-icon]="user?.theme !== 'default'">wb_incandescent</mat-icon>
           <span>Тёмная тема</span>
         </button>
       </mat-menu>

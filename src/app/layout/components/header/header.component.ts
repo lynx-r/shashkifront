@@ -31,12 +31,16 @@ import { getUserState, RootState } from '../../../core/reducers/reducer.reducer'
 import { ArticleService } from '../../../core/services/article.service';
 import { DialogService } from '../../../core/services/dialog.service';
 import { isPrivateUser } from '../../../core/services/utils';
-import { User } from '../../../domain/user';
+import { User } from '../../../domain';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styles: [`
+      mat-divider {
+          margin: 8px 0;
+      }
+
       .toolbar {
           position: fixed;
           z-index: 1000;

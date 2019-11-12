@@ -26,7 +26,7 @@ import { Component, OnInit } from '@angular/core';
   styles: [`
       footer {
           height: 24px;
-          margin-left: 4px;
+          margin-left: 6px;
       }
   `]
 })

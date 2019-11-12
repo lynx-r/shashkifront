@@ -40,6 +40,10 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
     }
   }
 
+  .active-icon {
+    color: mat-color($dark-accent, 700) !important;
+  }
+
   .tile-white {
     background-color: mat-color($dark-primary, 200);
   }
