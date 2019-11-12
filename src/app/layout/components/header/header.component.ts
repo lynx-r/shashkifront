@@ -18,7 +18,7 @@
  *
  */
 
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, Location } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -55,7 +55,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private router: Router,
               private articleService: ArticleService,
               private dialogService: DialogService,
-              @Inject(DOCUMENT) public document: Document
+              @Inject(DOCUMENT) public document: Document,
+              public location: Location
   ) {
   }
 

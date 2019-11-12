@@ -1,20 +1,12 @@
 <div [hidden]="loading">
   <mat-toolbar class="toolbar" fxLayout="row" fxLayoutAlign="space-between center">
     <div fxLayout="row" fxLayoutGap.gt-xs="10px" fxLayoutGap.lt-sm="4px">
-      <button [fxHide.lt-sm]="loggedIn"
-              mat-button
+      <button mat-button
               routerLink="/article/list"
               routerLinkActive="active"
               title="Все разборы"
       >
         Разборы
-      </button>
-      <button *ngIf="loggedIn"
-              mat-button
-              routerLink="/article/list-author"
-              routerLinkActive="active"
-              title="Мои разборы">
-        Мои разборы
       </button>
       <button fxHide.lt-sm
               mat-button
@@ -31,13 +23,11 @@
           refresh
         </mat-icon>
       </button>
-      <!--      <mat-slide-toggle (change)="onThemeChange($event.checked)"-->
-      <!--                        [checked]="user?.theme === 'unicorn-dark-theme'"-->
-      <!--                        fxHide.lt-sm-->
-      <!--      >-->
-      <!--        {{user?.theme === 'default' ? 'Светлая тема' : 'Тёмная тема'}}-->
-      <!--      </mat-slide-toggle>-->
-
+      <button (click)="location.back()" *ngIf="isStandalone" fxHide.gt-xs mat-icon-button title="Создать разбор">
+        <mat-icon>
+          arrow_back
+        </mat-icon>
+      </button>
       <button (click)="openCreateArticleDialog()" *ngIf="loggedIn" fxHide.lt-sm mat-button title="Создать разбор">
         <mat-icon>
           add_circle
@@ -69,6 +59,15 @@
         <mat-icon>account_circle</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
+        <button *ngIf="loggedIn"
+                mat-menu-item
+                routerLink="/article/list-author"
+                routerLinkActive="active"
+                title="Мои разборы">
+          <mat-icon>mode_edit</mat-icon>
+          Мои разборы
+        </button>
+        <mat-divider></mat-divider>
         <button (click)="onThemeChange(false)" [class.active]="user?.theme === 'default'" mat-menu-item>
           <mat-icon>wb_sunny</mat-icon>
           <span>Светлая тема</span>
@@ -83,7 +82,7 @@
           <span>Выйти</span>
         </button>
       </mat-menu>
-      <button *ngIf="!loggedIn" [matMenuTriggerFor]="themeMenu" aria-label="Example icon-button with a menu"
+      <button *ngIf="!loggedIn" [matMenuTriggerFor]="themeMenu"
               mat-icon-button>
         <mat-icon>more_vert</mat-icon>
       </button>
