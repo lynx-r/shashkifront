@@ -1,11 +1,4 @@
 <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
-  <div #viewBoardContainerRef fxFlex="35">
-    <app-view-board [article]="article"
-                    [hidden]="isLoading"
-    ></app-view-board>
-  </div>
-  <app-preview-article [article]="article"
-                       [visiblePublic]="true"
-                       fxFlex="65"
-  ></app-preview-article>
+  <app-view-board [article]="article" fxFlex="35"></app-view-board>
+  <app-preview-article [article]="article" [visiblePublic]="true" class="view-scroll" fxFlex="65"></app-preview-article>
 </div>

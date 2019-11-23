@@ -18,50 +18,21 @@
  *
  */
 
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { of, timer } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
-import { MediaService } from '../../../core/services/media.service';
+import { Component, Input } from '@angular/core';
 import { Article } from '../../../domain';
 
 @Component({
   selector: 'app-preview-article-with-board',
   templateUrl: './preview-article-with-board.component.html',
   styles: [`
-      .view-board {
-          position: fixed;
-          height: calc(100vh - 108px);
+      .view-scroll {
+          overflow: auto;
+          height: calc(100vh - 132px);
       }
   `]
 })
-export class PreviewArticleWithBoardComponent implements OnInit {
+export class PreviewArticleWithBoardComponent {
 
   @Input() article: Article;
-
-  @ViewChild('viewBoardContainerRef', {static: false}) viewBoardContainerRef: ElementRef;
-
-  viewBoardWidth: string;
-  isLoading: boolean;
-
-  constructor(private mediaService: MediaService) {
-  }
-
-  ngOnInit() {
-    this.mediaService.mediaObserver.asObservable()
-      .pipe(
-        switchMap(() => {
-          if (!!this.viewBoardContainerRef) {
-            this.isLoading = true;
-            return timer(150)
-              .pipe(
-                tap(() => this.viewBoardWidth = (<HTMLElement>this.viewBoardContainerRef.nativeElement).clientWidth + 'px'),
-                tap(() => this.isLoading = false)
-              );
-          }
-          return of();
-        })
-      )
-      .subscribe();
-  }
 
 }

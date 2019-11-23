@@ -30,7 +30,12 @@ import * as fromArticles from '../../reducers/article.reducer';
 @Component({
   selector: 'app-preview-and-publish-article',
   templateUrl: './preview-and-publish-article.component.html',
-  styles: []
+  styles: [`
+      .view-scroll {
+          overflow: auto;
+          height: calc(100vh - 310px);
+      }
+  `]
 })
 export class PreviewAndPublishArticleComponent implements OnInit {
 

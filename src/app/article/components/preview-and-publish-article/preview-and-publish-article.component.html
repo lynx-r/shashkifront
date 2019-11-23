@@ -7,5 +7,9 @@
     </button>
   </div>
   <br>
-  <app-preview-article-with-board [article]="article"></app-preview-article-with-board>
+  <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+    <app-view-board [article]="article" class="view-scroll" fxFlex="35"></app-view-board>
+    <app-preview-article [article]="article" [visiblePublic]="true" class="view-scroll"
+                         fxFlex="65"></app-preview-article>
+  </div>
 </div>
