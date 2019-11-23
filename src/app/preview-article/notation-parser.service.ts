@@ -73,7 +73,7 @@ export class NotationParserService {
         .filter(i => !!i)
         .map(i => new ContentItem(i.component, i.index, i.data));
     } catch (e) {
-      const message = `Не распознанный символ ${e.input[e.pos]} в тексте "...${e.input.slice(e.pos - 3, e.pos + 4)}..."`;
+      const message = `Не распознанный символ ${e.input[e.pos]} в тексте "…${e.input.slice(e.pos - 3, e.pos + 4)}…"`;
       this.notifyService.error(message);
       console.log(message, e.input);
       return [];
