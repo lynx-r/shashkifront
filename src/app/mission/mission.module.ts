@@ -23,6 +23,7 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
+import { DescriptionComponent } from './components/description.component';
 import { MissionComponent } from './containers/mission.component';
 
 @NgModule({
@@ -37,7 +38,7 @@ import { MissionComponent } from './containers/mission.component';
       },
     ]),
   ],
-  declarations: [MissionComponent],
+  declarations: [MissionComponent, DescriptionComponent],
 })
 export class MissionModule {
 }

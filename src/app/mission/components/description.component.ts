@@ -32,15 +32,7 @@ import { Component, OnInit } from '@angular/core';
           </mat-card-content>
       </mat-card>
   `,
-  styles: [
-      `
-          mat-card {
-              /*overflow-y: scroll;*/
-          }
-
-
-    `,
-  ],
+  styles: [],
 })
 export class DescriptionComponent implements OnInit {
   constructor() {
