@@ -1,5 +1,4 @@
 <div class="container mat-elevation-z8 articles">
-  <app-spinner [isLoading]="isLoadingResults"></app-spinner>
   <mat-form-field class="articles-search-input">
     <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Поиск по заголовку или вступлению">
   </mat-form-field>
@@ -8,7 +7,6 @@
     <mat-table [dataSource]="data" class="table" matSort matSortActive="createdAt" matSortDirection="desc"
                matSortDisableClear
     >
-      <!--      multiTemplateDataRows-->
 
       <ng-container matColumnDef="title">
         <mat-header-cell *matHeaderCellDef disableClear fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70"

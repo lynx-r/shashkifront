@@ -34,7 +34,7 @@ import { UpdateService } from './core/services/update.service';
           <router-outlet></router-outlet>
       </app-layout-container>
   `,
-  styles: [``]
+  styles: []
 })
 export class AppComponent implements OnInit, OnDestroy {
 
