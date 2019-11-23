@@ -52,3 +52,8 @@ mat-form-field {
   max-height: 400px;
   display: none;
 }
+
+.replaceSaveBlockHint {
+  height: 20px;
+  margin-bottom: 0 !important;
+}

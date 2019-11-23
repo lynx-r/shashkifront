@@ -96,8 +96,8 @@ export class NotationParserService {
   private config() {
     this.lexer
     // .debug(true)
-      .rule(/[\p{L}\d ?!$%^&*)(+=.,<>{}\[\]:;'"|~`_\-]+/u, (ctx) => ctx.accept('text'))
-      .rule(/@(\d+)/, (ctx, match) => ctx.accept('driveNum', +match[1]))
+      .rule(/[\p{L}\d ?!$%^&*)(+=.,<>{}\[\]@;'"|~`_\-]+/u, (ctx) => ctx.accept('text'))
+      .rule(/:(\d+)/, (ctx, match) => ctx.accept('driveNum', +match[1]))
       .rule(/#\s.+/, ctx => ctx.accept('h3'))
       .rule(/##\s.+/, ctx => ctx.accept('h4'))
       .rule(/###\s.+/, ctx => ctx.accept('h5'))

@@ -21,8 +21,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { BehaviorSubject } from 'rxjs';
-import { debounceTime, tap } from 'rxjs/operators';
+import { BehaviorSubject, of, timer } from 'rxjs';
+import { debounceTime, switchMap, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleBlock } from '../../../domain';
 
@@ -50,6 +50,8 @@ export class EditArticleBlockComponent implements OnInit, OnChanges, OnDestroy {
   visible: boolean;
   minTitleLength = AppConstants.ARTICLE_TITLE_MIN_SYMBOLS;
   minContentLength = AppConstants.ARTICLE_CONTENT_MIN_SYMBOLS;
+  hideActions: boolean;
+  hiddenHintBlockSaved: boolean;
 
   get articleBlock() {
     return this.articleFormGroup.value;
@@ -80,11 +82,20 @@ export class EditArticleBlockComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    this.hideActions = true;
+    this.hiddenHintBlockSaved = true;
     this.visible = this.state.value === AppConstants.ARTICLE_BLOCK_OPENED;
     this.debounceSave
       .pipe(
-        debounceTime(5000),
+        debounceTime(2000),
         tap((block) => this.save.emit(block)),
+        switchMap(() => {
+          if (this.articleFormGroup.pristine) {
+            return of();
+          }
+          this.hiddenHintBlockSaved = false;
+          return timer(2000).pipe(tap(() => this.hiddenHintBlockSaved = true));
+        }),
         untilComponentDestroyed(this)
       )
       .subscribe();
@@ -106,4 +117,11 @@ export class EditArticleBlockComponent implements OnInit, OnChanges, OnDestroy {
     this.save.emit(this.articleBlock);
   }
 
+  onSaveBlock() {
+    this.save.emit(this.articleBlock);
+    if (!this.articleFormGroup.pristine) {
+      this.hiddenHintBlockSaved = false;
+      timer(2000).pipe(tap(() => this.hiddenHintBlockSaved = true)).subscribe();
+    }
+  }
 }

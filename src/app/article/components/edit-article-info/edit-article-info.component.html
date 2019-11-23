@@ -30,10 +30,10 @@
       <mat-form-field>
         <input [formControl]="articleIntro" [readonly]="published"
                matInput
-               placeholder="Вступление"
+               placeholder="Описание"
                type="text">
         <mat-hint>
-          Вступление, которое будет видно на главной странице (поле участвует в поиске)
+          Описание, которое будет видно на главной странице (поле участвует в поиске)
         </mat-hint>
         <mat-error *ngIf="articleIntro.invalid && (articleIntro.dirty || articleIntro.touched)">
           <div *ngIf="articleIntro?.errors.minlength">

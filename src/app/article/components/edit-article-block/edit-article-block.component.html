@@ -1,5 +1,6 @@
 <mat-card>
-  <mat-card-actions>
+  <mat-card-actions (mouseenter)="hideActions = false" (mouseleave)="hideActions = true"
+                    (tap)="hideActions = !hideActions">
     <div fxLayout="row" fxLayoutAlign="end center">
       <div (click)="onVisibilityToggle()" class="button-height cursor" fxFlex fxHide.lt-sm>
         <p *ngIf="title.value" appEllipsis class="ellipsis">
@@ -9,30 +10,32 @@
           {{content.value}}
         </small>
       </div>
-      <button (click)="onVisibilityToggle()" [disabled]="published" mat-icon-button type="button">
-        <mat-icon *ngIf="!visible">visibility_off</mat-icon>
-        <mat-icon *ngIf="visible">visibility</mat-icon>
-      </button>
-      <button (click)="select.emit()" [color]="selectedColor" [disabled]="!articleFormGroup.valid || published"
-              mat-icon-button type="button">
-        <mat-icon>touch_app</mat-icon>
-      </button>
-      <button (click)="save.emit(articleBlock)" [disabled]="!articleFormGroup.valid || published" mat-icon-button
-              [matTooltip]="articleFormGroup.dirty ? 'Есть изменения' : ''"
-              [color]="saveButtonColor"
-              type="button">
-        <mat-icon>save</mat-icon>
-      </button>
-      <button (click)="moveUp.emit()" [disabled]="published" mat-icon-button type="button">
-        <mat-icon>keyboard_arrow_up</mat-icon>
-      </button>
-      <button (click)="moveDown.emit()" [disabled]="published" mat-icon-button type="button">
-        <mat-icon>keyboard_arrow_down</mat-icon>
-      </button>
-      <button (click)="remove.emit()" [disabled]="published || lastElement"
-              mat-icon-button type="button">
-        <mat-icon [color]="deleteColor">delete</mat-icon>
-      </button>
+      <div [hidden]="hideActions">
+        <button (click)="onVisibilityToggle()" [disabled]="published" mat-icon-button type="button">
+          <mat-icon *ngIf="!visible">visibility_off</mat-icon>
+          <mat-icon *ngIf="visible">visibility</mat-icon>
+        </button>
+        <button (click)="select.emit()" [color]="selectedColor" [disabled]="!articleFormGroup.valid || published"
+                mat-icon-button type="button">
+          <mat-icon>touch_app</mat-icon>
+        </button>
+        <button (click)="onSaveBlock()" [color]="saveButtonColor" [disabled]="!articleFormGroup.valid || published"
+                [matTooltip]="articleFormGroup.dirty ? 'Есть изменения' : ''"
+                mat-icon-button
+                type="button">
+          <mat-icon>save</mat-icon>
+        </button>
+        <button (click)="moveUp.emit()" [disabled]="published" mat-icon-button type="button">
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        </button>
+        <button (click)="moveDown.emit()" [disabled]="published" mat-icon-button type="button">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <button (click)="remove.emit()" [disabled]="published || lastElement"
+                mat-icon-button type="button">
+          <mat-icon [color]="deleteColor">delete</mat-icon>
+        </button>
+      </div>
     </div>
   </mat-card-actions>
   <mat-card-content *ngIf="visible">
@@ -67,6 +70,7 @@
                   placeholder="Опишите вариант ходов"
                   title="Текст варианта ходов"
         ></textarea>
+        <mat-hint [hidden]="hiddenHintBlockSaved">Блок сохранён</mat-hint>
         <mat-error *ngIf="content.invalid && (content.dirty || content.touched)">
           <div *ngIf="content?.errors.minlength">
             Минимум {{minContentLength - content?.value.length}} символов
