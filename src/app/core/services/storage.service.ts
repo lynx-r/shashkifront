@@ -24,6 +24,9 @@ import { CookieService } from 'ngx-cookie';
 import { LocalStorageService } from 'ngx-store';
 import { filter, take } from 'rxjs/operators';
 
+const OFFLINE_USER = 'offlineuser';
+const EDIT_ARTICLE_STEP_INDEX = 'editarticlestepindex';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -31,7 +34,6 @@ export class StorageService {
 
   private static SEP = '-';
   private suffix: string;
-  private OFFLINE_USER = 'offlineuser';
 
   constructor(
     private storage: LocalStorageService,
@@ -98,10 +100,18 @@ export class StorageService {
   // }
 
   getOfflineUser() {
-    return this.storage.get(this.OFFLINE_USER);
+    return this.storage.get(OFFLINE_USER);
   }
 
   putOfflineUser(user: any) {
-    this.storage.set(this.OFFLINE_USER, user);
+    this.storage.set(OFFLINE_USER, user);
+  }
+
+  getStepIndex() {
+    return this.storage.get(EDIT_ARTICLE_STEP_INDEX);
+  }
+
+  putStepIndex(stepIndex: number) {
+    this.storage.set(EDIT_ARTICLE_STEP_INDEX, stepIndex);
   }
 }

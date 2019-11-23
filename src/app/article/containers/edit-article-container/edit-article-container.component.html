@@ -1,5 +1,5 @@
 <div *ngIf="article$ | async as article">
-  <mat-horizontal-stepper #stepper>
+  <mat-horizontal-stepper #stepper (selectionChange)="onStepChange($event)">
     <mat-step>
       <ng-template matStepLabel>Описание</ng-template>
       <app-edit-article-info [article]="article"></app-edit-article-info>

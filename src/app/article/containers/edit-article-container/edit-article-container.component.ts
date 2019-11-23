@@ -18,7 +18,9 @@
  *
  */
 
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatHorizontalStepper } from '@angular/material/stepper';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -37,7 +39,9 @@ import { selectCurrentArticle } from '../../reducers/article.reducer';
   templateUrl: './edit-article-container.component.html',
   styleUrls: ['./edit-article-container.component.scss']
 })
-export class EditArticleContainerComponent implements OnInit, OnDestroy {
+export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  @ViewChild(MatHorizontalStepper, {static: false}) stepper: MatHorizontalStepper;
 
   @ViewChild('previewArticleContainerRef', {static: false}) previewArticleContainerRef: ElementRef;
   @ViewChild(MatTabGroup, {static: false}) previewTabGroupRef: MatTabGroup;
@@ -53,7 +57,8 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private articleService: ArticleService,
     private storageService: StorageService,
-    private mediaService: MediaService
+    private mediaService: MediaService,
+    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -85,7 +90,12 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
 
-  onPreviewTabIndexChanged($event: number) {
-    this.storageService.put(AppConstants.PREVIEW_TAB_INDEX_COOKIE, $event);
+  ngAfterViewInit(): void {
+    this.stepper.selectedIndex = this.storageService.getStepIndex();
+    this.cdr.detectChanges();
+  }
+
+  onStepChange(step: StepperSelectionEvent) {
+    this.storageService.putStepIndex(step.selectedIndex);
   }
 }
