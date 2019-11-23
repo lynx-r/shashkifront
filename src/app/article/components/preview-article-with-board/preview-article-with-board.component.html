@@ -1,7 +1,6 @@
 <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
   <div #viewBoardContainerRef fxFlex="35">
-    <app-view-board #viewBoardRef
-                    [article]="article"
+    <app-view-board [article]="article"
                     [hidden]="isLoading"
                     [ngClass.gt-sm]="'view-board'"
                     [style.width]="viewBoardWidth"

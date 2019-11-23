@@ -1,4 +1,8 @@
-<div fxLayout="column" fxLayoutGap="8px">
-  <app-board [article]="article" fxFlex="50"></app-board>
-  <app-classic-notation [article]="article" fxFlex="50"></app-classic-notation>
-</div>
+<mat-card class="m-8">
+  <mat-card-content>
+    <div fxLayout="column" fxLayoutGap="8px">
+      <app-board [article]="article"></app-board>
+      <app-classic-notation [article]="article"></app-classic-notation>
+    </div>
+  </mat-card-content>
+</mat-card>

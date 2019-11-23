@@ -1,0 +1,8 @@
+<div #boardWithNotationRef fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+  <app-edit-article-blocks [article]="article" class="view-scroll" fxFlex="60"></app-edit-article-blocks>
+  <div #boardContainerRef class="view-scroll" fxFlex="40">
+    <app-board-with-notation [article]="article"
+                             [style.width]="boardWidth"
+    ></app-board-with-notation>
+  </div>
+</div>

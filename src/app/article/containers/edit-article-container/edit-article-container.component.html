@@ -2,14 +2,17 @@
   <mat-horizontal-stepper #stepper (selectionChange)="onStepChange($event)">
     <mat-step>
       <ng-template matStepLabel>Описание</ng-template>
+      <br>
       <app-edit-article-info [article]="article"></app-edit-article-info>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Разбор</ng-template>
-      <app-edit-article-wtih-board-and-notation [article]="article"></app-edit-article-wtih-board-and-notation>
+      <br>
+      <app-edit-article-with-board-and-notation [article]="article"></app-edit-article-with-board-and-notation>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Предпросмотр</ng-template>
+      <br>
       <app-preview-article-with-board [article]="article"></app-preview-article-with-board>
     </mat-step>
   </mat-horizontal-stepper>

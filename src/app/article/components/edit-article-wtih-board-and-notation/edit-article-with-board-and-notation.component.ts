@@ -1,7 +1,7 @@
 /*
  * © Copyright
  *
- * preview-article-with-board.component.ts is part of shashkifront.nosync.
+ * edit-article-with-board-and-notation.component.ts is part of shashkifront.nosync.
  *
  * shashkifront.nosync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,23 +25,24 @@ import { MediaService } from '../../../core/services/media.service';
 import { Article } from '../../../domain';
 
 @Component({
-  selector: 'app-preview-article-with-board',
-  templateUrl: './preview-article-with-board.component.html',
+  selector: 'app-edit-article-with-board-and-notation',
+  templateUrl: './edit-article-with-board-and-notation.component.html',
   styles: [`
-      .view-board {
-          position: fixed;
-          height: calc(100vh - 108px);
+      .view-scroll {
+          overflow: auto;
+          height: calc(100vh - 248px);
       / / margin-top
       }
   `]
 })
-export class PreviewArticleWithBoardComponent implements OnInit {
+export class EditArticleWithBoardAndNotationComponent implements OnInit {
 
   @Input() article: Article;
 
-  @ViewChild('viewBoardContainerRef', {static: false}) viewBoardContainerRef: ElementRef;
+  @ViewChild('boardWithNotationRef', {static: false}) boardWithNotationRef: ElementRef;
+  @ViewChild('boardContainerRef', {static: false}) boardContainerRef: ElementRef;
 
-  viewBoardWidth: string;
+  boardWidth: string;
   isLoading: boolean;
 
   constructor(private mediaService: MediaService) {
@@ -51,11 +52,11 @@ export class PreviewArticleWithBoardComponent implements OnInit {
     this.mediaService.mediaObserver.asObservable()
       .pipe(
         switchMap(() => {
-          if (!!this.viewBoardContainerRef) {
+          if (!!this.boardContainerRef) {
             this.isLoading = true;
             return timer(150)
               .pipe(
-                tap(() => this.viewBoardWidth = (<HTMLElement>this.viewBoardContainerRef.nativeElement).clientWidth + 'px'),
+                tap(() => this.boardWidth = (<HTMLElement>this.boardContainerRef.nativeElement).clientWidth + 'px'),
                 tap(() => this.isLoading = false)
               );
           }
@@ -64,5 +65,4 @@ export class PreviewArticleWithBoardComponent implements OnInit {
       )
       .subscribe();
   }
-
 }

@@ -32,7 +32,7 @@ import { ClassicStrokeDetailsComponent } from './classic-stroke-details/classic-
 import { EditArticleBlockComponent } from './edit-article-block/edit-article-block.component';
 import { EditArticleBlocksComponent } from './edit-article-blocks/edit-article-blocks.component';
 import { EditArticleInfoComponent } from './edit-article-info/edit-article-info.component';
-import { EditArticleWtihBoardAndNotationComponent } from './edit-article-wtih-board-and-notation/edit-article-wtih-board-and-notation.component';
+import { EditArticleWithBoardAndNotationComponent } from './edit-article-wtih-board-and-notation/edit-article-with-board-and-notation.component';
 import { NotationFenComponent } from './notation-fen/notation-fen.component';
 import { PreviewArticleWithBoardComponent } from './preview-article-with-board/preview-article-with-board.component';
 import { ViewBoardComponent } from './view-board/view-board.component';
@@ -53,12 +53,12 @@ import { ViewNotationComponent } from './view-notation/view-notation.component';
     EditArticleInfoComponent,
     PreviewArticleWithBoardComponent,
     BoardWithNotationComponent,
-    EditArticleWtihBoardAndNotationComponent,
+    EditArticleWithBoardAndNotationComponent,
   ],
   exports: [
     EditArticleInfoComponent,
     PreviewArticleWithBoardComponent,
-    EditArticleWtihBoardAndNotationComponent,
+    EditArticleWithBoardAndNotationComponent,
   ],
   imports: [
     SharedModule,

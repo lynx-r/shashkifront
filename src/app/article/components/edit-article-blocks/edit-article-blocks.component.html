@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="m-8">
   <mat-card-header>
     <mat-card-title>
       Конструктор разбора
@@ -8,7 +8,7 @@
     <div fxLayout="row">
       <button (click)="onAddArticleClicked(false)" [disabled]="published$ | async" mat-button type="button">
         <mat-icon>add</mat-icon>
-        Добавить блок
+        Добавить разбор партии
       </button>
     </div>
   </mat-card-actions>
@@ -31,7 +31,7 @@
     <div fxLayout="row">
       <button (click)="onAddArticleClicked(true)" [disabled]="published$ | async" mat-button type="button">
         <mat-icon>add</mat-icon>
-        Добавить блок
+        Добавить разбор партии
       </button>
     </div>
   </mat-card-actions>
