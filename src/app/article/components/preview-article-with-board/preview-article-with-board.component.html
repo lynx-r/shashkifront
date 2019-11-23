@@ -2,8 +2,6 @@
   <div #viewBoardContainerRef fxFlex="35">
     <app-view-board [article]="article"
                     [hidden]="isLoading"
-                    [ngClass.gt-sm]="'view-board'"
-                    [style.width]="viewBoardWidth"
     ></app-view-board>
   </div>
   <app-preview-article [article]="article"
