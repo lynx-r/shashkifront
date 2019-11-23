@@ -46,6 +46,7 @@ import {
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSortModule } from '@angular/material/sort';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 
 export function paginatorIntlFactory() {
@@ -84,7 +85,8 @@ const COMPONENTS = [
   MatTableModule,
   MatPaginatorModule,
   MatSortModule,
-  MatRadioModule
+  MatRadioModule,
+  MatStepperModule
 ];
 
 @NgModule({

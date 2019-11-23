@@ -6,7 +6,7 @@
   </mat-card-header>
   <mat-card-actions>
     <div fxLayout="row">
-      <button (click)="addArticle.emit()" [disabled]="published$ | async" mat-button type="button">
+      <button (click)="onAddArticleClicked(false)" [disabled]="published$ | async" mat-button type="button">
         <mat-icon>add</mat-icon>
         Добавить блок
       </button>
@@ -14,11 +14,11 @@
   </mat-card-actions>
   <mat-card-content>
     <div fxLayout="column" fxLayoutGap="12px">
-      <app-edit-article-block (moveDown)="moveDownArticleBlock.emit({formGroup: block, index: i})"
-                              (moveUp)="moveUpArticleBlock.emit({formGroup: block, index: i})"
-                              (remove)="deleteArticleBlock.emit({formGroup: block, index: i})"
-                              (save)="saveArticleBlock.emit(block)"
-                              (select)="selectArticleBlock.emit(block)"
+      <app-edit-article-block (moveDown)="onMoveDownArticleBlock( block, i)"
+                              (moveUp)="onMoveUpArticleBlock( block, i)"
+                              (remove)="onDeleteArticleBlock( block, i)"
+                              (save)="onSaveArticleBlock(block)"
+                              (select)="onSelectArticleBlock(block)"
                               *ngFor="let block of articlesControls; index as i"
                               [articleFormGroup]="block"
                               [published]="published$ | async"
@@ -29,7 +29,7 @@
   </mat-card-content>
   <mat-card-actions>
     <div fxLayout="row">
-      <button (click)="addArticle.emit(true)" [disabled]="published$ | async" mat-button type="button">
+      <button (click)="onAddArticleClicked(true)" [disabled]="published$ | async" mat-button type="button">
         <mat-icon>add</mat-icon>
         Добавить блок
       </button>

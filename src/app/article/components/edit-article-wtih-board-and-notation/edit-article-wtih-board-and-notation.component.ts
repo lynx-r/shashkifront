@@ -1,7 +1,7 @@
 /*
  * © Copyright
  *
- * view-article-container.component.ts is part of shashkifront.nosync.
+ * edit-article-wtih-board-and-notation.component.ts is part of shashkifront.nosync.
  *
  * shashkifront.nosync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,27 +18,16 @@
  *
  */
 
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Component, Input } from '@angular/core';
 import { Article } from '../../../domain';
-import * as fromArticle from '../../reducers/article.reducer';
-import { selectCurrentArticle } from '../../reducers/article.reducer';
 
 @Component({
-  selector: 'app-view-article-container',
-  templateUrl: './view-article-container.component.html',
-  styleUrls: ['./view-article-container.component.scss']
+  selector: 'app-edit-article-wtih-board-and-notation',
+  templateUrl: './edit-article-wtih-board-and-notation.component.html',
+  styles: []
 })
-export class ViewArticleContainerComponent implements OnInit {
+export class EditArticleWtihBoardAndNotationComponent {
 
-  article$: Observable<Article>;
-
-  constructor(private store: Store<fromArticle.State>) {
-  }
-
-  ngOnInit() {
-    this.article$ = this.store.select(selectCurrentArticle);
-  }
+  @Input() article: Article;
 
 }

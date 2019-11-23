@@ -21,7 +21,9 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from '../../core/directves/directives.module';
+import { PreviewArticleModule } from '../../preview-article/preview-article.module';
 import { SharedModule } from '../../shared';
+import { BoardWithNotationComponent } from './board-with-notation/board-with-notation.component';
 import { BoardComponent } from './board/board.component';
 import { ClassicMovesDetailsComponent } from './classic-moves-details/classic-moves-details.component';
 import { ClassicMovesComponent } from './classic-moves/classic-moves.component';
@@ -30,24 +32,39 @@ import { ClassicStrokeDetailsComponent } from './classic-stroke-details/classic-
 import { EditArticleBlockComponent } from './edit-article-block/edit-article-block.component';
 import { EditArticleBlocksComponent } from './edit-article-blocks/edit-article-blocks.component';
 import { EditArticleInfoComponent } from './edit-article-info/edit-article-info.component';
-import { EditArticleComponent } from './edit-article/edit-article.component';
+import { EditArticleWtihBoardAndNotationComponent } from './edit-article-wtih-board-and-notation/edit-article-wtih-board-and-notation.component';
 import { NotationFenComponent } from './notation-fen/notation-fen.component';
+import { PreviewArticleWithBoardComponent } from './preview-article-with-board/preview-article-with-board.component';
 import { ViewBoardComponent } from './view-board/view-board.component';
 import { ViewNotationComponent } from './view-notation/view-notation.component';
 
 @NgModule({
   declarations: [
-    EditArticleBlockComponent, BoardComponent, NotationFenComponent,
-    ClassicNotationComponent, ClassicStrokeDetailsComponent, ClassicMovesComponent,
-    ClassicMovesDetailsComponent, ViewNotationComponent, ViewBoardComponent, EditArticleBlocksComponent, EditArticleComponent,
-    EditArticleInfoComponent
+    EditArticleBlockComponent,
+    BoardComponent,
+    NotationFenComponent,
+    ClassicNotationComponent,
+    ClassicStrokeDetailsComponent,
+    ClassicMovesComponent,
+    ClassicMovesDetailsComponent,
+    ViewNotationComponent,
+    ViewBoardComponent,
+    EditArticleBlocksComponent,
+    EditArticleInfoComponent,
+    PreviewArticleWithBoardComponent,
+    BoardWithNotationComponent,
+    EditArticleWtihBoardAndNotationComponent,
   ],
-  exports: [EditArticleComponent, BoardComponent, ClassicNotationComponent,
-    ViewNotationComponent, ViewBoardComponent],
+  exports: [
+    EditArticleInfoComponent,
+    PreviewArticleWithBoardComponent,
+    EditArticleWtihBoardAndNotationComponent,
+  ],
   imports: [
     SharedModule,
     ReactiveFormsModule,
-    DirectivesModule
+    DirectivesModule,
+    PreviewArticleModule
   ]
 })
 export class ComponentsModule {

@@ -1,13 +1,1 @@
-<div *ngIf="article$ | async as article" fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
-  <div #viewBoardContainerRef fxFlex="35">
-    <app-view-board [article]="article"
-                    [ngClass.gt-sm]="'view-board'"
-                    [style.width]="viewBoardWidth"
-                    #viewBoardRef
-                    [hidden]="isLoading"
-    ></app-view-board>
-  </div>
-  <app-preview-article [article]="article"
-                       [visiblePublic]="true"
-                       fxFlex="65"></app-preview-article>
-</div>
+<app-preview-article-with-board [article]="article$ | async"></app-preview-article-with-board>

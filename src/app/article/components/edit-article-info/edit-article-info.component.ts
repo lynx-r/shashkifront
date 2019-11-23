@@ -18,8 +18,8 @@
  *
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { switchMap, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
@@ -36,14 +36,15 @@ import * as fromArticles from '../../reducers/article.reducer';
 export class EditArticleInfoComponent implements OnInit {
 
   @Input() article: Article;
-  @Input() articleFormGroup: FormGroup;
 
-  @Output() saveArticle = new EventEmitter();
-
+  articleFormGroup: FormGroup;
   minIntroLength = AppConstants.ARTICLE_INTRO_MIN_SYMBOLS;
   minTitleLength = AppConstants.ARTICLE_TITLE_MIN_SYMBOLS;
   DRAFT = AppConstants.ARTICLE_DRAFT_STATUS;
   PUBLISHED = AppConstants.ARTICLE_PUBLISHED_STATUS;
+
+  private readonly titleRequireValidators: ValidatorFn[];
+  private readonly introValidators: ValidatorFn[];
 
   get articleTitle() {
     return (this.articleFormGroup.get('title') as FormControl);
@@ -71,9 +72,29 @@ export class EditArticleInfoComponent implements OnInit {
 
   constructor(private store: Store<fromArticles.State>,
               private articleService: ArticleService) {
+    this.titleRequireValidators = [
+      Validators.required,
+      Validators.minLength(AppConstants.ARTICLE_TITLE_MIN_SYMBOLS),
+      Validators.maxLength(AppConstants.ARTICLE_TITLE_MAX_SYMBOLS)
+    ];
+    this.introValidators = [
+      Validators.required,
+      Validators.minLength(AppConstants.ARTICLE_INTRO_MIN_SYMBOLS),
+      Validators.maxLength(AppConstants.ARTICLE_INTRO_MAX_SYMBOLS)
+    ];
   }
 
   ngOnInit(): void {
+    this.articleFormGroup = new FormGroup({
+      id: new FormControl(this.article.id),
+      title: new FormControl(this.article.title, this.titleRequireValidators),
+      intro: new FormControl(this.article.intro, this.introValidators),
+      task: new FormControl(this.article.task),
+      status: new FormControl(this.article.status),
+      selectedArticleBlockId: new FormControl(this.article.selectedArticleBlockId),
+      articleBlockIds: new FormControl(this.article.articleBlockIds),
+    });
+
     this.articleStatus.valueChanges
       .pipe(
         switchMap((status) => {
@@ -84,6 +105,15 @@ export class EditArticleInfoComponent implements OnInit {
           return this.articleService.saveArticle(a);
         }),
         tap(a => this.store.dispatch(new SelectArticle({article: a})))
+      )
+      .subscribe();
+  }
+
+  onSaveArticle() {
+    this.articleService.saveArticle(this.articleFormGroup.value)
+      .pipe(
+        tap(() => this.articleFormGroup.markAsPristine()),
+        tap(aSaved => this.store.dispatch(new SelectArticle({article: aSaved})))
       )
       .subscribe();
   }

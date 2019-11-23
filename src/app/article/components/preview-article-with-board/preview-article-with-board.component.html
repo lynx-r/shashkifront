@@ -1,0 +1,14 @@
+<div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
+  <div #viewBoardContainerRef fxFlex="35">
+    <app-view-board #viewBoardRef
+                    [article]="article"
+                    [hidden]="isLoading"
+                    [ngClass.gt-sm]="'view-board'"
+                    [style.width]="viewBoardWidth"
+    ></app-view-board>
+  </div>
+  <app-preview-article [article]="article"
+                       [visiblePublic]="true"
+                       fxFlex="65"
+  ></app-preview-article>
+</div>
