@@ -21,12 +21,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { switchMap, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
 import { Article } from '../../../domain';
 import { SelectArticle } from '../../actions/article.actions';
 import * as fromArticles from '../../reducers/article.reducer';
+import { selectCurrentArticlePublished } from '../../reducers/article.reducer';
 
 @Component({
   selector: 'app-edit-article-info',
@@ -40,6 +42,7 @@ export class EditArticleInfoComponent implements OnInit {
   articleFormGroup: FormGroup;
   minIntroLength = AppConstants.ARTICLE_INTRO_MIN_SYMBOLS;
   minTitleLength = AppConstants.ARTICLE_TITLE_MIN_SYMBOLS;
+  published$: Observable<boolean>;
   DRAFT = AppConstants.ARTICLE_DRAFT_STATUS;
   PUBLISHED = AppConstants.ARTICLE_PUBLISHED_STATUS;
 
@@ -62,14 +65,6 @@ export class EditArticleInfoComponent implements OnInit {
     return (this.articleFormGroup.get('intro') as FormControl);
   }
 
-  get articleStatus() {
-    return (this.articleFormGroup.get('status') as FormControl);
-  }
-
-  get published() {
-    return this.articleStatus.value === AppConstants.ARTICLE_PUBLISHED_STATUS;
-  }
-
   constructor(private store: Store<fromArticles.State>,
               private articleService: ArticleService) {
     this.titleRequireValidators = [
@@ -85,6 +80,7 @@ export class EditArticleInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.published$ = this.store.select(selectCurrentArticlePublished);
     this.articleFormGroup = new FormGroup({
       id: new FormControl(this.article.id),
       title: new FormControl(this.article.title, this.titleRequireValidators),
@@ -94,19 +90,6 @@ export class EditArticleInfoComponent implements OnInit {
       selectedArticleBlockId: new FormControl(this.article.selectedArticleBlockId),
       articleBlockIds: new FormControl(this.article.articleBlockIds),
     });
-
-    this.articleStatus.valueChanges
-      .pipe(
-        switchMap((status) => {
-          const a = {
-            ...this.article,
-            status: status
-          };
-          return this.articleService.saveArticle(a);
-        }),
-        tap(a => this.store.dispatch(new SelectArticle({article: a})))
-      )
-      .subscribe();
   }
 
   onSaveArticle() {

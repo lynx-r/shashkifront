@@ -34,6 +34,7 @@ import { EditArticleBlocksComponent } from './edit-article-blocks/edit-article-b
 import { EditArticleInfoComponent } from './edit-article-info/edit-article-info.component';
 import { EditArticleWithBoardAndNotationComponent } from './edit-article-wtih-board-and-notation/edit-article-with-board-and-notation.component';
 import { NotationFenComponent } from './notation-fen/notation-fen.component';
+import { PreviewAndPublishArticleComponent } from './preview-and-publish-article/preview-and-publish-article.component';
 import { PreviewArticleWithBoardComponent } from './preview-article-with-board/preview-article-with-board.component';
 import { ViewBoardComponent } from './view-board/view-board.component';
 import { ViewNotationComponent } from './view-notation/view-notation.component';
@@ -54,11 +55,13 @@ import { ViewNotationComponent } from './view-notation/view-notation.component';
     PreviewArticleWithBoardComponent,
     BoardWithNotationComponent,
     EditArticleWithBoardAndNotationComponent,
+    PreviewAndPublishArticleComponent,
   ],
   exports: [
     EditArticleInfoComponent,
     PreviewArticleWithBoardComponent,
     EditArticleWithBoardAndNotationComponent,
+    PreviewAndPublishArticleComponent,
   ],
   imports: [
     SharedModule,

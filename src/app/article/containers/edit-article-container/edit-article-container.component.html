@@ -13,24 +13,7 @@
     <mat-step>
       <ng-template matStepLabel>Предпросмотр</ng-template>
       <br>
-      <app-preview-article-with-board [article]="article"></app-preview-article-with-board>
+      <app-preview-and-publish-article [article]="article"></app-preview-and-publish-article>
     </mat-step>
   </mat-horizontal-stepper>
-
-
-  <!--  <div #previewArticleContainerRef fxFlex.gt-sm="50" fxFlex.lt-md="100">-->
-  <!--    <div [hidden]="isLoading">-->
-  <!--      <mat-tab-group (selectedIndexChange)="onPreviewTabIndexChanged($event)"-->
-  <!--                     [(selectedIndex)]="previewTabIndex"-->
-  <!--                     [ngClass.gt-sm]="'preview-tab-group'"-->
-  <!--      >-->
-  <!--        <mat-tab label="Доска">-->
-  <!--          <br>-->
-  <!--          <br>-->
-  <!--        </mat-tab>-->
-  <!--        <mat-tab label="Разбор">-->
-  <!--        </mat-tab>-->
-  <!--      </mat-tab-group>-->
-  <!--    </div>-->
-  <!--  </div>-->
 </div>

@@ -31,7 +31,6 @@ import { Article } from '../../../domain';
       .view-board {
           position: fixed;
           height: calc(100vh - 108px);
-      / / margin-top
       }
   `]
 })

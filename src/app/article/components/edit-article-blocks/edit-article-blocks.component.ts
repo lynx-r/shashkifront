@@ -54,6 +54,10 @@ export class EditArticleBlocksComponent implements OnInit {
     return this.articleBlockFormArray.controls as FormGroup[];
   }
 
+  get articleBlocks() {
+    return this.articleBlockFormArray.value;
+  }
+
   constructor(
     private store: Store<fromArticle.State>,
     private articleService: ArticleService,
@@ -76,14 +80,6 @@ export class EditArticleBlocksComponent implements OnInit {
       Validators.minLength(AppConstants.ARTICLE_CONTENT_MIN_SYMBOLS),
       Validators.maxLength(AppConstants.ARTICLE_CONTENT_MAX_SYMBOLS)
     ];
-  }
-
-  get articleBlocks() {
-    return this.articleBlockFormArray.value;
-  }
-
-  get published() {
-    return this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
   }
 
   ngOnInit(): void {

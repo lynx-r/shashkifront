@@ -73,4 +73,8 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
     border-radius: 8px;
   }
 
+  .color-accent {
+    color: mat-color($dark-accent);
+  }
+
 }

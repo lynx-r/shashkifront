@@ -1,0 +1,9 @@
+<div>
+  Разбор находится в режиме <span class="color-accent">{{published ? 'публикации' : 'редактирования'}}</span> нажмите,
+  чтобы
+  <button (click)="onSaveArticle()" mat-button>
+    {{published ? 'отредактировать' : 'опубликовать'}}
+  </button>
+</div>
+<br>
+<app-preview-article-with-board [article]="article"></app-preview-article-with-board>
