@@ -18,8 +18,11 @@
  *
  */
 
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { BehaviorSubject } from 'rxjs';
+import { debounceTime, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleBlock } from '../../../domain';
 
@@ -28,7 +31,7 @@ import { ArticleBlock } from '../../../domain';
   templateUrl: './edit-article-block.component.html',
   styleUrls: ['./edit-article-block.component.css']
 })
-export class EditArticleBlockComponent implements OnInit, OnChanges {
+export class EditArticleBlockComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() articleFormGroup: FormGroup;
   @Input() published: boolean;
@@ -41,6 +44,8 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
   @Output() moveDown = new EventEmitter();
   @Output() remove = new EventEmitter();
   @Output() loadPdnEvent = new EventEmitter<ArticleBlock>();
+
+  debounceSave = new BehaviorSubject<ArticleBlock>(null);
 
   visible: boolean;
   minTitleLength = AppConstants.ARTICLE_TITLE_MIN_SYMBOLS;
@@ -76,10 +81,19 @@ export class EditArticleBlockComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.visible = this.state.value === AppConstants.ARTICLE_BLOCK_OPENED;
+    this.debounceSave
+      .pipe(
+        debounceTime(5000),
+        tap((block) => this.save.emit(block)),
+        untilComponentDestroyed(this)
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
   }
 
   ngOnChanges(): void {
-    this.ngOnInit();
   }
 
   onVisibilityToggle() {

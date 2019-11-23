@@ -18,14 +18,14 @@
  *
  */
 
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
-import { Article } from '../../../domain';
+import { Article, ArticleBlock } from '../../../domain';
 import { SelectArticle } from '../../actions/article.actions';
 import * as fromArticle from '../../reducers/article.reducer';
 import { selectCurrentArticle, selectCurrentArticlePublished } from '../../reducers/article.reducer';
@@ -99,9 +99,6 @@ export class EditArticleBlocksComponent implements OnInit {
       );
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-  }
-
   onAddArticleClicked(end: boolean) {
     this.articleService.addArticleBlockToArticle(this.article.id, end)
       .pipe(
@@ -146,6 +143,9 @@ export class EditArticleBlocksComponent implements OnInit {
   }
 
   onSaveArticleBlock(articleBlock: FormGroup) {
+    if (articleBlock.pristine) {
+      return;
+    }
     const aBlock = {...this.articleBlocks.find(a => a.id === articleBlock.value.id)};
     const updatedABlock = Object.assign(aBlock, articleBlock.value);
     this.articleService.saveArticleWithArticleBlock(this.article, updatedABlock)
@@ -166,7 +166,7 @@ export class EditArticleBlocksComponent implements OnInit {
     this.articleBlockFormArray.removeAt(upIndex);
     this.articleBlockFormArray.insert(upIndex, a);
     this.articleBlockFormArray.insert(index, tmpAB);
-    // this.onSaveArticle();
+    this.saveArticleBlockIds();
   }
 
   onMoveDownArticleBlock(a: FormGroup, index: number) {
@@ -179,7 +179,21 @@ export class EditArticleBlocksComponent implements OnInit {
     this.articleBlockFormArray.removeAt(index);
     this.articleBlockFormArray.insert(index, tmpAB);
     this.articleBlockFormArray.insert(downIndex, a);
-    // this.onSaveArticle();
+    this.saveArticleBlockIds();
+  }
+
+  private saveArticleBlockIds() {
+    const abIds = this.articleBlocks.map((ab: ArticleBlock) => ab.id);
+    const article = {
+      ...this.article,
+      articleBlockIds: abIds
+    };
+    this.articleService.saveArticle(article)
+      .pipe(
+        tap(() => this.articleFormGroup.markAsPristine()),
+        tap(aSaved => this.store.dispatch(new SelectArticle({article: aSaved})))
+      )
+      .subscribe();
   }
 
   private createArticleFormGroups() {

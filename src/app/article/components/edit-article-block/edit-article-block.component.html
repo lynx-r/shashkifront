@@ -40,6 +40,8 @@
       <mat-form-field class="full-width">
         <input [formControl]="title"
                [readonly]="published"
+               (blur)="debounceSave.next(articleBlock)"
+               (keyup)="debounceSave.next(articleBlock)"
                matInput
                placeholder="Заголовок разбора"
                title="Заголовок разбора"
@@ -56,12 +58,14 @@
       <mat-form-field class="fit">
         <textarea [formControl]="content"
                   [readonly]="published"
+                  (blur)="debounceSave.next(articleBlock)"
+                  (keyup)="debounceSave.next(articleBlock)"
                   class="fit"
                   matInput
                   cdkAutosizeMinRows="2"
                   cdkTextareaAutosize
-                  placeholder="Скопируйте или сделайте здесь вашу разбор"
-                  title="Текст разбора"
+                  placeholder="Опишите вариант ходов"
+                  title="Текст варианта ходов"
         ></textarea>
         <mat-error *ngIf="content.invalid && (content.dirty || content.touched)">
           <div *ngIf="content?.errors.minlength">
