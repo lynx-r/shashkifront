@@ -73,19 +73,11 @@ export class NotationParserService {
         .filter(i => !!i)
         .map(i => new ContentItem(i.component, i.index, i.data));
     } catch (e) {
-      const message = `PARSE ERROR: line ${e.line}, pos ${e.pos}\nERROR: ${e.message}`;
+      const message = `Не распознанный символ ${e.input[e.pos]}`;
       this.notifyService.error(message);
       console.log(message, e.input);
       return [];
     }
-  }
-
-  parseErrorText(text) {
-    return {
-      component: InlineTextComponent,
-      index: -1,
-      data: {text: 'Не удалось распознать: "' + text + '"', color: 'red'}
-    };
   }
 
   private parse(text: string) {
