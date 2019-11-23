@@ -20,7 +20,7 @@
 
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DirectivesModule } from '../../core/directves/directives/directives.module';
+import { DirectivesModule } from '../../core/directves/directives.module';
 import { SharedModule } from '../../shared';
 import { BoardComponent } from './board/board.component';
 import { ClassicMovesDetailsComponent } from './classic-moves-details/classic-moves-details.component';

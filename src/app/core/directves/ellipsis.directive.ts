@@ -34,43 +34,22 @@ import { AfterViewInit, Directive, ElementRef, Inject, PLATFORM_ID, } from '@ang
  *
  */
 @Directive({
-  selector: '[snEllipsis]',
+  selector: '[appEllipsis]',
 })
 export class EllipsisDirective implements AfterViewInit {
-  /**
-   * Ellipsis charater
-   *
-   * @memberof EllipsisDirective
-   */
   private ellipsisChar = '…';
 
-  /**
-   * Creates an instance of EllipsisDirective.
-   *
-   * @memberof EllipsisDirective
-   */
   constructor(
     private el: ElementRef,
     @Inject(PLATFORM_ID) private platformId,
   ) {
   }
 
-  /**
-   * If true means the elements contents are larger
-   * than the size of the element.
-   *
-   * @memberof EllipsisDirective
-   */
   private get hasOverflow(): boolean {
     const el: HTMLElement = this.el.nativeElement;
     return el.scrollHeight > el.offsetHeight;
   }
 
-  /**
-   * Clip text on component initialisation
-   *
-   * @memberof EllipsisDirective
-   */
   public ngAfterViewInit(): void {
     const isBrowser = isPlatformBrowser(this.platformId);
     if (isBrowser) {
@@ -78,13 +57,6 @@ export class EllipsisDirective implements AfterViewInit {
     }
   }
 
-  /**
-   * Removes character from end of `innerText`
-   * until text fits in element and appends
-   * a ellipsis symbol to the end.
-   *
-   * @memberof EllipsisDirective
-   */
   private clipText(): void {
     const el: HTMLElement = this.el.nativeElement;
     let text = el.innerText.split(' ');

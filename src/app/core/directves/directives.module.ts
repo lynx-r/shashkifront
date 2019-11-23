@@ -1,7 +1,7 @@
 /*
  * © Copyright
  *
- * login-page.ts is part of shashkifront.nosync.
+ * directives.module.ts is part of shashkifront.nosync.
  *
  * shashkifront.nosync is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,3 +17,13 @@
  * along with shashkifront.nosync.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
+
+import { NgModule } from '@angular/core';
+import { EllipsisDirective } from './ellipsis.directive';
+
+@NgModule({
+  declarations: [EllipsisDirective],
+  exports: [EllipsisDirective],
+})
+export class DirectivesModule {
+}

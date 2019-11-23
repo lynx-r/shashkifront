@@ -18,11 +18,9 @@
  *
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { MaterialModule } from '../core/config/material.module';
 
 import { ArticleRoutingModule } from './article-routing.module';
 import { ComponentsModule } from './components/components.module';
@@ -32,10 +30,7 @@ import * as fromArticle from './reducers/article.reducer';
 
 @NgModule({
   imports: [
-    CommonModule,
     ArticleRoutingModule,
-
-    MaterialModule,
 
     StoreModule.forFeature(fromArticle.articlesFeatureKey, fromArticle.reducer),
     EffectsModule.forFeature([ArticleEffects]),

@@ -23,10 +23,7 @@ import { environment } from '../../../environments/environment';
 import { getIsPrivateUser, getLoggedIn, getPrivateUser, getUser, getUserId, userReducer, UserState } from './auth';
 import { generalReducer, GeneralState, getErrors, getPending } from './general';
 
-import { getLayoutShowSidenav, layoutReducer, LayoutState } from './layout';
-
 export interface RootState {
-  layout: LayoutState;
   general: GeneralState;
   auth: UserState;
 }
@@ -37,7 +34,6 @@ export interface RootState {
  * and the current or initial state and return a new immutable state.
  */
 export const reducers: ActionReducerMap<RootState> = {
-  layout: layoutReducer,
   general: generalReducer,
   auth: userReducer,
 };
@@ -59,16 +55,6 @@ export function logger(reducer: ActionReducer<RootState>): ActionReducer<RootSta
 export const metaReducers: MetaReducer<RootState>[] = !environment.production
   ? [logger]
   : [];
-
-/**
- * Layout Reducers
- */
-export const getLayoutState = createFeatureSelector<LayoutState>('layout');
-
-export const getShowSidenav = createSelector(
-  getLayoutState,
-  getLayoutShowSidenav
-);
 
 export const getGeneralState = createFeatureSelector('general');
 

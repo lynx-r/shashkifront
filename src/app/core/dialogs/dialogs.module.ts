@@ -20,9 +20,12 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { MaterialModule } from '../config/material.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import { DialogService } from '../services/dialog.service';
 import { CreateArticleDialogComponent } from './create-article-dialog/create-article-dialog.component';
 import { InputDialogComponent } from './create-article-dialog/input-dialog.component';
@@ -38,8 +41,12 @@ const COMPONENTS = [
   imports: [
     CommonModule,
     FormsModule,
-    FlexLayoutModule,
-    MaterialModule
+
+    MatFormFieldModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSelectModule
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,

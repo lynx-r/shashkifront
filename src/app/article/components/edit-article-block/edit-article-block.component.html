@@ -2,10 +2,10 @@
   <mat-card-actions>
     <div fxLayout="row" fxLayoutAlign="end center">
       <div (click)="onVisibilityToggle()" class="button-height cursor" fxFlex fxHide.lt-sm>
-        <p *ngIf="title.value" class="snEllipsis" snEllipsis>
+        <p *ngIf="title.value" appEllipsis class="ellipsis">
           {{title.value}}
         </p>
-        <small *ngIf="!title.value" class="snEllipsis" snEllipsis>
+        <small *ngIf="!title.value" appEllipsis class="ellipsis">
           {{content.value}}
         </small>
       </div>

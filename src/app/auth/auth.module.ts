@@ -18,13 +18,9 @@
  *
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { MaterialModule } from '../core/config/material.module';
+import { SharedModule } from '../shared';
 import { SigninComponent } from './components/signin.component';
 import { SignupComponent } from './components/signup.component';
 import { InfoComponent } from './containers/info.component';
@@ -33,19 +29,12 @@ import { SignupPageComponent } from './containers/signup-page.component';
 
 @NgModule({
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    FlexLayoutModule,
-    MaterialModule,
-    AngularFontAwesomeModule,
+    SharedModule,
     RouterModule.forChild([
       {path: 'SignIn', component: SigninPageComponent},
       {path: 'Register', component: SignupPageComponent},
       {path: 'info', component: InfoComponent},
     ]),
-    // StoreModule.forFeature('auth', reducers),
-    // EffectsModule.forFeature([AuthEffects]),
   ],
   declarations: [
     SigninComponent,

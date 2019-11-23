@@ -21,17 +21,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from '../core/config/material.module';
-import { ComponentsModule } from './components';
 import { MissionComponent } from './containers/mission.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
-    MaterialModule,
     FlexLayoutModule,
+    MatCardModule,
     RouterModule.forChild([
       {
         path: '',

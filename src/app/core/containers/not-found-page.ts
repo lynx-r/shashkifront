@@ -22,7 +22,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
 
 @Component({
-  selector: 'bc-not-found-page',
+  selector: 'app-not-found-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
       <div *ngIf="show404" class="center">
