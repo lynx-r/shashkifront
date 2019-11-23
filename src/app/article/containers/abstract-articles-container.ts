@@ -18,10 +18,11 @@
  *
  */
 
-import { ViewChild } from '@angular/core';
+import { OnDestroy, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Store } from '@ngrx/store';
+import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { BehaviorSubject, merge, Observable, of, throwError } from 'rxjs';
 import { catchError, debounceTime, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { ArticleService } from '../../core/services/article.service';
@@ -30,7 +31,7 @@ import { ArticlesResponse } from '../../domain/articles-response';
 import { UpsertArticles } from '../actions/article.actions';
 import * as fromArticle from '../reducers/article.reducer';
 
-export class AbstractArticlesContainer {
+export class AbstractArticlesContainer implements OnDestroy {
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -46,6 +47,9 @@ export class AbstractArticlesContainer {
 
   constructor(protected store: Store<fromArticle.State>,
               protected articleService: ArticleService) {
+  }
+
+  ngOnDestroy(): void {
   }
 
   applyFilter(search: string) {
@@ -64,7 +68,8 @@ export class AbstractArticlesContainer {
         catchError(err => {
           console.log(err);
           return throwError(err);
-        })
+        }),
+        untilComponentDestroyed(this)
       );
   }
 
@@ -96,7 +101,8 @@ export class AbstractArticlesContainer {
           console.log(err);
           this.isLoadingResults = false;
           return of([]);
-        })
+        }),
+        untilComponentDestroyed(this)
       );
   }
 

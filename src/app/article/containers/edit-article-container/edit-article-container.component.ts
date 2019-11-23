@@ -24,6 +24,7 @@ import { MatHorizontalStepper } from '@angular/material/stepper';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { Observable, of, timer } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
@@ -81,7 +82,8 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
               );
           }
           return of();
-        })
+        }),
+        untilComponentDestroyed(this)
       )
       .subscribe();
 

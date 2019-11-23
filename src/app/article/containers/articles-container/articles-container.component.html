@@ -1,82 +1,85 @@
-<div class="container mat-elevation-z8 articles">
-  <mat-form-field class="articles-search-input">
-    <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Поиск по заголовку или вступлению">
-  </mat-form-field>
+<mat-card>
+  <mat-card-content>
+    <mat-form-field class="articles-search-input">
+      <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Поиск по заголовку или вступлению">
+    </mat-form-field>
 
-  <div class="table-container">
-    <mat-table [dataSource]="data" class="table" matSort matSortActive="createdAt" matSortDirection="desc"
-               matSortDisableClear
-    >
+    <div class="table-container">
+      <mat-table [dataSource]="data" class="table" matSort matSortActive="createdAt" matSortDirection="desc"
+                 matSortDisableClear
+      >
 
-      <ng-container matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef disableClear fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70"
-                         mat-sort-header>
-          Заголовок
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row" fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70">
-          <a [routerLink]="['..', 'view', row.humanReadableUrl]" appEllipsis class="ellipsis">
-            {{row.title}}
-          </a>
-        </mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef disableClear fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70"
+                           mat-sort-header>
+            Заголовок
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" fxFlex.gt-md="33" fxFlex.lt-lg="80" fxFlex.lt-sm="70">
+            <a [routerLink]="['..', 'view', row.humanReadableUrl]" appEllipsis class="ellipsis">
+              {{row.title}}
+            </a>
+          </mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="intro">
-        <mat-header-cell *matHeaderCellDef fxFlex.gt-md="47" fxHide.lt-lg>Описание</mat-header-cell>
-        <mat-cell *matCellDef="let row" appEllipsis class="ellipsis" fxFlex.gt-md="47" fxHide.lt-lg>
-          {{row.intro}}
-        </mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="intro">
+          <mat-header-cell *matHeaderCellDef fxFlex.gt-md="47" fxHide.lt-lg>Описание</mat-header-cell>
+          <mat-cell *matCellDef="let row" appEllipsis class="ellipsis" fxFlex.gt-md="47" fxHide.lt-lg>
+            {{row.intro}}
+          </mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="task">
-        <mat-header-cell *matHeaderCellDef class="mat-header-cell-center" fxFlex.gt-md="6" fxFlex.lt-lg="8"
-                         fxFlex.lt-sm="20" fxHide.lt-sm mat-sort-header>
-          Задача
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row" [matTooltip]="row.task ? 'В этом разборе есть задача' : ''" class="justify-text"
-                  fxFlex.gt-md="6" fxFlex.lt-lg="8" fxFlex.lt-sm="20" fxHide.lt-sm
-        >
-          {{row.task ? 'З' : '-'}}
-        </mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="task">
+          <mat-header-cell *matHeaderCellDef class="mat-header-cell-center" fxFlex.gt-md="6" fxFlex.lt-lg="8"
+                           fxFlex.lt-sm="20" fxHide.lt-sm mat-sort-header>
+            Задача
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" [matTooltip]="row.task ? 'В этом разборе есть задача' : ''"
+                    class="justify-text"
+                    fxFlex.gt-md="6" fxFlex.lt-lg="8" fxFlex.lt-sm="20" fxHide.lt-sm
+          >
+            {{row.task ? 'З' : '-'}}
+          </mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="createdAt">
-        <mat-header-cell *matHeaderCellDef class="mat-header-cell-center" disableClear fxFlex.gt-md="14"
-                         fxFlex.lt-lg="16" fxFlex.lt-sm="30"
-                         mat-sort-header>
-          Создано
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row" class="justify-text" fxFlex.gt-md="14" fxFlex.lt-lg="16" fxFlex.lt-sm="30">
+        <ng-container matColumnDef="createdAt">
+          <mat-header-cell *matHeaderCellDef class="mat-header-cell-center" disableClear fxFlex.gt-md="14"
+                           fxFlex.lt-lg="16" fxFlex.lt-sm="30"
+                           mat-sort-header>
+            Создано
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row" class="justify-text" fxFlex.gt-md="14" fxFlex.lt-lg="16" fxFlex.lt-sm="30">
           <span [matTooltip]="row.createdAt | date:'medium'" fxHide.lt-lg>
             {{row.createdAt | date:'short'}}
           </span>
-          <span [matTooltip]="row.createdAt | date:'medium'" fxHide.gt-md>
+            <span [matTooltip]="row.createdAt | date:'medium'" fxHide.gt-md>
             {{row.createdAt | date:'d.M.yy'}}
           </span>
-        </mat-cell>
-      </ng-container>
+          </mat-cell>
+        </ng-container>
 
-      <!--      <ng-container matColumnDef="expandedDetail">-->
-      <!--        <mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.lengmat-header-cell" >-->
-      <!--          <div [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"-->
-      <!--               class="example-element-detail">-->
-      <!--            {{element.content}}-->
-      <!--            <br>-->
-      <!--            sdfsdfsdfsdf-->
-      <!--          </div>-->
-      <!--        </mat-cell>-->
-      <!--      </ng-container>-->
+        <!--      <ng-container matColumnDef="expandedDetail">-->
+        <!--        <mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.lengmat-header-cell" >-->
+        <!--          <div [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"-->
+        <!--               class="example-element-detail">-->
+        <!--            {{element.content}}-->
+        <!--            <br>-->
+        <!--            sdfsdfsdfsdf-->
+        <!--          </div>-->
+        <!--        </mat-cell>-->
+        <!--      </ng-container>-->
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-      <!--      [class.example-expanded-row]="expandedElement === row"-->
-      <!--      (click)="expandedElement = expandedElement === row ? null : row"-->
-      <!--      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>-->
-    </mat-table>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        <!--      [class.example-expanded-row]="expandedElement === row"-->
+        <!--      (click)="expandedElement = expandedElement === row ? null : row"-->
+        <!--      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>-->
+      </mat-table>
 
-    <mat-paginator [length]="resultsLength"
-                   [pageSizeOptions]="pageSizeOptions"
-                   [pageSize]="10"
-                   showFirstLastButtons
-    ></mat-paginator>
-  </div>
-</div>
+      <mat-paginator [length]="resultsLength"
+                     [pageSizeOptions]="pageSizeOptions"
+                     [pageSize]="10"
+                     showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

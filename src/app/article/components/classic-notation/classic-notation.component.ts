@@ -18,8 +18,9 @@
  *
  */
 
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
@@ -35,7 +36,7 @@ import { BoardService } from '../../services/board.service';
   styleUrls: ['./classic-notation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ClassicNotationComponent implements OnInit, OnChanges {
+export class ClassicNotationComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() article: Article;
 
@@ -73,6 +74,9 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
     }
   }
 
+  ngOnDestroy(): void {
+  }
+
   onStrokeClicked(move: Move, stroke: Stroke) {
     if (this.published) {
       return;
@@ -101,7 +105,8 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
     };
     this.articleService.saveArticleWithArticleBlock(this.article, a)
       .pipe(
-        tap(articleSaved => this.store.dispatch(new SelectArticle({article: articleSaved})))
+        tap(articleSaved => this.store.dispatch(new SelectArticle({article: articleSaved}))),
+        untilComponentDestroyed(this)
       )
       .subscribe();
   }
@@ -141,7 +146,8 @@ export class ClassicNotationComponent implements OnInit, OnChanges {
     ];
     forkJoin(saveObservables)
       .pipe(
-        tap(([article, articleSaved]) => this.store.dispatch(new SelectArticle({article: articleSaved})))
+        tap(([article, articleSaved]) => this.store.dispatch(new SelectArticle({article: articleSaved}))),
+        untilComponentDestroyed(this)
       )
       .subscribe();
   }

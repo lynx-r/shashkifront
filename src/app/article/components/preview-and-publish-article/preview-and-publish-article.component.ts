@@ -18,8 +18,9 @@
  *
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
@@ -37,7 +38,7 @@ import * as fromArticles from '../../reducers/article.reducer';
       }
   `]
 })
-export class PreviewAndPublishArticleComponent implements OnInit {
+export class PreviewAndPublishArticleComponent implements OnInit, OnDestroy {
 
   @Input() article: Article;
 
@@ -51,6 +52,9 @@ export class PreviewAndPublishArticleComponent implements OnInit {
     this.published = this.article.status === AppConstants.ARTICLE_PUBLISHED_STATUS;
   }
 
+  ngOnDestroy(): void {
+  }
+
   onSaveArticle() {
     const status = this.published ? AppConstants.ARTICLE_DRAFT_STATUS : AppConstants.ARTICLE_PUBLISHED_STATUS;
     const article = {
@@ -60,7 +64,8 @@ export class PreviewAndPublishArticleComponent implements OnInit {
     this.published = !this.published;
     this.articleService.saveArticle(article)
       .pipe(
-        tap(aSaved => this.store.dispatch(new SelectArticle({article: aSaved})))
+        tap(aSaved => this.store.dispatch(new SelectArticle({article: aSaved}))),
+        untilComponentDestroyed(this)
       )
       .subscribe();
   }

@@ -18,9 +18,10 @@
  *
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
@@ -35,7 +36,7 @@ import { selectCurrentArticle, selectCurrentArticlePublished } from '../../reduc
   templateUrl: './edit-article-blocks.component.html',
   styles: []
 })
-export class EditArticleBlocksComponent implements OnInit {
+export class EditArticleBlocksComponent implements OnInit, OnDestroy {
 
   @Input() article: Article;
 
@@ -91,8 +92,12 @@ export class EditArticleBlocksComponent implements OnInit {
     this.createArticleFormGroups();
     this.store.select(selectCurrentArticlePublished)
       .pipe(
-        tap(() => this.createArticleFormGroups())
+        tap(() => this.createArticleFormGroups()),
+        untilComponentDestroyed(this)
       );
+  }
+
+  ngOnDestroy(): void {
   }
 
   onAddArticleClicked(end: boolean) {
@@ -118,7 +123,8 @@ export class EditArticleBlocksComponent implements OnInit {
             selectedArticleBlockId: articleBlock.id
           };
           this.store.dispatch(new SelectArticle({article: a}));
-        })
+        }),
+        untilComponentDestroyed(this)
       )
       .subscribe();
   }
@@ -126,7 +132,8 @@ export class EditArticleBlocksComponent implements OnInit {
   onSelectArticleBlock(a: FormGroup) {
     this.articleService.selectArticleBlock(this.article, a.value.id)
       .pipe(
-        tap(articleSaved => this.store.dispatch(new SelectArticle({article: articleSaved})))
+        tap(articleSaved => this.store.dispatch(new SelectArticle({article: articleSaved}))),
+        untilComponentDestroyed(this)
       )
       .subscribe();
   }
@@ -147,7 +154,8 @@ export class EditArticleBlocksComponent implements OnInit {
     this.articleService.saveArticleWithArticleBlock(this.article, updatedABlock)
       .pipe(
         tap(() => articleBlock.markAsPristine()),
-        tap(article => this.store.dispatch(new SelectArticle({article: article})))
+        tap(article => this.store.dispatch(new SelectArticle({article: article}))),
+        untilComponentDestroyed(this)
       )
       .subscribe();
   }
@@ -187,7 +195,8 @@ export class EditArticleBlocksComponent implements OnInit {
     this.articleService.saveArticle(article)
       .pipe(
         tap(() => this.articleFormGroup.markAsPristine()),
-        tap(aSaved => this.store.dispatch(new SelectArticle({article: aSaved})))
+        tap(aSaved => this.store.dispatch(new SelectArticle({article: aSaved}))),
+        untilComponentDestroyed(this)
       )
       .subscribe();
   }

@@ -18,9 +18,10 @@
  *
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AppConstants } from '../../../core/config/app-constants';
@@ -35,7 +36,7 @@ import { selectCurrentArticlePublished } from '../../reducers/article.reducer';
   templateUrl: './edit-article-info.component.html',
   styles: []
 })
-export class EditArticleInfoComponent implements OnInit {
+export class EditArticleInfoComponent implements OnInit, OnDestroy {
 
   @Input() article: Article;
 
@@ -92,11 +93,15 @@ export class EditArticleInfoComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+  }
+
   onSaveArticle() {
     this.articleService.saveArticle(this.articleFormGroup.value)
       .pipe(
         tap(() => this.articleFormGroup.markAsPristine()),
-        tap(aSaved => this.store.dispatch(new SelectArticle({article: aSaved})))
+        tap(aSaved => this.store.dispatch(new SelectArticle({article: aSaved}))),
+        untilComponentDestroyed(this)
       )
       .subscribe();
   }

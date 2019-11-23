@@ -1,4 +1,9 @@
 <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
-  <app-view-board [article]="article" fxFlex="35"></app-view-board>
-  <app-preview-article [article]="article" [visiblePublic]="true" class="view-scroll" fxFlex="65"></app-preview-article>
+  <div #viewBoardRef fxFlex.gt-sm="35">
+    <app-view-board [article]="article"></app-view-board>
+  </div>
+  <div #previewArticleRef class="overflow-auto" fxFlex.gt-sm="65">
+    <app-preview-article [article]="article" [ngClass.gt-sm]="'view-scroll'"
+                         [visiblePublic]="true"></app-preview-article>
+  </div>
 </div>

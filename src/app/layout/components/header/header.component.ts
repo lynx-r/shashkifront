@@ -90,7 +90,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         filter(a => !!a),
         switchMap(aReq => this.articleService.createArticle(aReq)),
         tap(article => this.store.dispatch(new AddArticle({article: article}))),
-        tap(article => this.router.navigate(['/article/edit', article.humanReadableUrl]))
+        tap(article => this.router.navigate(['/article/edit', article.humanReadableUrl])),
+        untilComponentDestroyed(this)
       )
       .subscribe();
   }
