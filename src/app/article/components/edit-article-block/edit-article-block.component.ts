@@ -50,7 +50,7 @@ export class EditArticleBlockComponent implements OnInit, OnChanges, OnDestroy {
   visible: boolean;
   minTitleLength = AppConstants.ARTICLE_TITLE_MIN_SYMBOLS;
   minContentLength = AppConstants.ARTICLE_CONTENT_MIN_SYMBOLS;
-  hideActions: boolean;
+  hiddenActions: boolean;
   hiddenHintBlockSaved: boolean;
 
   get articleBlock() {
@@ -82,7 +82,7 @@ export class EditArticleBlockComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    this.hideActions = true;
+    this.hiddenActions = true;
     this.hiddenHintBlockSaved = true;
     this.visible = this.state.value === AppConstants.ARTICLE_BLOCK_OPENED;
     this.debounceSave

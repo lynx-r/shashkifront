@@ -1,6 +1,5 @@
 <mat-card>
-  <mat-card-actions (mouseenter)="hideActions = false" (mouseleave)="hideActions = true"
-                    (tap)="hideActions = !hideActions">
+  <mat-card-actions (mouseenter)="hiddenActions = false" (mouseleave)="hiddenActions = true">
     <div fxLayout="row" fxLayoutAlign="end center">
       <div (click)="onVisibilityToggle()" class="button-height cursor" fxFlex fxHide.lt-sm>
         <p *ngIf="title.value" appEllipsis class="ellipsis">
@@ -10,11 +9,15 @@
           {{content.value}}
         </small>
       </div>
-      <div [hidden]="hideActions">
-        <button (click)="onVisibilityToggle()" [disabled]="published" mat-icon-button type="button">
-          <mat-icon *ngIf="!visible">visibility_off</mat-icon>
-          <mat-icon *ngIf="visible">visibility</mat-icon>
-        </button>
+      <button *ngIf="(selectedArticleBlockId === articleBlock.id) && hiddenActions" [color]="selectedColor"
+              mat-icon-button type="button">
+        <mat-icon>touch_app</mat-icon>
+      </button>
+      <button (click)="onVisibilityToggle()" [disabled]="published" mat-icon-button type="button">
+        <mat-icon *ngIf="!visible">visibility_off</mat-icon>
+        <mat-icon *ngIf="visible">visibility</mat-icon>
+      </button>
+      <div [hidden]="hiddenActions">
         <button (click)="select.emit()" [color]="selectedColor" [disabled]="!articleFormGroup.valid || published"
                 mat-icon-button type="button">
           <mat-icon>touch_app</mat-icon>
