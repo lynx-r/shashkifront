@@ -29,6 +29,7 @@ import { UpdateService } from './core/services/update.service';
 @Component({
   selector: 'app-root',
   template: `
+      <ngx-loading-bar></ngx-loading-bar>
       <app-layout-container>
           <router-outlet></router-outlet>
       </app-layout-container>

@@ -29,6 +29,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { BlockUIModule } from 'ng-block-ui';
 import { CookieModule } from 'ngx-cookie';
 import { WebStorageModule } from 'ngx-store';
@@ -60,6 +63,9 @@ registerLocaleData(localeRu);
     ToastrModule.forRoot(),
     CookieModule.forRoot(),
     WebStorageModule,
+    LoadingBarHttpClientModule,
+    LoadingBarRouterModule,
+    LoadingBarModule,
 
     BlockUIModule.forRoot({
       delayStart: 10,
