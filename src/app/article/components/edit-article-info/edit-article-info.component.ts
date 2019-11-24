@@ -20,6 +20,7 @@
 
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { Observable } from 'rxjs';
@@ -67,6 +68,7 @@ export class EditArticleInfoComponent implements OnInit, OnDestroy {
   }
 
   constructor(private store: Store<fromArticles.State>,
+              private router: Router,
               private articleService: ArticleService) {
     this.titleRequireValidators = [
       Validators.required,
@@ -105,6 +107,15 @@ export class EditArticleInfoComponent implements OnInit, OnDestroy {
       .pipe(
         tap(() => this.articleFormGroup.markAsPristine()),
         tap(aSaved => this.store.dispatch(new SelectArticle({article: aSaved}))),
+        untilComponentDestroyed(this)
+      )
+      .subscribe();
+  }
+
+  onDeleteArticle() {
+    this.articleService.deleteArticle(this.article.id)
+      .pipe(
+        tap(aSaved => this.router.navigate(['article', 'list-author'])),
         untilComponentDestroyed(this)
       )
       .subscribe();

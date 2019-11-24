@@ -151,6 +151,10 @@ export class ArticleService {
       );
   }
 
+  deleteArticle(articleId: string) {
+    return this.api.authDelete(`/article/${articleId}`);
+  }
+
   deleteArticleBlock(articleId: string, articleBlockId: string) {
     return this.api.authDelete(`/article/${articleId}/block/${articleBlockId}`);
   }

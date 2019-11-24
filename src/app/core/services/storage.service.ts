@@ -19,58 +19,49 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ChildActivationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { LocalStorageService } from 'ngx-store';
-import { filter, take } from 'rxjs/operators';
 
 const OFFLINE_USER = 'offlineuser';
 const EDIT_ARTICLE_STEP_INDEX = 'editarticlestepindex';
+
+const SEP = '-';
+
+function getKey(key: string, suffix: string) {
+  return key + suffix;
+}
+
+function formatSuffix(suffix: string) {
+  return SEP + suffix;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
 
-  private static SEP = '-';
-  private suffix: string;
-
   constructor(
     private storage: LocalStorageService,
     private cookie: CookieService,
     private router: Router,
   ) {
-    this.router.events.pipe(
-      filter(event => event instanceof ChildActivationEnd),
-      take(1),
-    ).subscribe((event: ChildActivationEnd) => {
-      const url = event.snapshot['_routerState'].url;
-      this.suffix = StorageService.formatSuffix(url);
-    });
-  }
-
-  private static getKey(key: string, suffix: string) {
-    return key + suffix;
-  }
-
-  private static formatSuffix(suffix: string) {
-    return StorageService.SEP + suffix;
   }
 
   get(key: string) {
-    return this.storage.get(StorageService.getKey(key, this.suffix));
+    return this.storage.get(getKey(key, formatSuffix(this.router.url)));
   }
 
   put(key: string, val: any) {
-    this.storage.set(StorageService.getKey(key, this.suffix), val);
+    this.storage.set(getKey(key, formatSuffix(this.router.url)), val);
   }
 
   getPref(suffix: string, key: string) {
-    return this.storage.get(StorageService.getKey(key, suffix));
+    return this.storage.get(getKey(key, suffix));
   }
 
   putPref(suffix: string, key: string, val: any) {
-    this.storage.set(StorageService.getKey(key, suffix), val);
+    this.storage.set(getKey(key, suffix), val);
   }
 
   putUserId(userId: string) {
@@ -81,24 +72,6 @@ export class StorageService {
     return this.cookie.get('shashkiuserid');
   }
 
-  // getAuthUser() {
-  //   return this.cookie.getObject(AppConstants.AUTH_USER_COOKIE) as UserToken;
-  // }
-  //
-  // putAuthUser(user: UserToken, force?: boolean) {
-  //   let options: CookieOptions = {
-  //     expires: new Date(Date.now() + (1000 * 60 * 60)),
-  //   };
-  //   if (profile === 'prod') {
-  //     options = {
-  //       ...options,
-  //       secure: true,
-  //     };
-  //   }
-  //   console.log('!!!!!!!!!!!!!!!!', user);
-  //   this.cookie.putObject(AppConstants.AUTH_USER_COOKIE, user, options);
-  // }
-
   getOfflineUser() {
     return this.storage.get(OFFLINE_USER);
   }
@@ -108,10 +81,10 @@ export class StorageService {
   }
 
   getStepIndex() {
-    return this.storage.get(EDIT_ARTICLE_STEP_INDEX);
+    return this.get(EDIT_ARTICLE_STEP_INDEX);
   }
 
   putStepIndex(stepIndex: number) {
-    this.storage.set(EDIT_ARTICLE_STEP_INDEX, stepIndex);
+    this.put(EDIT_ARTICLE_STEP_INDEX, stepIndex);
   }
 }

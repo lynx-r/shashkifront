@@ -27,7 +27,6 @@ import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { Observable, of, timer } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
-import { AppConstants } from '../../../core/config/app-constants';
 import { ArticleService } from '../../../core/services/article.service';
 import { MediaService } from '../../../core/services/media.service';
 import { StorageService } from '../../../core/services/storage.service';
@@ -49,7 +48,6 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
 
   article$: Observable<Article>;
   toggleRight: string;
-  previewTabIndex: number;
 
   isLoading: boolean;
 
@@ -64,7 +62,6 @@ export class EditArticleContainerComponent implements OnInit, OnDestroy, AfterVi
   }
 
   ngOnInit() {
-    this.previewTabIndex = this.storageService.get(AppConstants.PREVIEW_TAB_INDEX_COOKIE);
     this.toggleRight = 'board';
     this.article$ = this.store.select(selectCurrentArticle);
     this.mediaService.mediaObserver.asObservable()

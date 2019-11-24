@@ -80,7 +80,7 @@ export class ArticleExistsGuard implements CanActivate {
         take(1),
         catchError((err) => {
           console.log(err);
-          this.router.navigate(['/404']);
+          this.router.navigate(['article', 'list']);
           return of(false);
         }),
       );
@@ -94,7 +94,7 @@ export class ArticleExistsGuard implements CanActivate {
    */
   fetchArticleFromApi(hru: string, authUser: boolean): Observable<boolean> {
     if (hru == null) {
-      this.router.navigate(['/404']);
+      this.router.navigate(['article', 'list']);
       return of(false);
     }
     return this.articleService
@@ -107,7 +107,7 @@ export class ArticleExistsGuard implements CanActivate {
         map(apiArticle => !!apiArticle),
         catchError((err) => {
           this.errorHandling.error('Статья не найдена');
-          this.router.navigate(['/404']);
+          this.router.navigate(['article', 'list']);
           return of(false);
         })
       );
