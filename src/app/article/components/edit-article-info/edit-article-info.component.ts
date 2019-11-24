@@ -18,7 +18,7 @@
  *
  */
 
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -37,7 +37,7 @@ import { selectCurrentArticlePublished } from '../../reducers/article.reducer';
   templateUrl: './edit-article-info.component.html',
   styles: []
 })
-export class EditArticleInfoComponent implements OnInit, OnDestroy {
+export class EditArticleInfoComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() article: Article;
 
@@ -84,6 +84,9 @@ export class EditArticleInfoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.published$ = this.store.select(selectCurrentArticlePublished);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.articleFormGroup = new FormGroup({
       id: new FormControl(this.article.id),
       title: new FormControl(this.article.title, this.titleRequireValidators),

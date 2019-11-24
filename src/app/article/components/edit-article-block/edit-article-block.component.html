@@ -9,7 +9,7 @@
           {{content.value}}
         </small>
       </div>
-      <small [hidden]="articleBlock.task" matTooltip="Эта партия является задачей">Задача</small>
+      <small [hidden]="!articleBlock.task" matTooltip="Эта партия является задачей">Задача</small>
       <button *ngIf="selectedArticleBlock && hiddenActions" [color]="selectedColor" mat-icon-button type="button">
         <mat-icon>touch_app</mat-icon>
       </button>

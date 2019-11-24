@@ -18,7 +18,7 @@
  *
  */
 
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
@@ -36,7 +36,7 @@ import { selectCurrentArticle, selectCurrentArticlePublished } from '../../reduc
   templateUrl: './edit-article-blocks.component.html',
   styles: []
 })
-export class EditArticleBlocksComponent implements OnInit, OnDestroy {
+export class EditArticleBlocksComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() article: Article;
 
@@ -48,7 +48,6 @@ export class EditArticleBlocksComponent implements OnInit, OnDestroy {
 
   private readonly titleValidators: ValidatorFn[];
   private readonly titleRequireValidators: ValidatorFn[];
-  private readonly introValidators: ValidatorFn[];
   private readonly contentValidators: ValidatorFn[];
 
   get articlesControls(): FormGroup[] {
@@ -72,11 +71,6 @@ export class EditArticleBlocksComponent implements OnInit, OnDestroy {
       Validators.minLength(AppConstants.ARTICLE_TITLE_MIN_SYMBOLS),
       Validators.maxLength(AppConstants.ARTICLE_TITLE_MAX_SYMBOLS)
     ];
-    this.introValidators = [
-      Validators.required,
-      Validators.minLength(AppConstants.ARTICLE_INTRO_MIN_SYMBOLS),
-      Validators.maxLength(AppConstants.ARTICLE_INTRO_MAX_SYMBOLS)
-    ];
     this.contentValidators = [Validators.required,
       Validators.minLength(AppConstants.ARTICLE_CONTENT_MIN_SYMBOLS),
       Validators.maxLength(AppConstants.ARTICLE_CONTENT_MAX_SYMBOLS)
@@ -95,6 +89,13 @@ export class EditArticleBlocksComponent implements OnInit, OnDestroy {
         tap(() => this.createArticleFormGroups()),
         untilComponentDestroyed(this)
       );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.article.id !== this.articleFormGroup.value.id) {
+      // new article
+      this.createArticleFormGroups();
+    }
   }
 
   ngOnDestroy(): void {
