@@ -114,7 +114,6 @@ export class ArticleService {
   saveArticleWithArticleBlock(article: Article, articleBlock: ArticleBlock): Observable<Article> {
     return this.saveArticleBlock(articleBlock)
       .pipe(
-        this.fillArticleBlockFunction(),
         map(articleBlockSaved => {
           const abs = article.articleBlocks.map(ab => {
             if (ab.id === articleBlockSaved.id) {

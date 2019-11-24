@@ -120,7 +120,7 @@ export class EditArticleBlocksComponent implements OnInit, OnDestroy {
             articleBlocks: this.articleBlocks,
             articleBlockIds: this.articleBlocks.map(b => b.id),
             selectedArticleBlock: articleBlock,
-            selectedArticleBlockId: articleBlock.id
+            selectedArticleBlockId: articleBlock.id,
           };
           this.store.dispatch(new SelectArticle({article: a}));
         }),
@@ -142,6 +142,21 @@ export class EditArticleBlocksComponent implements OnInit, OnDestroy {
     this.articleBlockFormArray.removeAt(index);
     const aId = a.value.id;
     this.articleService.deleteArticleBlock(this.article.id, aId)
+      .pipe(
+        tap(() => {
+          const abIds = this.articleBlocks.map((ab: ArticleBlock) => ab.id);
+          const firstBlock = this.articleBlocks[0];
+          const article = {
+            ...this.article,
+            articleBlocks: this.articleBlocks,
+            articleBlockIds: abIds,
+            selectedArticleBlock: firstBlock,
+            selectedArticleBlockId: firstBlock.id,
+          };
+          this.store.dispatch(new SelectArticle({article: article}));
+        }),
+        untilComponentDestroyed(this)
+      )
       .subscribe();
   }
 
@@ -149,9 +164,9 @@ export class EditArticleBlocksComponent implements OnInit, OnDestroy {
     if (articleBlock.pristine) {
       return;
     }
-    const aBlock = {...this.articleBlocks.find(a => a.id === articleBlock.value.id)};
-    const updatedABlock = Object.assign(aBlock, articleBlock.value);
-    this.articleService.saveArticleWithArticleBlock(this.article, updatedABlock)
+    const aBlock = {...this.articleBlocks.find(a => a.id === articleBlock.value.id), notation: null};
+    // const updatedABlock = Object.assign(aBlock, articleBlock.value);
+    this.articleService.saveArticleWithArticleBlock(this.article, aBlock)
       .pipe(
         tap(() => articleBlock.markAsPristine()),
         tap(article => this.store.dispatch(new SelectArticle({article: article}))),
@@ -208,10 +223,7 @@ export class EditArticleBlocksComponent implements OnInit, OnDestroy {
     ]);
     this.articleFormGroup = new FormGroup({
       id: new FormControl(article.id),
-      title: new FormControl(article.title, this.titleRequireValidators),
-      intro: new FormControl(article.intro, this.introValidators),
       task: new FormControl(article.task),
-      status: new FormControl(article.status),
       selectedArticleBlockId: new FormControl(article.selectedArticleBlockId),
       articleBlockIds: new FormControl(article.articleBlockIds),
     });
@@ -225,6 +237,7 @@ export class EditArticleBlocksComponent implements OnInit, OnDestroy {
       content: new FormControl(block.content, this.contentValidators),
       state: new FormControl(block.state),
       task: new FormControl(block.task),
+      notation: new FormControl(block.notation),
     });
   }
 }
