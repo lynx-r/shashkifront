@@ -97,7 +97,11 @@ export class EditArticleInfoComponent implements OnInit, OnDestroy {
   }
 
   onSaveArticle() {
-    this.articleService.saveArticle(this.articleFormGroup.value)
+    const a = {
+      ...this.articleFormGroup.value,
+      status: this.article.status
+    };
+    this.articleService.saveArticle(a)
       .pipe(
         tap(() => this.articleFormGroup.markAsPristine()),
         tap(aSaved => this.store.dispatch(new SelectArticle({article: aSaved}))),

@@ -1,5 +1,5 @@
 <div *ngIf="editStroke" fxLayout="column">
-  <mat-form-field fxFlex>
+  <mat-form-field class="comment-textarea" fxFlex>
     <textarea [(ngModel)]="editStroke.comment"
               [disabled]="!editable"
               [placeholder]="'Комментарий к ' + (editStroke.notationNumber === 0 ? 'начальной позиции' : 'ходу')"

@@ -9,33 +9,35 @@
           {{content.value}}
         </small>
       </div>
-      <button *ngIf="(selectedArticleBlockId === articleBlock.id) && hiddenActions" [color]="selectedColor"
-              mat-icon-button type="button">
+      <button *ngIf="selectedArticleBlock && hiddenActions" [color]="selectedColor" mat-icon-button type="button">
         <mat-icon>touch_app</mat-icon>
       </button>
-      <button (click)="onVisibilityToggle()" [disabled]="published" mat-icon-button type="button">
+      <button (click)="onVisibilityToggle()" [disabled]="published" mat-icon-button matTooltip="Видимость"
+              type="button">
         <mat-icon *ngIf="!visible">visibility_off</mat-icon>
         <mat-icon *ngIf="visible">visibility</mat-icon>
       </button>
       <div [hidden]="hiddenActions">
         <button (click)="select.emit()" [color]="selectedColor" [disabled]="!articleFormGroup.valid || published"
-                mat-icon-button type="button">
+                [matTooltip]="touchTooltip" mat-icon-button type="button">
           <mat-icon>touch_app</mat-icon>
         </button>
         <button (click)="onSaveBlock()" [color]="saveButtonColor" [disabled]="!articleFormGroup.valid || published"
-                [matTooltip]="articleFormGroup.dirty ? 'Есть изменения' : ''"
+                [matTooltip]="articleFormGroup.dirty ? 'Есть изменения' : 'Сохранить'"
                 mat-icon-button
                 type="button">
           <mat-icon>save</mat-icon>
         </button>
-        <button (click)="moveUp.emit()" [disabled]="published" mat-icon-button type="button">
+        <button (click)="moveUp.emit()" [disabled]="published" mat-icon-button matTooltip="Переместить выше"
+                type="button">
           <mat-icon>keyboard_arrow_up</mat-icon>
         </button>
-        <button (click)="moveDown.emit()" [disabled]="published" mat-icon-button type="button">
+        <button (click)="moveDown.emit()" [disabled]="published" mat-icon-button matTooltip="Переместить ниже"
+                type="button">
           <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
         <button (click)="remove.emit()" [disabled]="published || lastElement"
-                mat-icon-button type="button">
+                mat-icon-button matTooltip="Удалить разбор" type="button">
           <mat-icon [color]="deleteColor">delete</mat-icon>
         </button>
       </div>

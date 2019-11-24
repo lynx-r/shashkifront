@@ -81,20 +81,29 @@ export class EditArticleBlockComponent implements OnInit, OnChanges, OnDestroy {
     return (this.published || this.lastElement) ? '' : 'warn';
   }
 
+  get selectedArticleBlock() {
+    return this.selectedArticleBlockId === this.articleBlock.id;
+  }
+
+  get touchTooltip() {
+    return (this.selectedArticleBlockId === this.articleBlock.id)
+      ? 'Выбранный сейчас разбор' : 'Кликните, чтобы сделать доску разбора активной';
+  }
+
   ngOnInit() {
     this.hiddenActions = true;
     this.hiddenHintBlockSaved = true;
     this.visible = this.state.value === AppConstants.ARTICLE_BLOCK_OPENED;
     this.debounceSave
       .pipe(
-        debounceTime(2000),
+        debounceTime(AppConstants.EDIT_ARTICLE_SAVE_DEBOUNCE_MS),
         tap((block) => this.save.emit(block)),
         switchMap(() => {
           if (this.articleFormGroup.pristine) {
             return of();
           }
           this.hiddenHintBlockSaved = false;
-          return timer(2000).pipe(tap(() => this.hiddenHintBlockSaved = true));
+          return timer(AppConstants.EDIT_ARTICLE_SHOW_SAVED_MS).pipe(tap(() => this.hiddenHintBlockSaved = true));
         }),
         untilComponentDestroyed(this)
       )

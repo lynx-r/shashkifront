@@ -1,15 +1,15 @@
 <div fxLayout="column">
   <div>
     Разбор находится в режиме <span class="color-accent">{{published ? 'публикации' : 'редактирования'}}</span> нажмите,
-    чтобы
-    <button (click)="onSaveArticle()" mat-button>
-      {{published ? 'отредактировать' : 'опубликовать'}}
+    чтобы&nbsp;
+    <button (click)="onSaveArticle()" mat-raised-button>
+      {{published ? 'Отредактировать' : 'Опубликовать'}}
     </button>
   </div>
   <br>
   <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutGap="8px">
-    <app-view-board [article]="article" class="view-scroll" fxFlex="35"></app-view-board>
-    <app-preview-article [article]="article" [visiblePublic]="true" class="view-scroll"
-                         fxFlex="65"></app-preview-article>
+    <app-view-board [article]="article" [ngClass.gt-sm]="'view-scroll'" fxFlex.gt-sm="35"></app-view-board>
+    <app-preview-article [article]="article" [ngClass.gt-sm]="'view-scroll'"
+                         [visiblePublic]="true" fxFlex.gt-sm="65"></app-preview-article>
   </div>
 </div>

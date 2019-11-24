@@ -74,7 +74,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.loggedIn = isPrivateUser(user);
           this.user = user;
           this.loading = user === undefined;
-          // timer(1000).subscribe(() => this.loading = user === undefined);
         }),
         untilComponentDestroyed(this)
       )

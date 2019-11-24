@@ -25,6 +25,7 @@ import { Store } from '@ngrx/store';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { BehaviorSubject, merge, Observable, of, throwError } from 'rxjs';
 import { catchError, debounceTime, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { AppConstants } from '../../core/config/app-constants';
 import { ArticleService } from '../../core/services/article.service';
 import { Article } from '../../domain';
 import { ArticlesResponse } from '../../domain/articles-response';
@@ -76,7 +77,7 @@ export class AbstractArticlesContainer implements OnDestroy {
   protected fetchArticles(): (s) => Observable<Article[]> {
     return (source) => source
       .pipe(
-        debounceTime(1000),
+        debounceTime(AppConstants.ARTICLES_FETCH_DEBOUNCE_MS),
         tap(() => this.isLoadingResults = true),
         switchMap(() => this.articleService
           .listArticles(
