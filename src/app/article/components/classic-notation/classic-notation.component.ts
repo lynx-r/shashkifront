@@ -42,12 +42,12 @@ export class ClassicNotationComponent implements OnInit, OnChanges, OnDestroy {
 
   selectedStroke: Stroke;
 
-  get selectedArticleBoard() {
+  get selectedArticleBlock() {
     return this.article.selectedArticleBlock;
   }
 
   get notation() {
-    return this.selectedArticleBoard.notation;
+    return this.selectedArticleBlock.notation;
   }
 
   get published() {
@@ -96,7 +96,7 @@ export class ClassicNotationComponent implements OnInit, OnChanges, OnDestroy {
         return s;
       });
     const a = {
-      ...this.selectedArticleBoard,
+      ...this.selectedArticleBlock,
       task: stroke.task,
       notation: {
         ...this.notation,
@@ -128,21 +128,27 @@ export class ClassicNotationComponent implements OnInit, OnChanges, OnDestroy {
           task: false
         };
       });
-    const ab = {
-      ...this.selectedArticleBoard,
+    const saBlock = {
+      ...this.selectedArticleBlock,
       task: stroke.task,
       notation: {
         ...this.notation,
         strokes: strokes
       }
     };
+    const task = this.article.articleBlocks.map(ab => {
+      if (ab.id === saBlock.id) {
+        return saBlock;
+      }
+      return ab;
+    }).some(ab => ab.task);
     const a = {
       ...this.article,
-      task: stroke.task
+      task: task
     };
     const saveObservables = [
       this.articleService.saveArticle(a),
-      this.articleService.saveArticleWithArticleBlock(this.article, ab)
+      this.articleService.saveArticleWithArticleBlock(this.article, saBlock)
     ];
     forkJoin(saveObservables)
       .pipe(
