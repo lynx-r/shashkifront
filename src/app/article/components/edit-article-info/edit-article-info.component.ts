@@ -116,11 +116,13 @@ export class EditArticleInfoComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onDeleteArticle() {
-    this.articleService.deleteArticle(this.article.id)
-      .pipe(
-        tap(aSaved => this.router.navigate(['article', 'list-author'])),
-        untilComponentDestroyed(this)
-      )
-      .subscribe();
+    if (confirm('Вы действительно хотите удалить разбор?')) {
+      this.articleService.deleteArticle(this.article.id)
+        .pipe(
+          tap(aSaved => this.router.navigate(['article', 'list-author'])),
+          untilComponentDestroyed(this)
+        )
+        .subscribe();
+    }
   }
 }
