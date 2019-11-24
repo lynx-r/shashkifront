@@ -1,5 +1,4 @@
 <div *ngIf="article$ | async as article">
-  {{article.humanReadableUrl}}
   <mat-horizontal-stepper (selectionChange)="onStepChange($event)">
     <mat-step>
       <ng-template matStepLabel>Описание</ng-template>
