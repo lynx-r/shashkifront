@@ -92,7 +92,7 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.article.id !== this.articleFormGroup.value.id) {
+    if (!!this.articleFormGroup && this.article.id !== this.articleFormGroup.value.id) {
       // new article
       this.createArticleFormGroups();
     }
