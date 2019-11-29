@@ -20,7 +20,7 @@
 
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie';
+import { CookieService } from 'ngx-cookie-service';
 import { LocalStorageService } from 'ngx-store';
 
 const OFFLINE_USER = 'offlineuser';
@@ -65,7 +65,8 @@ export class StorageService {
   }
 
   putUserId(userId: string) {
-    this.cookie.put('shashkiuserid', userId);
+    const expires = this.addMinutes(new Date(), 600);
+    this.cookie.set('shashkiuserid', userId, expires, '/');
   }
 
   getUserId() {
@@ -86,5 +87,9 @@ export class StorageService {
 
   putStepIndex(stepIndex: number) {
     this.put(EDIT_ARTICLE_STEP_INDEX, stepIndex);
+  }
+
+  private addMinutes(date, minutes) {
+    return new Date(date.getTime() + minutes * 60000);
   }
 }

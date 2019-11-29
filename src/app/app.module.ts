@@ -32,8 +32,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { BlockUIModule } from 'ng-block-ui';
-import { CookieModule } from 'ngx-cookie';
+import { CookieService } from 'ngx-cookie-service';
 import { WebStorageModule } from 'ngx-store';
 import { ToastrModule } from 'ngx-toastr';
 import { environment } from '../environments/environment';
@@ -61,17 +60,10 @@ registerLocaleData(localeRu);
     !environment.production ? StoreDevtoolsModule.instrument() : [],
 
     ToastrModule.forRoot(),
-    CookieModule.forRoot(),
     WebStorageModule,
     LoadingBarHttpClientModule,
     LoadingBarRouterModule,
     LoadingBarModule,
-
-    BlockUIModule.forRoot({
-      delayStart: 10,
-      delayStop: 10,
-      message: 'Загрузка…',
-    }),
 
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.browser}),
 
@@ -94,6 +86,7 @@ registerLocaleData(localeRu);
       provide: HAMMER_GESTURE_CONFIG,
       useClass: MyHammerConfig,
     },
+    CookieService
   ]
 })
 export class AppModule {

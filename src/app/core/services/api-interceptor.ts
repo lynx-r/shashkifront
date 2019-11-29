@@ -20,27 +20,20 @@
 
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Observable } from 'rxjs';
-import { finalize, map, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { AppConstants } from '../config/app-constants';
 import { AuthService } from './auth.service';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
 
-  @BlockUI() blockUI: NgBlockUI;
-  pendingRequests = 0;
-  showingBlockUI = false;
-
   constructor(private authService: AuthService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.pendingRequests++;
     return this.authService.jwtToken$
       .pipe(
-        tap(() => this.showBlockUI()),
         map((token: string) => {
           let clonedRequest = req.clone();
           if (!!token) {
@@ -58,22 +51,7 @@ export class ApiInterceptor implements HttpInterceptor {
         switchMap((value) => {
           return value;
         }),
-        finalize(() => this.hideBlockUI()),
       );
   }
 
-  private showBlockUI() {
-    if (!this.showingBlockUI) {
-      this.blockUI.start(AppConstants.LOADING_MESSAGE);
-    }
-    this.showingBlockUI = true;
-  }
-
-  private hideBlockUI() {
-    this.pendingRequests--;
-    if (this.pendingRequests <= 0) {
-      this.showingBlockUI = false;
-      this.blockUI.stop();
-    }
-  }
 }

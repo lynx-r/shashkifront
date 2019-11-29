@@ -21,30 +21,23 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { AppConstants } from '../../core/config/app-constants';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { ArticleService } from '../../core/services/article.service';
 import { ArticleActionTypes, SaveArticle, SelectArticle } from '../actions/article.actions';
 
 @Injectable()
 export class ArticleEffects {
 
-  @BlockUI() blockUI: NgBlockUI;
-
   @Effect()
   save$: Observable<Action> = this.actions$
     .pipe(
       ofType(ArticleActionTypes.SaveArticle),
-      tap(() => this.blockUI.start(AppConstants.CREATING_ARTICLE_MESSAGE)),
       map((action: SaveArticle) => action.payload.article),
       switchMap(article => this.articleService.saveArticle(article)),
       map(article => new SelectArticle({article: article})),
-      tap(() => this.blockUI.stop()),
       catchError(err => {
         console.log(err);
-        this.blockUI.stop();
         return throwError(err);
       })
     );
