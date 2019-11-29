@@ -18,7 +18,9 @@
  *
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { getIsPrivateUserState, RootState } from '../../core/reducers/reducer.reducer';
 import { Article, ArticleBlock } from '../../domain';
 
 @Component({
@@ -26,15 +28,23 @@ import { Article, ArticleBlock } from '../../domain';
   templateUrl: './preview-article.component.html',
   styleUrls: ['./preview-article.component.css'],
 })
-export class PreviewArticleComponent {
+export class PreviewArticleComponent implements OnInit {
 
   @Input() article: Article;
   @Input() visiblePublic: boolean;
 
   clickedBlockId: string;
+  authed: boolean;
+
+  constructor(private store: Store<RootState>) {
+  }
+
+  ngOnInit(): void {
+    this.store.select(getIsPrivateUserState).subscribe(authed => this.authed = authed);
+  }
 
   isHighlightBlock(block: ArticleBlock) {
-    return this.visiblePublic && this.clickedBlockId === block.id;
+    return this.clickedBlockId === block.id;
   }
 
 }

@@ -1,5 +1,12 @@
 <div class="article-header">
-  <h1>{{article.title}}</h1>
+  <h1>
+    {{article.title}}
+    <small *ngIf="authed && visiblePublic">
+      <a [routerLink]="['../..', 'edit', article.humanReadableUrl]" matTooltip="Редактировать разбор">
+        <mat-icon>edit</mat-icon>
+      </a>
+    </small>
+  </h1>
   <div>
     <i>{{article.intro}}</i>
   </div>

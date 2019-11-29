@@ -22,6 +22,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 import { NgxdModule } from '@ngxd/core';
 import { InlineContentDirective } from './inline-content/inline-content.directive';
 import { InlineHeaderComponent } from './inline-header/inline-header.component';
@@ -40,8 +42,10 @@ import { StrokeMovesComponent } from './stroke-moves/stroke-moves.component';
     CommonModule,
     FlexLayoutModule,
     MatCardModule,
+    MatIconModule,
 
     NgxdModule,
+    RouterModule,
   ],
   declarations: [
     PreviewArticleComponent,
