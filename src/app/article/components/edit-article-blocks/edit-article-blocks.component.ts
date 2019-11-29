@@ -116,10 +116,17 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges, OnDestroy 
           }
         }),
         tap(articleBlock => {
+          let articleBlocks;
+          if (end) {
+            articleBlocks = [...this.article.articleBlocks, articleBlock];
+          } else {
+            articleBlocks = [articleBlock, ...this.article.articleBlocks];
+          }
+          console.log(this.article.articleBlocks);
           const a = {
             ...this.article,
-            articleBlocks: this.articleBlocks,
-            articleBlockIds: this.articleBlocks.map(b => b.id),
+            articleBlocks: articleBlocks,
+            articleBlockIds: articleBlocks.map(b => b.id),
             selectedArticleBlock: articleBlock,
             selectedArticleBlockId: articleBlock.id,
           };
