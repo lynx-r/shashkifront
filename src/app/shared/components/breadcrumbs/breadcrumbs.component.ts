@@ -26,7 +26,15 @@ import { getIsPrivateUserState, RootState } from '../../../core/reducers/reducer
 @Component({
   selector: 'app-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
-  styles: []
+  styles: [`
+      .breadcrumbs {
+          margin-bottom: 10px;
+          overflow: hidden;
+          height: 20px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+      }
+  `]
 })
 export class BreadcrumbsComponent implements OnInit {
 

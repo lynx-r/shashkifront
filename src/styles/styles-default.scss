@@ -338,3 +338,9 @@ img {
 .m-b-20 {
   margin-bottom: 20px;
 }
+
+@media screen and (max-width: 959px) {
+  mat-card.mat-card {
+    padding: 0;
+  }
+}

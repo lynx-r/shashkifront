@@ -1,4 +1,4 @@
-<div *ngIf="breadcrumbs">
+<div *ngIf="breadcrumbs" class="breadcrumbs">
   <span *ngFor="let bc of breadcrumbs">
     <span *ngIf="bc.path && (authed === bc.authed) || bc.path && !bc.authed"><a [routerLink]="bc.path">{{bc.name}}</a>&nbsp;>&nbsp;</span>
     <span *ngIf="!bc.path">{{bc.name}}</span>
