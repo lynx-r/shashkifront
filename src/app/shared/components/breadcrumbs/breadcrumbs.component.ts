@@ -28,6 +28,7 @@ import { getIsPrivateUserState, RootState } from '../../../core/reducers/reducer
   templateUrl: './breadcrumbs.component.html',
   styles: [`
       .breadcrumbs {
+          font-size: small;
           margin-bottom: 10px;
           overflow: hidden;
           height: 20px;

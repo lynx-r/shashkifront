@@ -1,4 +1,4 @@
 <ng-container *ngIf="article$ | async as article">
-  <app-breadcrumbs [nameEnd]="article.title"></app-breadcrumbs>
+  <app-breadcrumbs nameEnd="Просмотр разбора"></app-breadcrumbs>
   <app-preview-article-with-board [article]="article"></app-preview-article-with-board>
 </ng-container>
