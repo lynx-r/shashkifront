@@ -30,19 +30,34 @@ import { ViewArticleContainerComponent } from './containers/view-article-contain
 const routes: Routes = [
   {
     path: 'list',
-    component: ArticlesContainerComponent
+    component: ArticlesContainerComponent,
+    data: {
+      breadcrumbs: [
+        {path: '/article/list-author', name: 'Мои Разборы', authed: true},
+      ]
+    }
   },
   {
     path: 'list-author',
     component: AuthorArticlesContainerComponent,
-    canActivate: [AuthorityGuard]
+    canActivate: [AuthorityGuard],
+    data: {
+      breadcrumbs: [
+        {path: '/article/list', name: 'Все Разборы'},
+        {name: 'Мои Разборы'}
+      ]
+    }
   },
   {
     path: 'edit/:hru',
     component: EditArticleContainerComponent,
     canActivate: [AuthorityGuard, ArticleExistsGuard],
     data: {
-      authUser: true
+      authUser: true,
+      breadcrumbs: [
+        {path: '/article/list', name: 'Все Разборы'},
+        {path: '/article/list-author', name: 'Мои Разборы'}
+      ]
     }
   },
   {
@@ -50,7 +65,11 @@ const routes: Routes = [
     component: ViewArticleContainerComponent,
     canActivate: [ArticleExistsGuard],
     data: {
-      authUser: false
+      authUser: false,
+      breadcrumbs: [
+        {path: '/article/list', name: 'Все Разборы'},
+        {path: '/article/list-author', name: 'Мои Разборы', authed: true}
+      ]
     }
   },
 ];

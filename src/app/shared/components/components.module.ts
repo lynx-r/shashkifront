@@ -21,10 +21,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RouterModule } from '@angular/router';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 
 const COMPONENTS = [
-  SpinnerComponent
+  SpinnerComponent,
+  BreadcrumbsComponent
 ];
 
 @NgModule({
@@ -32,6 +35,7 @@ const COMPONENTS = [
   exports: [...COMPONENTS],
   imports: [
     CommonModule,
+    RouterModule,
     MatProgressSpinnerModule
   ]
 })

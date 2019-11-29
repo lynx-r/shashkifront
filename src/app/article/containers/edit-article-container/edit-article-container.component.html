@@ -1,4 +1,5 @@
 <div *ngIf="article$ | async as article">
+  <app-breadcrumbs [nameEnd]="article.title"></app-breadcrumbs>
   <mat-horizontal-stepper (selectionChange)="onStepChange($event)">
     <mat-step>
       <ng-template matStepLabel>Описание</ng-template>
