@@ -23,6 +23,7 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { NgxdModule } from '@ngxd/core';
 import { InlineContentDirective } from './inline-content/inline-content.directive';
@@ -43,6 +44,7 @@ import { StrokeMovesComponent } from './stroke-moves/stroke-moves.component';
     FlexLayoutModule,
     MatCardModule,
     MatIconModule,
+    MatTooltipModule,
 
     NgxdModule,
     RouterModule,
