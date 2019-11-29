@@ -95,6 +95,10 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges, OnDestroy 
     if (!!this.articleFormGroup && this.article.id !== this.articleFormGroup.value.id) {
       // new article
       this.createArticleFormGroups();
+    } else if (!!this.articleFormGroup) {
+      const selectedBlockIndex = this.article.articleBlocks.findIndex(a => a.id === this.article.selectedArticleBlockId);
+      const selBlock = this.articleBlockFormArray.at(selectedBlockIndex);
+      selBlock.get('task').setValue(this.article.articleBlocks[selectedBlockIndex].task);
     }
   }
 
@@ -122,7 +126,6 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges, OnDestroy 
           } else {
             articleBlocks = [articleBlock, ...this.article.articleBlocks];
           }
-          console.log(this.article.articleBlocks);
           const a = {
             ...this.article,
             articleBlocks: articleBlocks,

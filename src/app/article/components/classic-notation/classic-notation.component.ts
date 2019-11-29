@@ -97,7 +97,6 @@ export class ClassicNotationComponent implements OnInit, OnChanges, OnDestroy {
       });
     const a = {
       ...this.selectedArticleBlock,
-      task: stroke.task,
       notation: {
         ...this.notation,
         strokes: strokes

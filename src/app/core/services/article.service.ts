@@ -121,10 +121,11 @@ export class ArticleService {
             }
             return ab;
           });
+          const task = abs.some(ab => ab.task);
           const a = {
             ...article,
             articleBlocks: [...abs],
-            task: articleBlockSaved.task
+            task: task
           };
           if (articleBlockSaved.id === article.selectedArticleBlockId) {
             return {

@@ -52,6 +52,7 @@ export class EditArticleBlockComponent implements OnInit, OnChanges, OnDestroy {
   minContentLength = AppConstants.ARTICLE_CONTENT_MIN_SYMBOLS;
   hiddenActions: boolean;
   hiddenHintBlockSaved: boolean;
+  task: boolean;
 
   get articleBlock() {
     return this.articleFormGroup.value;
@@ -108,6 +109,8 @@ export class EditArticleBlockComponent implements OnInit, OnChanges, OnDestroy {
         untilComponentDestroyed(this)
       )
       .subscribe();
+    this.task = this.articleFormGroup.get('task').value;
+    this.articleFormGroup.get('task').valueChanges.subscribe(value => this.task = value);
   }
 
   ngOnDestroy(): void {
