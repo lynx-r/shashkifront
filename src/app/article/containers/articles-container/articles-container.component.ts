@@ -20,6 +20,7 @@
 
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { getIsPrivateUserState } from '../../../core/reducers/reducer.reducer';
 import { ArticleService } from '../../../core/services/article.service';
 import * as fromArticle from '../../reducers/article.reducer';
 import { AbstractArticlesContainer } from '../abstract-articles-container';
@@ -32,6 +33,11 @@ import { AbstractArticlesContainer } from '../abstract-articles-container';
 export class ArticlesContainerComponent extends AbstractArticlesContainer implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['title', 'intro', 'task', 'createdAt'];
+  private authed: boolean;
+
+  get articlesNameEnd() {
+    return this.authed && 'Все Разборы';
+  }
 
   constructor(
     protected store: Store<fromArticle.State>,
@@ -41,6 +47,7 @@ export class ArticlesContainerComponent extends AbstractArticlesContainer implem
   }
 
   ngOnInit(): void {
+    this.store.select(getIsPrivateUserState).subscribe(authed => (this.authed = authed));
   }
 
   ngAfterViewInit(): void {

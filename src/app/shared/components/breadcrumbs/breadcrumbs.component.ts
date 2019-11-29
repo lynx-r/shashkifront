@@ -55,4 +55,11 @@ export class BreadcrumbsComponent implements OnInit {
     this.route.data.subscribe(data => !!data && (this.breadcrumbs = data.breadcrumbs));
   }
 
+  isShowPathBC(bc: { path: string; name: string; authed: boolean }) {
+    return bc.path && (this.authed === bc.authed || !bc.authed);
+  }
+
+  hasShowBC() {
+    return this.breadcrumbs.some(bc => !bc.path || this.isShowPathBC(bc));
+  }
 }

@@ -1,6 +1,6 @@
-<div *ngIf="breadcrumbs" class="breadcrumbs">
+<div *ngIf="breadcrumbs && (hasShowBC() || !!nameEnd)" class="breadcrumbs">
   <span *ngFor="let bc of breadcrumbs">
-    <span *ngIf="bc.path && (authed === bc.authed) || bc.path && !bc.authed"><a [routerLink]="bc.path">{{bc.name}}</a>&nbsp;>&nbsp;</span>
+    <span *ngIf="isShowPathBC(bc)"><a [routerLink]="bc.path">{{bc.name}}</a>&nbsp;>&nbsp;</span>
     <span *ngIf="!bc.path"><i>{{bc.name}}</i></span>
   </span>
   <span *ngIf="nameEnd"><i>{{nameEnd}}</i></span>
