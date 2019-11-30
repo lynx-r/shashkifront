@@ -155,11 +155,13 @@ export class EditArticleBlocksComponent implements OnInit, OnChanges, OnDestroy 
     this.articleService.deleteArticleBlock(this.article.id, aId)
       .pipe(
         tap(() => {
-          const abIds = this.articleBlocks.map((ab: ArticleBlock) => ab.id);
-          const firstBlock = this.articleBlocks[0];
+          const articleBlocks = [...this.article.articleBlocks];
+          articleBlocks.splice(index, 1);
+          const abIds = articleBlocks.map(ab => ab.id);
+          const firstBlock = articleBlocks[0];
           const article = {
             ...this.article,
-            articleBlocks: this.articleBlocks,
+            articleBlocks: articleBlocks,
             articleBlockIds: abIds,
             selectedArticleBlock: firstBlock,
             selectedArticleBlockId: firstBlock.id,
